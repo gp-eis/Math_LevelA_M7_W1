@@ -9,42 +9,121 @@
   @font-face{font-family:'Fredoka';src:url('assets/fonts/fredoka.ttf');}
   @font-face{font-family:'Baloo';src:url('assets/fonts/baloo.ttf');}
   :root{--red:#ec5866;--red-d:#e0424f;--blue:#45b2e8;--blue-d:#2f93cf;--cream:#f9f2e4;--ink:#33404a;
-    --grid:rgba(95,120,160,.09);--green:#3cba7a;--green-d:#2e9a62;}
+    --grid:rgba(95,120,160,.09);--green:#3cba7a;--green-d:#2e9a62;--orange:#f0a040;--orange-d:#d4842a;
+    --purple:#8b6fd4;--purple-d:#6f54b5;}
   *{margin:0;padding:0;box-sizing:border-box;}
   html,body{height:100%;height:100dvh;overflow:hidden;background:#d7ccb4;font-family:'Fredoka',sans-serif;
     -webkit-user-select:none;user-select:none;}
   body{display:flex;align-items:center;justify-content:center;margin:0;}
-  /* centered portrait frame — no empty strip on one side */
-  #hub{position:relative;z-index:60;display:flex;flex-direction:column;align-items:center;
-    justify-content:flex-start;gap:1.6cqh;padding:3.5cqh 3cqh 4cqh;overflow:auto;
-    background:var(--cream);
-    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
-    background-size:3.6cqw 2.6cqh;
-    width:min(100vw, calc(100vh * 3415 / 4770));
-    height:min(100vh, calc(100vw * 4770 / 3415));
-    container-type:size;flex:none;}
-  @supports (height:100dvh){
-    #hub{width:min(100vw, calc(100dvh * 3415 / 4770));
-      height:min(100dvh, calc(100vw * 4770 / 3415));}
-  }
+  /* ===== Hub dashboard ===== */
+  #hub{position:relative;z-index:60;display:flex;flex-direction:column;align-items:stretch;
+    justify-content:center;gap:clamp(12px,2vh,22px);padding:clamp(14px,2.4vh,28px) clamp(12px,2.2vw,28px);
+    overflow:auto;width:100vw;height:100vh;max-width:100%;max-height:100%;flex:none;
+    background:
+      radial-gradient(ellipse 80% 50% at 10% 0%,rgba(255,196,120,.35),transparent 55%),
+      radial-gradient(ellipse 70% 45% at 90% 10%,rgba(139,111,212,.22),transparent 50%),
+      radial-gradient(ellipse 60% 40% at 50% 100%,rgba(69,178,232,.18),transparent 55%),
+      linear-gradient(180deg,#fff8ee 0%,#f3ebe0 100%);
+    container-type:size;}
+  @supports (height:100dvh){#hub{height:100dvh;}}
   #hub.hide{display:none;}
-  .hubTitle{font-family:'Baloo';font-size:4.6cqh;line-height:1;color:#fff;text-align:center;
-    -webkit-text-stroke:0.85cqh var(--red);paint-order:stroke fill;
-    filter:drop-shadow(0 .4cqh 0 rgba(224,66,79,.25));margin-top:1cqh;}
-  .hubSub{font-family:'Baloo';font-size:2cqh;color:var(--ink);margin-bottom:0.6cqh;}
-  .hubGroup{width:min(94%,58cqh);display:flex;flex-direction:column;align-items:stretch;gap:1cqh;margin-bottom:1.2cqh;}
-  .hubLabel{font-family:'Baloo';font-size:2.1cqh;color:var(--red);letter-spacing:.02em;padding-left:.4cqh;}
-  .hubBtn{border:none;cursor:pointer;font-family:'Baloo';color:#fff;background:var(--red);
-    border-radius:20px;box-shadow:0 6px 0 var(--red-d);padding:1.6cqh 2.4cqh;font-size:2.5cqh;line-height:1.1;text-align:center;
-    display:flex;flex-direction:column;align-items:center;gap:.35cqh;}
-  .hubBtn .mb-sub{font-family:'Fredoka';font-size:1.55cqh;opacity:.95;font-weight:600;}
-  .hubBtn.blue{background:var(--blue);box-shadow:0 6px 0 var(--blue-d);}
-  .hubBtn.green{background:var(--green);box-shadow:0 6px 0 var(--green-d);}
-  .hubBtn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--red-d);}
-  .hubBtn.blue:active{box-shadow:0 2px 0 var(--blue-d);}
-  .hubBtn.green:active{box-shadow:0 2px 0 var(--green-d);}
-  .hubBall{display:flex;justify-content:center;align-items:center;gap:.45cqh;height:5.2cqh;margin-bottom:.2cqh;}
-  .hubBall img{height:5.2cqh;width:auto;filter:drop-shadow(0 2px 2px rgba(0,0,0,.15));}
+
+  .hubHeader{width:min(1200px,100%);margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:10px;}
+  .hubTitle{font-family:'Baloo';font-size:clamp(28px,5.2vh,48px);line-height:1;color:#fff;text-align:center;
+    -webkit-text-stroke:clamp(4px,.7vh,8px) var(--red);paint-order:stroke fill;
+    filter:drop-shadow(0 3px 0 rgba(224,66,79,.22));}
+  .hubBadge{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;
+    background:#fff;color:var(--ink);font-family:'Baloo';font-size:clamp(12px,1.7vh,16px);
+    box-shadow:0 3px 0 rgba(51,64,74,.08),0 8px 20px rgba(51,64,74,.06);}
+  .hubBadge .dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 3px rgba(60,186,122,.2);}
+
+  .hubRow{width:min(1200px,100%);margin:0 auto;display:grid;
+    grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(10px,1.4vw,18px);align-items:stretch;}
+  .hubGroup{display:flex;flex-direction:column;gap:10px;min-width:0;padding:12px;
+    border-radius:28px;background:var(--mod-soft);border:2px solid var(--mod-line);
+    box-shadow:0 10px 28px rgba(51,64,74,.06);}
+  .hubGroup[data-theme="concept"]{--mod:#f0a040;--mod-d:#d4842a;--mod-soft:#fff6e8;--mod-line:#ffd9a3;--mod-ink:#8a5310;}
+  .hubGroup[data-theme="patterns"]{--mod:#ec5866;--mod-d:#e0424f;--mod-soft:#fff0f2;--mod-line:#ffc1c8;--mod-ink:#9a2d38;}
+  .hubGroup[data-theme="bigger"]{--mod:#45b2e8;--mod-d:#2f93cf;--mod-soft:#eef8ff;--mod-line:#b9e2f8;--mod-ink:#1f6f9c;}
+  .hubGroup[data-theme="thinking"]{--mod:#3cba7a;--mod-d:#2e9a62;--mod-soft:#eefaf3;--mod-line:#b7ebce;--mod-ink:#1f7a4c;}
+  .hubGroup[data-theme="poem"]{--mod:#8b6fd4;--mod-d:#6f54b5;--mod-soft:#f4f0ff;--mod-line:#d2c4f5;--mod-ink:#55408a;}
+
+  .hubLabel{display:flex;align-items:center;justify-content:center;gap:8px;font-family:'Baloo';
+    font-size:clamp(13px,1.9vh,18px);color:var(--mod-ink);letter-spacing:.01em;text-align:center;line-height:1.15;}
+  .hubLabel .modIcon{width:28px;height:28px;border-radius:10px;background:var(--mod);color:#fff;
+    display:inline-flex;align-items:center;justify-content:center;flex:none;
+    box-shadow:0 3px 0 var(--mod-d);}
+  .hubLabel .modIcon svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.2;
+    stroke-linecap:round;stroke-linejoin:round;}
+
+  .hubCards{display:flex;flex-direction:column;gap:10px;flex:1;}
+  .hubBtn{appearance:none;border:none;cursor:pointer;width:100%;text-align:left;
+    font-family:'Baloo';color:var(--ink);background:#fff;border-radius:22px;
+    padding:14px 14px 12px;min-height:118px;flex:1;
+    display:flex;flex-direction:column;align-items:stretch;gap:8px;
+    box-shadow:0 4px 0 rgba(51,64,74,.08),0 10px 22px rgba(51,64,74,.06);
+    border:2px solid rgba(255,255,255,.9);transition:transform .12s ease, box-shadow .12s ease;
+    position:relative;overflow:hidden;}
+  .hubBtn::before{content:"";position:absolute;inset:0 auto 0 0;width:6px;background:var(--mod);border-radius:22px 0 0 22px;}
+  .hubBtn:hover{transform:translateY(-2px);box-shadow:0 6px 0 rgba(51,64,74,.08),0 14px 26px rgba(51,64,74,.1);}
+  .hubBtn:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(51,64,74,.08),0 6px 14px rgba(51,64,74,.08);}
+  .hubBtnTop{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
+  .hubIcon{width:44px;height:44px;border-radius:16px;background:var(--mod);color:#fff;
+    display:flex;align-items:center;justify-content:center;flex:none;
+    box-shadow:0 3px 0 var(--mod-d);}
+  .hubIcon svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2.15;
+    stroke-linecap:round;stroke-linejoin:round;}
+  .hubIcon .numBadge{font-family:'Baloo';font-size:15px;line-height:1;color:#fff;}
+  .hubThumb{position:relative;width:100%;aspect-ratio:16/9;border-radius:14px;overflow:hidden;
+    background:#d9dde3;box-shadow:inset 0 0 0 1px rgba(51,64,74,.08);flex:none;}
+  .hubThumb img{width:100%;height:100%;object-fit:cover;display:block;}
+  .hubThumb .playFab{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+    width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.92);color:var(--mod);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 4px 12px rgba(0,0,0,.18);}
+  .hubThumb .playFab svg{width:16px;height:16px;fill:currentColor;stroke:none;margin-left:2px;}
+  .hubBtn.videoCard{min-height:0;padding:12px;flex:0 0 auto;}
+  .hubBtn.videoCard .hubBtnTop{align-items:center;}
+  .hubGroup[data-theme="concept"] .hubBtn.videoCard{gap:8px;}
+  /* poem: one card, same size language as concept video cards, centered in column */
+  .hubGroup[data-theme="poem"] .hubCards{
+    justify-content:center;align-items:stretch;
+  }
+  .hubGroup[data-theme="poem"] .hubBtn.videoCard{
+    flex:0 0 auto;width:100%;gap:8px;
+  }
+  .hubGroup[data-theme="poem"] .hubThumb{
+    aspect-ratio:16/9;flex:none;
+  }
+  .hubBtnTitle{font-size:clamp(15px,2vh,18px);line-height:1.15;color:var(--ink);padding-left:2px;}
+  .hubBtn .mb-sub{font-family:'Fredoka';font-size:clamp(11px,1.45vh,13px);font-weight:600;
+    color:#5f6d78;line-height:1.25;padding-left:2px;}
+  /* legacy class hooks kept so JS still finds .hubBtn */
+  .hubBtn.blue,.hubBtn.green,.hubBtn.orange,.hubBtn.purple,.hubBtn.red{/* theme comes from parent module */}
+  .hubBall{display:none;}
+
+  @media (max-width:1100px){
+    .hubRow{grid-template-columns:repeat(3,minmax(0,1fr));}
+  }
+  @media (max-width:720px){
+    #hub{justify-content:flex-start;}
+    .hubRow{grid-template-columns:1fr; }
+    .hubBtn{min-height:96px;}
+  }
+
+  /* shared video viewer */
+  .g-video{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:#d7ccb4;z-index:45;}
+  .g-video.on{display:flex;}
+  .vidShell{position:relative;width:min(96vw,1200px);height:min(92vh,92dvh);background:var(--cream);
+    border:0.7vh solid var(--red);border-radius:22px;overflow:hidden;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;padding:6vh 2vw 2vh;box-shadow:0 6px 0 rgba(224,66,79,.15);}
+  .vidTitle{font-family:'Baloo';font-size:clamp(18px,3.2vh,36px);color:var(--ink);margin-bottom:1.2vh;text-align:center;}
+  #v_player{width:100%;max-height:78%;border-radius:14px;background:#111;display:none;}
+  #v_missing{font-family:'Fredoka';font-size:clamp(14px,2.2vh,22px);color:var(--ink);text-align:center;padding:2vh;}
+  #v_homeBtn{position:absolute;left:1.2vh;top:1.2vh;z-index:25;width:5vh;height:5vh;border:none;border-radius:14px;
+    background:#fff;box-shadow:0 3px 0 rgba(224,66,79,.35);cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  #v_homeBtn svg{width:2.8vh;height:2.8vh;stroke:var(--red);stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+  #v_homeBtn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(224,66,79,.3);}
   .game{position:absolute;inset:0;display:none;align-items:center;justify-content:center;z-index:40;background:#d7ccb4;}
   .game.on{display:flex;z-index:45;}
 
@@ -606,43 +685,137 @@
 <body>
 
 <div id="hub">
-  <div class="hubTitle">Math Literacy</div>
-  <div class="hubSub">Level A · Week 1</div>
+  <header class="hubHeader">
+    <div class="hubTitle">Math Literacy</div>
+    <div class="hubBadge"><span class="dot"></span>Level A · Week 1</div>
+  </header>
 
-  <div class="hubGroup">
-    <div class="hubLabel">1. Patterns</div>
-    <button class="hubBtn" data-launch="pattern" data-act="soccer">
-      <span class="hubBall"><img src="assets/soccer.png"><img src="assets/baseball.png"></span>
-      AB Patterns<span class="mb-sub">Soccer &amp; Baseball</span>
-    </button>
-    <button class="hubBtn blue" data-launch="pattern" data-act="basketball">
-      <span class="hubBall"><img src="assets/basketball.png"><img src="assets/golf.png"></span>
-      AB Patterns<span class="mb-sub">Basketball &amp; Golf</span>
-    </button>
+  <div class="hubRow">
+    <section class="hubGroup" data-theme="concept">
+      <div class="hubLabel">
+        <span class="modIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 6.5v11l9-5.5-9-5.5z"/></svg></span>
+        1. Concept Videos
+      </div>
+      <div class="hubCards">
+        <button class="hubBtn videoCard done" data-launch="video" data-act="concept-patterns">
+          <div class="hubThumb" aria-hidden="true">
+            <img src="assets/videos/thumbs/do_you_play_sports.jpg" alt="">
+            <span class="playFab"><svg viewBox="0 0 24 24"><path d="M9 7.5v9l7.5-4.5L9 7.5z"/></svg></span>
+          </div>
+          <div class="hubBtnTop">
+            <div class="hubBtnTitle">Do you play sports?</div>
+          </div>
+          <div class="mb-sub">Concept explanation</div>
+        </button>
+        <button class="hubBtn videoCard done" data-launch="video" data-act="concept-bigger">
+          <div class="hubThumb" aria-hidden="true">
+            <img src="assets/videos/thumbs/it_is_an_ab_pattern.jpg" alt="">
+            <span class="playFab"><svg viewBox="0 0 24 24"><path d="M9 7.5v9l7.5-4.5L9 7.5z"/></svg></span>
+          </div>
+          <div class="hubBtnTop">
+            <div class="hubBtnTitle">It's an AB pattern!</div>
+          </div>
+          <div class="mb-sub">Concept explanation</div>
+        </button>
+      </div>
+    </section>
+
+    <section class="hubGroup" data-theme="patterns">
+      <div class="hubLabel">
+        <span class="modIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span>
+        2. Patterns
+      </div>
+      <div class="hubCards">
+        <button class="hubBtn done" data-launch="pattern" data-act="soccer">
+          <div class="hubBtnTop">
+            <span class="hubIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12h4l2-6 4 12 2-6h4"/></svg></span>
+          </div>
+          <div class="hubBtnTitle">AB Patterns</div>
+          <div class="mb-sub">Soccer &amp; Baseball set</div>
+        </button>
+        <button class="hubBtn" data-launch="pattern" data-act="basketball">
+          <div class="hubBtnTop">
+            <span class="hubIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12h4l2-6 4 12 2-6h4"/></svg></span>
+          </div>
+          <div class="hubBtnTitle">AB Patterns</div>
+          <div class="mb-sub">Basketball &amp; Golf set</div>
+        </button>
+      </div>
+    </section>
+
+    <section class="hubGroup" data-theme="bigger">
+      <div class="hubLabel">
+        <span class="modIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17V7m5 10V10m5 7V4"/></svg></span>
+        3. Bigger Numbers
+      </div>
+      <div class="hubCards">
+        <button class="hubBtn" data-launch="bigger" data-act="set1">
+          <div class="hubBtnTop">
+            <span class="hubIcon" aria-hidden="true"><span class="numBadge">1–4</span></span>
+          </div>
+          <div class="hubBtnTitle">Bigger Numbers</div>
+          <div class="mb-sub">1–2 · 3–2 · 3–4</div>
+        </button>
+        <button class="hubBtn" data-launch="bigger" data-act="week1">
+          <div class="hubBtnTop">
+            <span class="hubIcon" aria-hidden="true"><span class="numBadge">2–5</span></span>
+          </div>
+          <div class="hubBtnTitle">Bigger Numbers</div>
+          <div class="mb-sub">5–4 · 2–4 · 5–3</div>
+        </button>
+      </div>
+    </section>
+
+    <section class="hubGroup" data-theme="thinking">
+      <div class="hubLabel">
+        <span class="modIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 1 4.5 10 3.5 3.5 0 0 0-1.5 2.8V17H9v-1.2A3.5 3.5 0 0 0 7.5 13 6 6 0 0 1 12 3z"/><path d="M9.5 20h5M10 17h4"/></svg></span>
+        4. Thinking Math
+      </div>
+      <div class="hubCards">
+        <button class="hubBtn" data-launch="thinkPat">
+          <div class="hubBtnTop">
+            <span class="hubIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="7" cy="12" r="2.2"/><circle cx="12" cy="12" r="2.2"/><circle cx="17" cy="12" r="2.2"/><path d="M4 12h1.5M19.5 12H21"/></svg></span>
+          </div>
+          <div class="hubBtnTitle">Patterns</div>
+          <div class="mb-sub">What comes next?</div>
+        </button>
+        <button class="hubBtn" data-launch="thinkBig">
+          <div class="hubBtnTop">
+            <span class="hubIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 15V9m4 6v-3m4 3V7"/><rect x="3.5" y="3.5" width="17" height="17" rx="4"/></svg></span>
+          </div>
+          <div class="hubBtnTitle">Bigger Numbers</div>
+          <div class="mb-sub">Think &amp; choose the bigger set</div>
+        </button>
+      </div>
+    </section>
+
+    <section class="hubGroup" data-theme="poem">
+      <div class="hubLabel">
+        <span class="modIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 4.5h5.5A3.5 3.5 0 0 1 14 8v11.5a2.5 2.5 0 0 0-2.5-2.5H5z"/><path d="M19 4.5h-5.5A3.5 3.5 0 0 0 10 8v11.5a2.5 2.5 0 0 1 2.5-2.5H19z"/></svg></span>
+        5. Poem Reading
+      </div>
+      <div class="hubCards">
+        <button class="hubBtn videoCard" data-launch="video" data-act="poem">
+          <div class="hubThumb" aria-hidden="true">
+            <img src="assets/videos/thumbs/math_poem_final.jpg" alt="">
+            <span class="playFab"><svg viewBox="0 0 24 24"><path d="M9 7.5v9l7.5-4.5L9 7.5z"/></svg></span>
+          </div>
+          <div class="hubBtnTop">
+            <div class="hubBtnTitle">Math Poem</div>
+          </div>
+          <div class="mb-sub">Read along with the poem</div>
+        </button>
+      </div>
+    </section>
   </div>
+</div>
 
-  <div class="hubGroup">
-    <div class="hubLabel">2. Bigger Numbers</div>
-    <button class="hubBtn" data-launch="bigger" data-act="set1">
-      <span class="hubBall"><img src="assets/soccer.png"><img src="assets/basketball.png"><img src="assets/baseball.png"></span>
-      Bigger Numbers<span class="mb-sub">1–2 · 3–2 · 3–4</span>
-    </button>
-    <button class="hubBtn blue" data-launch="bigger" data-act="week1">
-      <span class="hubBall"><img src="assets/golf.png"><img src="assets/tennis.png"><img src="assets/soccer.png"></span>
-      Bigger Numbers<span class="mb-sub">5–4 · 2–4 · 5–3</span>
-    </button>
-  </div>
-
-  <div class="hubGroup">
-    <div class="hubLabel">3. Thinking Math</div>
-    <button class="hubBtn green" data-launch="thinkPat">
-      <span class="hubBall"><img src="assets/soccer.png"><img src="assets/baseball.png"><img src="assets/tennis.png"></span>
-      Patterns<span class="mb-sub">What comes next?</span>
-    </button>
-    <button class="hubBtn green" data-launch="thinkBig">
-      <span class="hubBall"><img src="assets/soccer.png"><img src="assets/basketball.png"><img src="assets/golf.png"></span>
-      Bigger Numbers
-    </button>
+<div class="game g-video" id="screen-video">
+  <div class="vidShell">
+    <button id="v_homeBtn" title="Menu"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg></button>
+    <div class="vidTitle" id="v_title">Video</div>
+    <video id="v_player" controls playsinline preload="metadata"></video>
+    <div id="v_missing">Video coming soon — add the file to the assets folder.</div>
   </div>
 </div>
 
@@ -2504,6 +2677,11 @@ window.ThinkBigGame={
 
 window.Hub = {
   current: null,
+  videos:{
+    'concept-patterns':{title:'Do you play sports?', src:'assets/videos/do_you_play_sports.mp4'},
+    'concept-bigger':{title:"It's an AB pattern!", src:'assets/videos/it_is_an_ab_pattern.mp4'},
+    'poem':{title:'Math Poem', src:'assets/videos/math_poem_final_web.mp4'}
+  },
   silence(){
     // Kill every playing voice/sfx/video when leaving a game or opening the hub
     try{ speechSynthesis.cancel(); }catch(e){}
@@ -2511,9 +2689,39 @@ window.Hub = {
       try{ el.pause(); el.currentTime=0; }catch(e){}
     });
   },
+  stopVideo(){
+    const v=document.getElementById('v_player');
+    if(!v) return;
+    try{ v.pause(); v.removeAttribute('src'); v.load(); }catch(e){}
+    v.style.display='none';
+    const miss=document.getElementById('v_missing');
+    if(miss) miss.style.display='block';
+  },
+  playVideo(act){
+    const meta=this.videos[act]||{title:'Video', src:''};
+    const title=document.getElementById('v_title');
+    const player=document.getElementById('v_player');
+    const miss=document.getElementById('v_missing');
+    if(title) title.textContent=meta.title;
+    if(!player) return;
+    player.onerror=()=>{
+      player.style.display='none';
+      if(miss){ miss.style.display='block'; miss.textContent='Video coming soon — add "'+meta.src+'" to the assets folder.'; }
+    };
+    player.onloadeddata=()=>{
+      player.style.display='block';
+      if(miss) miss.style.display='none';
+      player.play().catch(()=>{});
+    };
+    player.style.display='none';
+    if(miss){ miss.style.display='block'; miss.textContent='Loading…'; }
+    player.src=meta.src;
+    player.load();
+  },
   showMenu(){
     this.silence();
-    ['pattern','bigger','thinkPat','thinkBig'].forEach(k=>{
+    this.stopVideo();
+    ['pattern','bigger','thinkPat','thinkBig','video'].forEach(k=>{
       const el=document.getElementById('screen-'+k);
       if(el) el.classList.remove('on');
     });
@@ -2527,13 +2735,14 @@ window.Hub = {
   },
   launch(kind, act){
     this.silence();
+    this.stopVideo();
     if(window.PatternGame) PatternGame.stop();
     if(window.BiggerGame) BiggerGame.stop();
     if(window.ThinkPatGame) ThinkPatGame.stop();
     if(window.ThinkBigGame) ThinkBigGame.stop();
     this.silence();
     document.getElementById('hub').classList.add('hide');
-    ['pattern','bigger','thinkPat','thinkBig'].forEach(k=>{
+    ['pattern','bigger','thinkPat','thinkBig','video'].forEach(k=>{
       const el=document.getElementById('screen-'+k);
       if(el) el.classList.toggle('on', k===kind);
     });
@@ -2544,6 +2753,7 @@ window.Hub = {
       else if(kind==='bigger') BiggerGame.start(act);
       else if(kind==='thinkPat') ThinkPatGame.start();
       else if(kind==='thinkBig') ThinkBigGame.start();
+      else if(kind==='video') this.playVideo(act);
     });
   }
 };
@@ -2552,6 +2762,7 @@ document.querySelectorAll('.hubBtn').forEach(btn=>{
     Hub.launch(btn.dataset.launch, btn.dataset.act||null);
   });
 });
+document.getElementById('v_homeBtn').addEventListener('click',()=>{ if(window.Hub) Hub.showMenu(); });
 
 </script>
 </body>
