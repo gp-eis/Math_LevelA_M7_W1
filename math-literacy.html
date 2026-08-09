@@ -1,0 +1,2558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Math Literacy — Level A</title>
+<style>
+
+  @font-face{font-family:'Fredoka';src:url('assets/fonts/fredoka.ttf');}
+  @font-face{font-family:'Baloo';src:url('assets/fonts/baloo.ttf');}
+  :root{--red:#ec5866;--red-d:#e0424f;--blue:#45b2e8;--blue-d:#2f93cf;--cream:#f9f2e4;--ink:#33404a;
+    --grid:rgba(95,120,160,.09);--green:#3cba7a;--green-d:#2e9a62;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{height:100%;height:100dvh;overflow:hidden;background:#d7ccb4;font-family:'Fredoka',sans-serif;
+    -webkit-user-select:none;user-select:none;}
+  body{display:flex;align-items:center;justify-content:center;margin:0;}
+  /* centered portrait frame — no empty strip on one side */
+  #hub{position:relative;z-index:60;display:flex;flex-direction:column;align-items:center;
+    justify-content:flex-start;gap:1.6cqh;padding:3.5cqh 3cqh 4cqh;overflow:auto;
+    background:var(--cream);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:3.6cqw 2.6cqh;
+    width:min(100vw, calc(100vh * 3415 / 4770));
+    height:min(100vh, calc(100vw * 4770 / 3415));
+    container-type:size;flex:none;}
+  @supports (height:100dvh){
+    #hub{width:min(100vw, calc(100dvh * 3415 / 4770));
+      height:min(100dvh, calc(100vw * 4770 / 3415));}
+  }
+  #hub.hide{display:none;}
+  .hubTitle{font-family:'Baloo';font-size:4.6cqh;line-height:1;color:#fff;text-align:center;
+    -webkit-text-stroke:0.85cqh var(--red);paint-order:stroke fill;
+    filter:drop-shadow(0 .4cqh 0 rgba(224,66,79,.25));margin-top:1cqh;}
+  .hubSub{font-family:'Baloo';font-size:2cqh;color:var(--ink);margin-bottom:0.6cqh;}
+  .hubGroup{width:min(94%,58cqh);display:flex;flex-direction:column;align-items:stretch;gap:1cqh;margin-bottom:1.2cqh;}
+  .hubLabel{font-family:'Baloo';font-size:2.1cqh;color:var(--red);letter-spacing:.02em;padding-left:.4cqh;}
+  .hubBtn{border:none;cursor:pointer;font-family:'Baloo';color:#fff;background:var(--red);
+    border-radius:20px;box-shadow:0 6px 0 var(--red-d);padding:1.6cqh 2.4cqh;font-size:2.5cqh;line-height:1.1;text-align:center;
+    display:flex;flex-direction:column;align-items:center;gap:.35cqh;}
+  .hubBtn .mb-sub{font-family:'Fredoka';font-size:1.55cqh;opacity:.95;font-weight:600;}
+  .hubBtn.blue{background:var(--blue);box-shadow:0 6px 0 var(--blue-d);}
+  .hubBtn.green{background:var(--green);box-shadow:0 6px 0 var(--green-d);}
+  .hubBtn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--red-d);}
+  .hubBtn.blue:active{box-shadow:0 2px 0 var(--blue-d);}
+  .hubBtn.green:active{box-shadow:0 2px 0 var(--green-d);}
+  .hubBall{display:flex;justify-content:center;align-items:center;gap:.45cqh;height:5.2cqh;margin-bottom:.2cqh;}
+  .hubBall img{height:5.2cqh;width:auto;filter:drop-shadow(0 2px 2px rgba(0,0,0,.15));}
+  .game{position:absolute;inset:0;display:none;align-items:center;justify-content:center;z-index:40;background:#d7ccb4;}
+  .game.on{display:flex;z-index:45;}
+
+/* ---- index.html ---- */
+
+  
+  
+  
+  
+  *{margin:0;padding:0;box-sizing:border-box;}
+  
+  
+  /* cream graph-paper frame */
+  .g-pattern #p_app{position:relative;height:100vh;aspect-ratio:3415/4770;background:var(--cream);
+    padding:2.4vh;overflow:hidden;
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),
+                    linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:2.6vh 2.6vh;}
+  /* red rounded frame + white grid panel */
+  .panel{position:relative;height:100%;background:#fff;border:0.85vh solid var(--red);
+    border-radius:22px;overflow:hidden;
+    background-image:linear-gradient(rgba(110,150,185,.10) 1px,transparent 1px),
+                    linear-gradient(90deg,rgba(110,150,185,.10) 1px,transparent 1px);
+    background-size:2.5vh 2.5vh;box-shadow:0 6px 0 rgba(224,66,79,.15);}
+  .pad{position:relative;height:100%;padding:8vh 4vh 0;display:flex;flex-direction:column;}
+  /* fat outline title */
+  .title{position:absolute;top:0.4vh;left:0;right:0;text-align:center;white-space:nowrap;
+    font-family:'Baloo';font-size:5vh;line-height:1;color:#fff;
+    -webkit-text-stroke:0.9vh var(--red);paint-order:stroke fill;
+    filter:drop-shadow(0 0.4vh 0 rgba(224,66,79,.25));letter-spacing:.5px;z-index:6;}
+  .head{display:flex;align-items:center;justify-content:center;gap:1.6vh;margin-top:1.2vh;}
+  .ribbon{background:var(--red);color:#fff;font-weight:600;font-size:2vh;
+    padding:0.35vh 3.2vh 0.35vh 2vh;clip-path:polygon(0 0,90% 0,100% 50%,90% 100%,0 100%);
+    letter-spacing:.3px;box-shadow:0 2px 5px rgba(224,66,79,.25);white-space:nowrap;flex:none;}
+  .qline{font-family:'Baloo';font-size:2.6vh;color:var(--ink);white-space:nowrap;}
+  /* progress stars */
+  #p_stars{display:flex;justify-content:center;gap:.6vh;margin-top:1.6vh;}
+  #p_stars .st{width:3.4vh;height:3.4vh;}
+  #p_stars .st path{fill:#efe6d5;stroke:#d8ccb4;stroke-width:1.1;transition:.2s;}
+  #p_stars .st.on path{fill:#ffc23e;stroke:#eaa41c;}
+  /* pattern row */
+  .row{margin-top:auto;display:flex;justify-content:center;gap:1.8vh;}
+  .card{width:15.2vh;height:15.2vh;border-radius:20px;background:#fff;position:relative;
+    border:0.62vh solid var(--red);box-shadow:0 9px 16px rgba(236,88,102,.16);
+    display:flex;align-items:center;justify-content:center;}
+  .card>img{width:80%;height:80%;object-fit:contain;filter:drop-shadow(0 4px 3px rgba(0,0,0,.14));}
+  .card.slot{background:#fff6f0;}
+  .qm{font-family:'Baloo';font-size:7vh;color:#f2a6ac;transition:opacity .15s;}
+  .qm.hide{opacity:0;}
+  #p_reveal{position:absolute;width:80%;height:80%;object-fit:contain;
+    transform:scale(0);filter:drop-shadow(0 5px 4px rgba(0,0,0,.16));}
+  #p_reveal.on{animation:pop .5s cubic-bezier(.2,1.7,.4,1) forwards;}
+  @keyframes pop{0%{transform:scale(0);}70%{transform:scale(1.18);}100%{transform:scale(1);}}
+  /* answers */
+  .ans{margin-top:3.2vh;margin-bottom:1.2vh;display:flex;justify-content:center;gap:6vh;z-index:5;}
+  .pick{position:relative;padding-top:4vh;cursor:pointer;transition:transform .1s;}
+  .pick:active{transform:translateY(2px);}
+  .pick.shake{animation:shake .4s;}
+  @keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-12px);}50%{transform:translateX(12px);}75%{transform:translateX(-7px);}}
+  .badge{position:absolute;top:0;left:50%;transform:translateX(-50%);width:7vh;height:7vh;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;font-family:'Baloo';font-size:4vh;color:#fff;z-index:3;
+    border:.45vh solid #fff;box-shadow:0 5px 12px rgba(30,50,70,.22);}
+  .pick.a .badge{background:radial-gradient(circle at 40% 32%,#f47883,var(--red));}
+  .pick.b .badge{background:radial-gradient(circle at 40% 32%,#6ec6f2,var(--blue));}
+  .pick.pulsing .badge{animation:badgePulse 1.1s ease-in-out infinite;}
+  @keyframes badgePulse{0%,100%{transform:translateX(-50%) scale(1);box-shadow:0 5px 12px rgba(30,50,70,.22);}
+    50%{transform:translateX(-50%) scale(1.11);box-shadow:0 6px 18px rgba(255,193,62,.8);}}
+  .scribble{position:absolute;top:-1vh;left:50%;transform:translateX(-50%) scale(.6);width:10vh;height:9vh;z-index:2;opacity:0;}
+  .scribble.on{animation:stamp .45s cubic-bezier(.2,1.6,.4,1) forwards;}
+  @keyframes stamp{0%{opacity:0;transform:translateX(-50%) scale(.5) rotate(-10deg);}
+    60%{opacity:1;transform:translateX(-50%) scale(1.15) rotate(3deg);}100%{opacity:1;transform:translateX(-50%) scale(1) rotate(0);}}
+  .pcard{width:14vh;height:14vh;border-radius:20px;background:#fff;border:0.7vh solid var(--red);margin-top:4vh;
+    display:flex;align-items:center;justify-content:center;box-shadow:0 12px 20px rgba(236,88,102,.18);}
+  .pick.b .pcard{border-color:var(--blue);box-shadow:0 12px 20px rgba(69,178,232,.18);}
+  .pcard img{width:74%;height:74%;object-fit:contain;filter:drop-shadow(0 5px 4px rgba(0,0,0,.16));}
+  /* 3D characters: idle PNG always paints; celebration video plays in place (same element size) */
+  .hero{position:absolute;bottom:2.5vh;width:auto;z-index:8;pointer-events:none;
+    filter:drop-shadow(0 8px 7px rgba(0,0,0,.16));}
+  #p_boyIdle,#p_flipS{right:-1vh;height:24vh;}
+  #p_girlIdle,#p_girlS{left:0;height:21vh;}
+  #p_flipS,#p_girlS{opacity:0;}
+  /* Fenny teacher intro — sits in the gap below the stars */
+  #p_fenny{position:absolute;left:50%;top:18.5vh;transform:translateX(-50%);
+    height:34vh;width:auto;z-index:28;opacity:0;pointer-events:none;
+    filter:drop-shadow(0 6px 8px rgba(0,0,0,.18));
+    transition:opacity .75s ease;}
+  #p_fenny.on{opacity:1;}
+  #p_fenny.fade-out{opacity:0;}
+  .shadow{position:absolute;bottom:2.1vh;height:2vh;border-radius:50%;background:rgba(40,55,70,.15);filter:blur(4px);z-index:7;pointer-events:none;}
+  .shadow.boy{right:2.5vh;width:11vh;} .shadow.girl{left:2.5vh;width:9.5vh;}
+  /* fireworks on the end screen only */
+  #p_fw{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;z-index:0;pointer-events:none;transition:opacity .5s;}
+  #p_end > *:not(#p_fw){position:relative;z-index:1;}
+  /* celebration banner */
+  #p_banner{position:absolute;left:50%;top:34%;z-index:22;transform:translate(-50%,-50%) scale(0);
+    font-family:'Baloo';background:var(--red);color:#fff;border:.6vh solid #fff;border-radius:999px;
+    padding:1.4vh 5vh;font-size:5vh;white-space:nowrap;
+    box-shadow:0 7px 0 rgba(224,66,79,.4),0 0 40px rgba(255,193,62,.9);}
+  #p_banner.on{animation:bIn 2.6s cubic-bezier(.2,1.6,.4,1) forwards;}
+  @keyframes bIn{0%{transform:translate(-50%,-50%) scale(0) rotate(-12deg);opacity:0;}
+    16%{transform:translate(-50%,-50%) scale(1.22) rotate(5deg);opacity:1;}
+    32%{transform:translate(-50%,-50%) scale(1) rotate(-2deg);}90%{transform:translate(-50%,-50%) scale(1) rotate(0);opacity:1;}
+    100%{transform:translate(-50%,-50%) scale(1) rotate(0);opacity:0;}}
+  /* English pattern sentence on correct answer */
+  #p_sentence{position:absolute;left:50%;top:30%;transform:translate(-50%,-50%) scale(0);z-index:24;
+    width:min(96%,92vh);font-family:'Baloo';color:var(--ink);background:#fff;
+    border:1vh solid var(--red);border-radius:3.6vh;padding:2.4vh 1.2vh 2.8vh;
+    text-align:center;line-height:1.08;white-space:nowrap;
+    box-shadow:0 1.1vh 0 rgba(224,66,79,.3),0 0 0 .55vh #fff,0 2vh 4vh rgba(51,64,74,.28),
+      0 0 3.5vh rgba(255,193,62,.55);}
+  #p_sentence .cmp{display:block;color:var(--red);font-size:4.6vh;letter-spacing:.02em;}
+  #p_sentence .snt{display:inline-block;font-size:5.2vh;margin-top:1vh;color:var(--ink);line-height:1.12;white-space:nowrap;}
+  #p_sentence .snt b{color:var(--red);font-size:1.05em;}
+  #p_sentence.on{animation:sIn .45s cubic-bezier(.2,1.6,.4,1) forwards;}
+  @keyframes sIn{0%{transform:translate(-50%,-50%) scale(0);}70%{transform:translate(-50%,-50%) scale(1.08);}100%{transform:translate(-50%,-50%) scale(1);}}
+  /* home button */
+  #p_homeBtn{position:absolute;left:0.6vh;top:0.6vh;z-index:25;width:5.4vh;height:5.4vh;border:none;border-radius:14px;
+    background:#fff;box-shadow:0 3px 0 rgba(224,66,79,.3);cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  #p_homeBtn svg{width:3vh;height:3vh;stroke:var(--red);stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+  #p_homeBtn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(224,66,79,.3);}
+  /* end screen */
+  #p_end{position:absolute;inset:0;z-index:35;background:rgba(249,242,228,.92);display:none;
+    flex-direction:column;align-items:center;justify-content:center;gap:3vh;overflow:hidden;}
+  #p_end h1{font-family:'Baloo';font-size:7vh;color:#fff;-webkit-text-stroke:1vh var(--red);paint-order:stroke fill;}
+  #p_endStars{display:flex;gap:1vh;} #p_endStars svg{width:8vh;height:8vh;}
+  .btn{border:none;cursor:pointer;font-family:'Baloo';color:#fff;background:var(--red);
+    border-radius:999px;box-shadow:0 6px 0 var(--red-d);padding:1.8vh 5vh;font-size:3.2vh;display:flex;align-items:center;gap:1vh;}
+  .btn:active{transform:translateY(4px);box-shadow:0 2px 0 var(--red-d);}
+  /* menu */
+  #p_menu{position:absolute;inset:0;z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3vh;
+    background:var(--cream);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:2.6vh 2.6vh;padding:4vh;}
+  .mTitle{font-family:'Baloo';font-size:5.4vh;line-height:1;color:#fff;text-align:center;
+    -webkit-text-stroke:1vh var(--red);paint-order:stroke fill;filter:drop-shadow(0 .5vh 0 rgba(224,66,79,.25));margin-bottom:1vh;}
+  .mSub{font-family:'Baloo';font-size:2.4vh;color:var(--ink);margin-top:-1.5vh;margin-bottom:2vh;}
+  .menuBtn{border:none;cursor:pointer;font-family:'Baloo';color:#fff;background:var(--red);
+    border-radius:26px;box-shadow:0 8px 0 var(--red-d);padding:2.8vh 5vh;font-size:3.4vh;line-height:1.1;text-align:center;
+    min-width:54vh;display:flex;flex-direction:column;align-items:center;gap:.6vh;transition:transform .1s;}
+  .menuBtn .mb-sub{font-family:'Fredoka';font-size:2vh;opacity:.95;font-weight:600;}
+  .menuBtn.blue{background:var(--blue);box-shadow:0 8px 0 var(--blue-d);}
+  .menuBtn:active{transform:translateY(5px);box-shadow:0 3px 0 var(--red-d);}
+  .menuBtn.blue:active{box-shadow:0 3px 0 var(--blue-d);}
+  .menuBall{width:auto;height:9vh;display:flex;justify-content:center;align-items:center;gap:1vh;margin-bottom:.5vh;}
+  .menuBall img{height:9vh;width:auto;filter:drop-shadow(0 3px 3px rgba(0,0,0,.15));}
+
+.g-pattern #p_menu{display:none!important;}
+.g-pattern{position:absolute;inset:0;display:none;}
+.g-pattern.on{display:flex;align-items:center;justify-content:center;}
+/* ---- bigger-numbers.html ---- */
+
+  
+  
+  
+  
+  *{margin:0;padding:0;box-sizing:border-box;}
+  
+  
+  /* Fit portrait frame inside both width & height (phone + desktop) */
+  .g-bigger #b_app{position:relative;overflow:hidden;background:var(--cream);
+    width:min(100vw, calc(100vh * 3415 / 4770));
+    height:min(100vh, calc(100vw * 4770 / 3415));
+    container-type:size;container-name:game;
+    padding:2.4%;
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),
+                    linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:3.6% 2.6%;}
+  @supports (height:100dvh){
+    .g-bigger #b_app{width:min(100vw, calc(100dvh * 3415 / 4770));
+      height:min(100dvh, calc(100vw * 4770 / 3415));}
+  }
+  .panel{position:relative;height:100%;background:#fff;border:0.85cqh solid var(--red);
+    border-radius:22px;overflow:hidden;
+    background-image:linear-gradient(rgba(110,150,185,.10) 1px,transparent 1px),
+                    linear-gradient(90deg,rgba(110,150,185,.10) 1px,transparent 1px);
+    background-size:3.5cqw 2.5cqh;box-shadow:0 6px 0 rgba(224,66,79,.15);}
+  .pad{position:relative;height:100%;padding:8cqh 4cqh 0;display:flex;flex-direction:column;}
+  .title{position:absolute;top:0.4cqh;left:0;right:0;text-align:center;white-space:nowrap;
+    font-family:'Baloo';font-size:5cqh;line-height:1;color:#fff;
+    -webkit-text-stroke:0.9cqh var(--red);paint-order:stroke fill;
+    filter:drop-shadow(0 0.4cqh 0 rgba(224,66,79,.25));letter-spacing:.5px;z-index:6;}
+  .head{display:flex;align-items:center;justify-content:center;gap:1.6cqh;margin-top:1.2cqh;}
+  .ribbon{background:var(--red);color:#fff;font-weight:600;font-size:2cqh;
+    padding:0.35cqh 3.2cqh 0.35cqh 2cqh;clip-path:polygon(0 0,90% 0,100% 50%,90% 100%,0 100%);
+    letter-spacing:.3px;box-shadow:0 2px 5px rgba(224,66,79,.25);white-space:nowrap;flex:none;}
+  .qline{font-family:'Baloo';font-size:2.6cqh;color:var(--ink);white-space:nowrap;}
+  /* progress stars */
+  #b_stars{display:flex;justify-content:center;gap:.6cqh;margin-top:1.6cqh;}
+  #b_stars .st{width:3.4cqh;height:3.4cqh;}
+  #b_stars .st path{fill:#efe6d5;stroke:#d8ccb4;stroke-width:1.1;transition:.2s;}
+  #b_stars .st.on path{fill:#ffc23e;stroke:#eaa41c;}
+  /* bigger-number compare */
+  .compare{margin:auto 0;display:flex;justify-content:center;gap:7cqh;}
+  .numpick{position:relative;cursor:pointer;transition:transform .1s;}
+  .numpick:active{transform:translateY(2px);}
+  .numpick.shake{animation:shake .4s;}
+  @keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-12px);}50%{transform:translateX(12px);}75%{transform:translateX(-7px);}}
+  .ncard{width:23cqh;height:23cqh;border-radius:26px;background:#fff;border:0.75cqh solid var(--red);
+    box-shadow:0 12px 22px rgba(236,88,102,.18);position:relative;display:flex;align-items:center;justify-content:center;}
+  .ncard .nb{width:86%;height:86%;object-fit:contain;filter:drop-shadow(0 4px 4px rgba(0,0,0,.12));}
+  .num{position:absolute;font-family:'Baloo';font-size:14cqh;line-height:1;color:#fff;
+    -webkit-text-stroke:1.1cqh var(--red);paint-order:stroke fill;
+    filter:drop-shadow(0 4px 2px rgba(0,0,0,.3));}
+  .numpick.pulsing .ncard{animation:cardPulse 1.1s ease-in-out infinite;}
+  @keyframes cardPulse{0%,100%{transform:scale(1);box-shadow:0 12px 22px rgba(236,88,102,.18);}
+    50%{transform:scale(1.05);box-shadow:0 14px 28px rgba(255,193,62,.7);}}
+  .ring{position:absolute;inset:-2.2cqh;z-index:4;opacity:0;transform:scale(.6);pointer-events:none;}
+  .ring.on{animation:ringIn .5s cubic-bezier(.2,1.6,.4,1) forwards;}
+  @keyframes ringIn{0%{opacity:0;transform:scale(.5) rotate(-8deg);}
+    60%{opacity:1;transform:scale(1.12) rotate(3deg);}100%{opacity:1;transform:scale(1) rotate(0);}}
+  /* 3D characters */
+  .hero{position:absolute;bottom:2.5cqh;width:auto;z-index:8;pointer-events:none;
+    filter:drop-shadow(0 8px 7px rgba(0,0,0,.16));}
+  #b_boyIdle,#b_flipS{right:-1cqh;height:24cqh;}
+  #b_girlIdle,#b_girlS{left:0;height:21cqh;}
+  #b_flipS,#b_girlS{opacity:0;}
+  /* teacher intro — sits in the gap below the stars */
+  #b_fenny{position:absolute;left:50%;top:18.5cqh;transform:translateX(-50%);
+    height:34cqh;width:auto;z-index:28;opacity:0;pointer-events:none;
+    filter:drop-shadow(0 6px 8px rgba(0,0,0,.18));
+    transition:opacity .25s ease;}
+  #b_fenny.on{opacity:1;}
+  #b_fenny.fade-out{opacity:0;}
+  .shadow{position:absolute;bottom:2.1cqh;height:2cqh;border-radius:50%;background:rgba(40,55,70,.15);filter:blur(4px);z-index:7;pointer-events:none;}
+  .shadow.boy{right:2.5cqh;width:11cqh;} .shadow.girl{left:2.5cqh;width:9.5cqh;}
+  #b_fw{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;z-index:0;pointer-events:none;transition:opacity .5s;}
+  #b_end > *:not(#b_fw){position:relative;z-index:1;}
+  #b_banner{position:absolute;left:50%;top:34%;z-index:22;transform:translate(-50%,-50%) scale(0);
+    font-family:'Baloo';background:var(--red);color:#fff;border:.6cqh solid #fff;border-radius:999px;
+    padding:1.4cqh 5cqh;font-size:5cqh;white-space:nowrap;
+    box-shadow:0 7px 0 rgba(224,66,79,.4),0 0 40px rgba(255,193,62,.9);}
+  #b_banner.on{animation:bIn 2.6s cubic-bezier(.2,1.6,.4,1) forwards;}
+  @keyframes bIn{0%{transform:translate(-50%,-50%) scale(0) rotate(-12deg);opacity:0;}
+    16%{transform:translate(-50%,-50%) scale(1.22) rotate(5deg);opacity:1;}
+    32%{transform:translate(-50%,-50%) scale(1) rotate(-2deg);}90%{transform:translate(-50%,-50%) scale(1) rotate(0);opacity:1;}
+    100%{transform:translate(-50%,-50%) scale(1) rotate(0);opacity:0;}}
+  /* English math sentence — large callout in the stars→cards gap */
+  #b_sentence{position:absolute;left:50%;top:33%;transform:translate(-50%,-50%) scale(0);z-index:24;
+    width:min(96%,92cqh);font-family:'Baloo';color:var(--ink);background:#fff;
+    border:1cqh solid var(--red);border-radius:3.6cqh;padding:2.8cqh 1.2cqh 3.2cqh;
+    text-align:center;line-height:1.08;white-space:nowrap;
+    box-shadow:0 1.1cqh 0 rgba(224,66,79,.3),0 0 0 .55cqh #fff,0 2cqh 4cqh rgba(51,64,74,.28),
+      0 0 3.5cqh rgba(255,193,62,.55);}
+  #b_sentence .cmp{display:block;color:var(--red);font-size:5cqh;letter-spacing:.02em;
+    text-shadow:0 .2cqh 0 rgba(224,66,79,.18);}
+  #b_sentence .snt{display:inline-block;font-size:7.2cqh;margin-top:1.2cqh;color:var(--ink);line-height:1.12;white-space:nowrap;}
+  #b_sentence .snt b{color:var(--red);font-size:1.17em;-webkit-text-stroke:.4cqh #fff;paint-order:stroke fill;}
+  #b_sentence.on{animation:sIn .45s cubic-bezier(.2,1.6,.4,1) forwards;}
+  @keyframes sIn{0%{transform:translate(-50%,-50%) scale(0);}70%{transform:translate(-50%,-50%) scale(1.08);}100%{transform:translate(-50%,-50%) scale(1);}}
+  #b_homeBtn{position:absolute;left:0.6cqh;top:0.6cqh;z-index:25;width:5.4cqh;height:5.4cqh;border:none;border-radius:14px;
+    background:#fff;box-shadow:0 3px 0 rgba(224,66,79,.3);cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  #b_homeBtn svg{width:3cqh;height:3cqh;stroke:var(--red);stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+  #b_homeBtn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(224,66,79,.3);}
+  #b_end{position:absolute;inset:0;z-index:35;background:rgba(249,242,228,.92);display:none;
+    flex-direction:column;align-items:center;justify-content:center;gap:3cqh;overflow:hidden;}
+  #b_end h1{font-family:'Baloo';font-size:7cqh;color:#fff;-webkit-text-stroke:1cqh var(--red);paint-order:stroke fill;}
+  #b_endStars{display:flex;gap:1cqh;} #b_endStars svg{width:8cqh;height:8cqh;}
+  .btn{border:none;cursor:pointer;font-family:'Baloo';color:#fff;background:var(--red);
+    border-radius:999px;box-shadow:0 6px 0 var(--red-d);padding:1.8cqh 5cqh;font-size:3.2cqh;display:flex;align-items:center;gap:1cqh;}
+  .btn:active{transform:translateY(4px);box-shadow:0 2px 0 var(--red-d);}
+  #b_menu{position:absolute;inset:0;z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3cqh;
+    background:var(--cream);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:3.6cqw 2.6cqh;padding:4cqh;}
+  .mTitle{font-family:'Baloo';font-size:5.4cqh;line-height:1;color:#fff;text-align:center;
+    -webkit-text-stroke:1cqh var(--red);paint-order:stroke fill;filter:drop-shadow(0 .5cqh 0 rgba(224,66,79,.25));margin-bottom:1cqh;}
+  .mSub{font-family:'Baloo';font-size:2.4cqh;color:var(--ink);margin-top:-1.5cqh;margin-bottom:2cqh;}
+  .menuBtn{border:none;cursor:pointer;font-family:'Baloo';color:#fff;background:var(--red);
+    border-radius:26px;box-shadow:0 8px 0 var(--red-d);padding:2.8cqh 5cqh;font-size:3.4cqh;line-height:1.1;text-align:center;
+    min-width:54cqh;max-width:92%;display:flex;flex-direction:column;align-items:center;gap:.6cqh;transition:transform .1s;}
+  .menuBtn .mb-sub{font-family:'Fredoka';font-size:2cqh;opacity:.95;font-weight:600;}
+  .menuBtn.blue{background:var(--blue);box-shadow:0 8px 0 var(--blue-d);}
+  .menuBtn:active{transform:translateY(5px);box-shadow:0 3px 0 var(--red-d);}
+  .menuBtn.blue:active{box-shadow:0 3px 0 var(--blue-d);}
+  .menuBall{width:auto;height:9cqh;display:flex;gap:1cqh;margin-bottom:.5cqh;}
+  .menuBall img{height:9cqh;filter:drop-shadow(0 3px 3px rgba(0,0,0,.15));}
+
+.g-bigger #b_menu{display:none!important;}
+.g-bigger{position:absolute;inset:0;display:none;}
+.g-bigger.on{display:flex;align-items:center;justify-content:center;}
+/* ---- thinking-pattern-match.html ---- */
+
+  
+  
+  
+  *{margin:0;padding:0;box-sizing:border-box;}
+  
+  
+  .g-think-pat #tp_app{position:relative;overflow:hidden;background:var(--cream);
+    width:min(100vw, calc(100vh * 3415 / 4770));
+    height:min(100vh, calc(100vw * 4770 / 3415));
+    container-type:size;container-name:game;padding:2.4%;
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),
+                    linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:3.6% 2.6%;}
+  @supports (height:100dvh){
+    .g-think-pat #tp_app{width:min(100vw, calc(100dvh * 3415 / 4770));
+      height:min(100dvh, calc(100vw * 4770 / 3415));}
+  }
+  .panel{position:relative;height:100%;background:#fff;border:0.85cqh solid var(--red);
+    border-radius:22px;overflow:hidden;
+    background-image:linear-gradient(rgba(110,150,185,.10) 1px,transparent 1px),
+                    linear-gradient(90deg,rgba(110,150,185,.10) 1px,transparent 1px);
+    background-size:3.5cqw 2.5cqh;box-shadow:0 6px 0 rgba(224,66,79,.15);}
+  .pad{position:relative;height:100%;padding:7.5cqh 3.2cqh 0;display:flex;flex-direction:column;}
+  .title{position:absolute;top:0.35cqh;left:0;right:0;text-align:center;white-space:nowrap;
+    font-family:'Baloo';font-size:4.6cqh;line-height:1;color:#fff;
+    -webkit-text-stroke:0.85cqh var(--red);paint-order:stroke fill;
+    filter:drop-shadow(0 0.35cqh 0 rgba(224,66,79,.25));z-index:6;}
+  .head{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.7cqh;margin-top:1cqh;}
+  .ribbon{background:var(--red);color:#fff;font-weight:600;font-size:1.85cqh;
+    padding:0.35cqh 2.8cqh 0.35cqh 1.8cqh;clip-path:polygon(0 0,90% 0,100% 50%,90% 100%,0 100%);
+    letter-spacing:.3px;box-shadow:0 2px 5px rgba(224,66,79,.25);white-space:nowrap;flex:none;}
+  /* question block: teach lines precede the question */
+  #qblock{width:min(94%,78cqh);text-align:center;font-family:'Baloo';color:var(--ink);line-height:1.22;}
+  #qblock .pre{font-size:2.15cqh;color:var(--ink);}
+  #qblock .pre b{color:var(--red);}
+  #qblock .pre .ml{display:block;}
+  #qblock .ask{display:none;margin-top:0.55cqh;font-size:2.45cqh;color:var(--ink);}
+  #qblock .ask.on{display:block;}
+  #qblock .ask b{color:var(--red);}
+  #tp_stars{display:flex;justify-content:center;gap:.55cqh;margin-top:1.2cqh;}
+  #tp_stars .st{width:3.1cqh;height:3.1cqh;}
+  #tp_stars .st path{fill:#efe6d5;stroke:#d8ccb4;stroke-width:1.1;transition:.2s;}
+  #tp_stars .st.on path{fill:#ffc23e;stroke:#eaa41c;}
+
+  /* sample + choices */
+  .board{flex:1;display:flex;flex-direction:column;justify-content:center;gap:1.6cqh;min-height:0;padding-bottom:22cqh;overflow:visible;}
+  .sample-wrap{display:flex;flex-direction:column;align-items:center;gap:.55cqh;}
+  .lbl{font-family:'Baloo';font-size:2cqh;color:var(--red);letter-spacing:.02em;}
+  .prow{display:flex;align-items:center;justify-content:center;gap:1cqh;
+    padding:1cqh 1.4cqh;border-radius:18px;background:#fff;border:0.55cqh solid var(--red);
+    box-shadow:0 6px 14px rgba(236,88,102,.14);}
+  .prow .ball{width:7.2cqh;height:7.2cqh;object-fit:contain;filter:drop-shadow(0 3px 2px rgba(0,0,0,.12));}
+  .prow .blank{width:7.2cqh;height:7.2cqh;border-radius:16px;background:#fff6f0;border:0.5cqh dashed #f2a6ac;
+    display:flex;align-items:center;justify-content:center;}
+  .prow .blank .qm{font-family:'Baloo';font-size:4.2cqh;color:#f2a6ac;line-height:1;}
+  .choices{display:flex;flex-direction:column;gap:1.6cqh;align-items:center;overflow:visible;padding:1.2cqh 0;width:100%;}
+  .choice{position:relative;display:flex;align-items:center;gap:1.2cqh;cursor:pointer;
+    padding:1cqh 2.4cqh 1cqh 1.2cqh;border-radius:18px;background:#fff;
+    border:0.55cqh solid #d8e0ea;box-shadow:0 5px 12px rgba(50,70,90,.10);
+    transition:transform .1s,border-color .15s,box-shadow .15s;
+    width:max-content;max-width:94%;min-width:min(92%,34cqw);
+    overflow:visible;z-index:1;}
+  .choice:active{transform:translateY(2px);}
+  .choice.pulsing{animation:choicePulse 1.15s ease-in-out infinite;}
+  @keyframes choicePulse{0%,100%{box-shadow:0 5px 12px rgba(50,70,90,.10);}
+    50%{box-shadow:0 6px 18px rgba(255,193,62,.75);border-color:#ffc23e;}}
+  .choice.shake{animation:shake .4s;}
+  @keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-10px);}50%{transform:translateX(10px);}75%{transform:translateX(-6px);}}
+  .choice .tag{position:relative;z-index:2;flex:none;width:4.6cqh;height:4.6cqh;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-family:'Baloo';font-size:2.6cqh;color:#fff;border:.35cqh solid #fff;
+    box-shadow:0 3px 8px rgba(30,50,70,.2);}
+  .choice[data-i="0"] .tag{background:radial-gradient(circle at 40% 32%,#f47883,var(--red));}
+  .choice[data-i="1"] .tag{background:radial-gradient(circle at 40% 32%,#6ec6f2,var(--blue));}
+  .choice[data-i="2"] .tag{background:radial-gradient(circle at 40% 32%,#6fd49a,var(--green));}
+  .choice .balls{position:relative;z-index:2;display:flex;gap:1cqh;align-items:center;justify-content:center;flex:0 0 auto;}
+  .choice .balls img{width:6.6cqh;height:6.6cqh;flex:none;object-fit:contain;filter:drop-shadow(0 2px 2px rgba(0,0,0,.12));}
+  /* correct = card flash + check stamp (stays inside the choice) */
+  .choice .check{position:absolute;right:0.7cqh;top:50%;transform:translateY(-50%) scale(0);
+    width:3.8cqh;height:3.8cqh;border-radius:50%;background:var(--green);
+    display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;z-index:5;
+    box-shadow:0 2px 6px rgba(60,186,122,.35);}
+  .choice .check svg{width:2.2cqh;height:2.2cqh;stroke:#fff;stroke-width:3;fill:none;
+    stroke-linecap:round;stroke-linejoin:round;}
+  .choice.correct{z-index:3;border-color:var(--green)!important;
+    box-shadow:0 0 0 0.45cqh rgba(60,186,122,.28),0 6px 14px rgba(60,186,122,.22)!important;
+    animation:correctPop .4s cubic-bezier(.2,1.5,.4,1) forwards;}
+  .choice.correct .check{animation:checkIn .35s cubic-bezier(.2,1.6,.4,1) .05s forwards;}
+  @keyframes correctPop{0%{transform:scale(1);}45%{transform:scale(1.04);}100%{transform:scale(1);}}
+  @keyframes checkIn{0%{opacity:0;transform:translateY(-50%) scale(0);}70%{opacity:1;transform:translateY(-50%) scale(1.15);}100%{opacity:1;transform:translateY(-50%) scale(1);}}
+
+  .hero{position:absolute;bottom:2.2cqh;width:auto;z-index:8;pointer-events:none;
+    filter:drop-shadow(0 8px 7px rgba(0,0,0,.16));}
+  #tp_boyIdle,#tp_flipS{right:-1cqh;height:22cqh;}
+  #tp_girlIdle,#tp_girlS{left:0;height:19cqh;}
+  #tp_flipS,#tp_girlS{opacity:0;}
+  .shadow{position:absolute;bottom:1.9cqh;height:1.8cqh;border-radius:50%;background:rgba(40,55,70,.15);filter:blur(4px);z-index:7;pointer-events:none;}
+  .shadow.boy{right:2.2cqh;width:10cqh;} .shadow.girl{left:2.2cqh;width:8.5cqh;}
+
+  #tp_fw{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;z-index:0;pointer-events:none;transition:opacity .5s;}
+  #tp_end > *:not(#tp_fw){position:relative;z-index:1;}
+  #tp_sentence{position:absolute;left:50%;top:28%;transform:translate(-50%,-50%) scale(0);z-index:24;
+    width:min(96%,90cqh);font-family:'Baloo';color:var(--ink);background:#fff;
+    border:0.9cqh solid var(--red);border-radius:3.2cqh;padding:2.2cqh 1.2cqh 2.6cqh;
+    text-align:center;line-height:1.08;white-space:nowrap;
+    box-shadow:0 1cqh 0 rgba(224,66,79,.3),0 0 0 .5cqh #fff,0 1.8cqh 3.5cqh rgba(51,64,74,.28),
+      0 0 3cqh rgba(255,193,62,.55);}
+  #tp_sentence .cmp{display:block;color:var(--red);font-size:4.2cqh;}
+  #tp_sentence .snt{display:inline-block;font-size:4.6cqh;margin-top:0.9cqh;color:var(--ink);line-height:1.12;white-space:nowrap;}
+  #tp_sentence .snt b{color:var(--red);}
+  #tp_sentence.on{animation:sIn .45s cubic-bezier(.2,1.6,.4,1) forwards;}
+  @keyframes sIn{0%{transform:translate(-50%,-50%) scale(0);}70%{transform:translate(-50%,-50%) scale(1.08);}100%{transform:translate(-50%,-50%) scale(1);}}
+  #tp_homeBtn{position:absolute;left:0.55cqh;top:0.55cqh;z-index:25;width:5cqh;height:5cqh;border:none;border-radius:14px;
+    background:#fff;box-shadow:0 3px 0 rgba(224,66,79,.3);cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  #tp_homeBtn svg{width:2.8cqh;height:2.8cqh;stroke:var(--red);stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+  #tp_homeBtn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(224,66,79,.3);}
+  #tp_end{position:absolute;inset:0;z-index:35;background:rgba(249,242,228,.92);display:none;
+    flex-direction:column;align-items:center;justify-content:center;gap:2.8cqh;overflow:hidden;}
+  #tp_end h1{font-family:'Baloo';font-size:6.5cqh;color:#fff;-webkit-text-stroke:0.9cqh var(--red);paint-order:stroke fill;}
+  #tp_endStars{display:flex;gap:1cqh;} #tp_endStars svg{width:7.5cqh;height:7.5cqh;}
+  .btn{border:none;cursor:pointer;font-family:'Baloo';color:#fff;background:var(--red);
+    border-radius:999px;box-shadow:0 6px 0 var(--red-d);padding:1.6cqh 4.5cqh;font-size:3cqh;}
+  .btn:active{transform:translateY(4px);box-shadow:0 2px 0 var(--red-d);}
+  #tp_menu{position:absolute;inset:0;z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.4cqh;
+    background:var(--cream);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:3.6cqw 2.6cqh;padding:3.5cqh;overflow:auto;}
+  .mTitle{font-family:'Baloo';font-size:4.8cqh;line-height:1;color:#fff;text-align:center;
+    -webkit-text-stroke:0.9cqh var(--red);paint-order:stroke fill;filter:drop-shadow(0 .45cqh 0 rgba(224,66,79,.25));}
+  .mSub{font-family:'Baloo';font-size:2.2cqh;color:var(--ink);margin-top:-0.8cqh;margin-bottom:0.5cqh;text-align:center;}
+  .menuBtn{border:none;cursor:pointer;font-family:'Baloo';color:#fff;background:var(--red);
+    border-radius:24px;box-shadow:0 7px 0 var(--red-d);padding:2.2cqh 4cqh;font-size:3cqh;line-height:1.1;text-align:center;
+    min-width:52cqh;max-width:94%;display:flex;flex-direction:column;align-items:center;gap:.5cqh;}
+  .menuBtn .mb-sub{font-family:'Fredoka';font-size:1.85cqh;opacity:.95;font-weight:600;}
+  .menuBtn.blue{background:var(--blue);box-shadow:0 7px 0 var(--blue-d);}
+  .menuBtn.green{background:var(--green);box-shadow:0 7px 0 var(--green-d);}
+  .menuBtn:active{transform:translateY(4px);box-shadow:0 3px 0 var(--red-d);}
+  .menuBtn.blue:active{box-shadow:0 3px 0 var(--blue-d);}
+  .menuBtn.green:active{box-shadow:0 3px 0 var(--green-d);}
+  .menuBall{width:auto;height:6.2cqh;display:flex;justify-content:center;align-items:center;gap:.55cqh;margin-bottom:.35cqh;flex-wrap:wrap;}
+  .menuBall img{height:6.2cqh;width:auto;filter:drop-shadow(0 3px 3px rgba(0,0,0,.15));}
+
+.g-think-pat #tp_menu{display:none!important;}
+.g-think-pat{position:absolute;inset:0;display:none;}
+.g-think-pat.on{display:flex;align-items:center;justify-content:center;}
+/* ---- thinking-bigger-numbers.html ---- */
+
+  
+  
+  
+  *{margin:0;padding:0;box-sizing:border-box;}
+  
+  
+  .g-think-big #tb_app{position:relative;overflow:hidden;background:var(--cream);
+    width:min(100vw, calc(100vh * 3415 / 4770));
+    height:min(100vh, calc(100vw * 4770 / 3415));
+    container-type:size;container-name:game;padding:2.4%;
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),
+                    linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:3.6% 2.6%;}
+  @supports (height:100dvh){
+    .g-think-big #tb_app{width:min(100vw, calc(100dvh * 3415 / 4770));
+      height:min(100dvh, calc(100vw * 4770 / 3415));}
+  }
+  .panel{position:relative;height:100%;background:#fff;border:0.85cqh solid var(--red);
+    border-radius:22px;overflow:hidden;
+    background-image:linear-gradient(rgba(110,150,185,.10) 1px,transparent 1px),
+                    linear-gradient(90deg,rgba(110,150,185,.10) 1px,transparent 1px);
+    background-size:3.5cqw 2.5cqh;box-shadow:0 6px 0 rgba(224,66,79,.15);}
+  .pad{position:relative;height:100%;padding:7.5cqh 3.2cqh 0;display:flex;flex-direction:column;}
+  .title{position:absolute;top:0.35cqh;left:0;right:0;text-align:center;white-space:nowrap;
+    font-family:'Baloo';font-size:4.6cqh;line-height:1;color:#fff;
+    -webkit-text-stroke:0.85cqh var(--red);paint-order:stroke fill;
+    filter:drop-shadow(0 0.35cqh 0 rgba(224,66,79,.25));z-index:6;}
+  .head{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.55cqh;margin-top:1cqh;
+    flex-shrink:0;position:relative;z-index:6;}
+  .ribbon{background:var(--red);color:#fff;font-weight:600;font-size:1.85cqh;
+    padding:0.35cqh 2.8cqh 0.35cqh 1.8cqh;clip-path:polygon(0 0,90% 0,100% 50%,90% 100%,0 100%);
+    letter-spacing:.3px;box-shadow:0 2px 5px rgba(224,66,79,.25);white-space:nowrap;flex:none;}
+  #qblock{width:min(94%,78cqh);text-align:center;font-family:'Baloo';color:var(--ink);line-height:1.18;}
+  #qblock .pre{font-size:2cqh;color:var(--ink);}
+  #qblock .pre b{color:var(--red);}
+  #qblock .pre .ml{display:block;}
+  #qblock .ask{display:none;margin-top:0.45cqh;font-size:2.3cqh;color:var(--ink);}
+  #qblock .ask.on{display:block;}
+  #qblock .ask b{color:var(--red);}
+  #tb_stars{display:flex;justify-content:center;gap:.55cqh;margin-top:0.7cqh;flex-shrink:0;position:relative;z-index:6;}
+  #tb_stars .st{width:3.1cqh;height:3.1cqh;}
+  #tb_stars .st path{fill:#efe6d5;stroke:#d8ccb4;stroke-width:1.1;transition:.2s;}
+  #tb_stars .st.on path{fill:#ffc23e;stroke:#eaa41c;}
+
+  /* Center answer boxes in the free space under the question (board clips so they can't cover it) */
+  .board{flex:1;display:flex;align-items:center;justify-content:center;gap:2.8cqh;min-height:0;
+    padding:0.4cqh 1cqh 20cqh;overflow:hidden;}
+  .side{position:relative;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:0.7cqh;
+    padding:1.1cqh 1.3cqh 1.2cqh;border-radius:22px;background:#fff;border:0.6cqh solid #d8e0ea;
+    box-shadow:0 8px 16px rgba(50,70,90,.10);width:min(42%,32cqh);max-height:100%;
+    transition:transform .1s,border-color .15s,box-shadow .15s;
+    opacity:.55;pointer-events:none;}
+  .side:active{transform:translateY(2px);}
+  .side.pulsing{animation:sidePulse 1.15s ease-in-out infinite;opacity:1;pointer-events:auto;}
+  @keyframes sidePulse{0%,100%{box-shadow:0 8px 16px rgba(50,70,90,.10);}
+    50%{box-shadow:0 8px 20px rgba(255,193,62,.7);border-color:#ffc23e;}}
+  .side.shake{animation:shake .4s;}
+  @keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-10px);}50%{transform:translateX(10px);}75%{transform:translateX(-6px);}}
+  .side .pile{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:0.45cqh;
+    min-height:11cqh;max-height:18cqh;align-content:center;overflow:hidden;}
+  .side .pile img{width:5cqh;height:5cqh;object-fit:contain;filter:drop-shadow(0 2px 2px rgba(0,0,0,.12));}
+  .side .count{font-family:'Baloo';font-size:7.5cqh;line-height:1;color:#fff;
+    -webkit-text-stroke:0.85cqh var(--red);paint-order:stroke fill;
+    filter:drop-shadow(0 3px 2px rgba(0,0,0,.25));}
+  .side .check{position:absolute;right:0.7cqh;top:0.7cqh;transform:scale(0);
+    width:3.6cqh;height:3.6cqh;border-radius:50%;background:var(--green);
+    display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;z-index:5;
+    box-shadow:0 2px 6px rgba(60,186,122,.35);}
+  .side .check svg{width:2.1cqh;height:2.1cqh;stroke:#fff;stroke-width:3;fill:none;
+    stroke-linecap:round;stroke-linejoin:round;}
+  .side.correct{border-color:var(--green)!important;opacity:1;
+    box-shadow:0 0 0 0.45cqh rgba(60,186,122,.28),0 8px 16px rgba(60,186,122,.22)!important;
+    animation:correctPop .4s cubic-bezier(.2,1.5,.4,1) forwards;}
+  .side.correct .check{animation:checkIn .35s cubic-bezier(.2,1.6,.4,1) .05s forwards;}
+  @keyframes correctPop{0%{transform:scale(1);}45%{transform:scale(1.04);}100%{transform:scale(1);}}
+  @keyframes checkIn{0%{opacity:0;transform:scale(0);}70%{opacity:1;transform:scale(1.15);}100%{opacity:1;transform:scale(1);}}
+
+  .hero{position:absolute;bottom:2.2cqh;width:auto;z-index:8;pointer-events:none;
+    filter:drop-shadow(0 8px 7px rgba(0,0,0,.16));}
+  #tb_boyIdle,#tb_flipS{right:-1cqh;height:22cqh;}
+  #tb_girlIdle,#tb_girlS{left:0;height:19cqh;}
+  #tb_flipS,#tb_girlS{opacity:0;}
+  .shadow{position:absolute;bottom:1.9cqh;height:1.8cqh;border-radius:50%;background:rgba(40,55,70,.15);filter:blur(4px);z-index:7;pointer-events:none;}
+  .shadow.boy{right:2.2cqh;width:10cqh;} .shadow.girl{left:2.2cqh;width:8.5cqh;}
+
+  #tb_fw{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;z-index:0;pointer-events:none;transition:opacity .5s;}
+  #tb_end > *:not(#tb_fw){position:relative;z-index:1;}
+  #tb_sentence{position:absolute;left:50%;top:28%;transform:translate(-50%,-50%) scale(0);z-index:24;
+    width:min(96%,90cqh);font-family:'Baloo';color:var(--ink);background:#fff;
+    border:0.9cqh solid var(--red);border-radius:3.2cqh;padding:2.2cqh 1.2cqh 2.6cqh;
+    text-align:center;line-height:1.08;white-space:nowrap;
+    box-shadow:0 1cqh 0 rgba(224,66,79,.3),0 0 0 .5cqh #fff,0 1.8cqh 3.5cqh rgba(51,64,74,.28),
+      0 0 3cqh rgba(255,193,62,.55);}
+  #tb_sentence .cmp{display:block;color:var(--red);font-size:4.2cqh;}
+  #tb_sentence .snt{display:inline-block;font-size:4.6cqh;margin-top:0.9cqh;color:var(--ink);line-height:1.12;white-space:nowrap;}
+  #tb_sentence .snt b{color:var(--red);}
+  #tb_sentence.on{animation:sIn .45s cubic-bezier(.2,1.6,.4,1) forwards;}
+  @keyframes sIn{0%{transform:translate(-50%,-50%) scale(0);}70%{transform:translate(-50%,-50%) scale(1.08);}100%{transform:translate(-50%,-50%) scale(1);}}
+  #tb_homeBtn{position:absolute;left:0.55cqh;top:0.55cqh;z-index:25;width:5cqh;height:5cqh;border:none;border-radius:14px;
+    background:#fff;box-shadow:0 3px 0 rgba(224,66,79,.3);cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  #tb_homeBtn svg{width:2.8cqh;height:2.8cqh;stroke:var(--red);stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+  #tb_homeBtn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(224,66,79,.3);}
+  #tb_end{position:absolute;inset:0;z-index:35;background:rgba(249,242,228,.92);display:none;
+    flex-direction:column;align-items:center;justify-content:center;gap:2.8cqh;overflow:hidden;}
+  #tb_end h1{font-family:'Baloo';font-size:6.5cqh;color:#fff;-webkit-text-stroke:0.9cqh var(--red);paint-order:stroke fill;}
+  #tb_endStars{display:flex;gap:1cqh;} #tb_endStars svg{width:7.5cqh;height:7.5cqh;}
+  .btn{border:none;cursor:pointer;font-family:'Baloo';color:#fff;background:var(--red);
+    border-radius:999px;box-shadow:0 6px 0 var(--red-d);padding:1.6cqh 4.5cqh;font-size:3cqh;}
+  .btn:active{transform:translateY(4px);box-shadow:0 2px 0 var(--red-d);}
+  #tb_menu{position:absolute;inset:0;z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.4cqh;
+    background:var(--cream);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:3.6cqw 2.6cqh;padding:3.5cqh;overflow:auto;}
+  .mTitle{font-family:'Baloo';font-size:4.8cqh;line-height:1;color:#fff;text-align:center;
+    -webkit-text-stroke:0.9cqh var(--red);paint-order:stroke fill;filter:drop-shadow(0 .45cqh 0 rgba(224,66,79,.25));}
+  .mSub{font-family:'Baloo';font-size:2.2cqh;color:var(--ink);margin-top:-0.8cqh;margin-bottom:0.5cqh;text-align:center;}
+  .menuBtn{border:none;cursor:pointer;font-family:'Baloo';color:#fff;background:var(--red);
+    border-radius:24px;box-shadow:0 7px 0 var(--red-d);padding:2.2cqh 4cqh;font-size:3cqh;line-height:1.1;text-align:center;
+    min-width:52cqh;max-width:94%;display:flex;flex-direction:column;align-items:center;gap:.5cqh;}
+  .menuBtn .mb-sub{font-family:'Fredoka';font-size:1.85cqh;opacity:.95;font-weight:600;}
+  .menuBtn:active{transform:translateY(4px);box-shadow:0 3px 0 var(--red-d);}
+  .menuBall{width:auto;height:6.2cqh;display:flex;justify-content:center;align-items:center;gap:.55cqh;margin-bottom:.35cqh;flex-wrap:wrap;}
+  .menuBall img{height:6.2cqh;width:auto;filter:drop-shadow(0 3px 3px rgba(0,0,0,.15));}
+
+.g-think-big #tb_menu{display:none!important;}
+.g-think-big{position:absolute;inset:0;display:none;}
+.g-think-big.on{display:flex;align-items:center;justify-content:center;}
+
+</style>
+</head>
+<body>
+
+<div id="hub">
+  <div class="hubTitle">Math Literacy</div>
+  <div class="hubSub">Level A · Week 1</div>
+
+  <div class="hubGroup">
+    <div class="hubLabel">1. Patterns</div>
+    <button class="hubBtn" data-launch="pattern" data-act="soccer">
+      <span class="hubBall"><img src="assets/soccer.png"><img src="assets/baseball.png"></span>
+      AB Patterns<span class="mb-sub">Soccer &amp; Baseball</span>
+    </button>
+    <button class="hubBtn blue" data-launch="pattern" data-act="basketball">
+      <span class="hubBall"><img src="assets/basketball.png"><img src="assets/golf.png"></span>
+      AB Patterns<span class="mb-sub">Basketball &amp; Golf</span>
+    </button>
+  </div>
+
+  <div class="hubGroup">
+    <div class="hubLabel">2. Bigger Numbers</div>
+    <button class="hubBtn" data-launch="bigger" data-act="set1">
+      <span class="hubBall"><img src="assets/soccer.png"><img src="assets/basketball.png"><img src="assets/baseball.png"></span>
+      Bigger Numbers<span class="mb-sub">1–2 · 3–2 · 3–4</span>
+    </button>
+    <button class="hubBtn blue" data-launch="bigger" data-act="week1">
+      <span class="hubBall"><img src="assets/golf.png"><img src="assets/tennis.png"><img src="assets/soccer.png"></span>
+      Bigger Numbers<span class="mb-sub">5–4 · 2–4 · 5–3</span>
+    </button>
+  </div>
+
+  <div class="hubGroup">
+    <div class="hubLabel">3. Thinking Math</div>
+    <button class="hubBtn green" data-launch="thinkPat">
+      <span class="hubBall"><img src="assets/soccer.png"><img src="assets/baseball.png"><img src="assets/tennis.png"></span>
+      Patterns<span class="mb-sub">What comes next?</span>
+    </button>
+    <button class="hubBtn green" data-launch="thinkBig">
+      <span class="hubBall"><img src="assets/soccer.png"><img src="assets/basketball.png"><img src="assets/golf.png"></span>
+      Bigger Numbers
+    </button>
+  </div>
+</div>
+
+<div class="game g-pattern" id="screen-pattern"><svg width="0" height="0"><defs>
+  <filter id="p_rough"><feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="2" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="4"/></filter>
+</defs></svg>
+
+<div id="p_app">
+  <div class="panel"><div class="pad">
+    <div class="title">Extending Patterns</div>
+    <div class="head">
+      <div class="ribbon">AB Patterns</div>
+      <div class="qline">What comes next in the pattern?</div>
+    </div>
+    <div id="p_stars"></div>
+    <!-- Fenny explains in the space below the stars -->
+    <video id="p_fenny" src="assets/fenny_look_pattern.webm" muted playsinline preload="auto"></video>
+
+    <!-- pattern row: 3 shown balls + the ? slot -->
+    <div class="row">
+      <div class="card" id="p_c0"><img alt=""></div>
+      <div class="card" id="p_c1"><img alt=""></div>
+      <div class="card" id="p_c2"><img alt=""></div>
+      <div class="card slot" id="p_qcell"><span class="qm">?</span><img id="p_reveal" alt=""></div>
+    </div>
+
+    <!-- answers -->
+    <div class="ans">
+      <div class="pick a" id="p_pickA">
+        <div class="badge">A</div>
+        <svg class="scribble" id="p_circleA" viewBox="0 0 120 110"><ellipse cx="60" cy="52" rx="52" ry="46" fill="none" stroke="#ec5866" stroke-width="5" filter="url(#p_rough)"/></svg>
+        <div class="pcard"><img id="p_ballA" alt=""></div>
+      </div>
+      <div class="pick b" id="p_pickB">
+        <div class="badge">B</div>
+        <svg class="scribble" id="p_circleB" viewBox="0 0 120 110"><ellipse cx="60" cy="52" rx="52" ry="46" fill="none" stroke="#45b2e8" stroke-width="5" filter="url(#p_rough)"/></svg>
+        <div class="pcard"><img id="p_ballB" alt=""></div>
+      </div>
+    </div>
+
+    <!-- 3D characters -->
+    <div class="shadow girl"></div><div class="shadow boy"></div>
+    <img id="p_girlIdle" class="hero" src="assets/girl_idle.png" alt="">
+    <img id="p_boyIdle" class="hero" src="assets/boy_idle.png" alt="">
+    <video id="p_girlS" class="hero" src="assets/girl.webm" muted playsinline preload="auto"></video>
+    <video id="p_flipS" class="hero" src="assets/flip.webm?v=5" muted playsinline preload="auto"></video>
+
+    <!-- banner + English pattern sentence -->
+    <div id="p_banner">GREAT JOB!</div>
+    <div id="p_sentence"></div>
+
+    <button id="p_homeBtn" title="Menu"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg></button>
+
+    <div id="p_end">
+      <!-- fireworks only on "You did it!" (same as bigger-numbers) -->
+      <video id="p_fw" src="assets/fireworks_end_alpha.webm" muted playsinline preload="auto"></video>
+      <h1>You did it!</h1>
+      <div id="p_endStars"></div>
+      <button id="p_againBtn" class="btn">Play again</button>
+    </div>
+  </div></div>
+
+  <!-- menu -->
+  </div></div><div class="game g-bigger" id="screen-bigger"><svg width="0" height="0"><defs>
+  <filter id="b_rough"><feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="2" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="4"/></filter>
+</defs></svg>
+
+<div id="b_app">
+  <div class="panel"><div class="pad">
+    <div class="title">Numbers</div>
+    <div class="head">
+      <div class="ribbon">Bigger Numbers</div>
+      <div class="qline">Which number is bigger?</div>
+    </div>
+    <div id="b_stars"></div>
+    <!-- teacher explains bigger numbers before kids can answer -->
+    <video id="b_fenny" src="assets/fenny_bigger_numbers.webm?v=2" muted playsinline preload="auto"></video>
+
+    <!-- two numbered balls: tap the bigger one -->
+    <div class="compare">
+      <div class="numpick" id="b_pickL">
+        <svg class="ring" id="b_ringL" viewBox="0 0 100 100"><ellipse cx="50" cy="50" rx="45" ry="45" fill="none" stroke="#ec5866" stroke-width="4.5" filter="url(#b_rough)"/></svg>
+        <div class="ncard"><img class="nb" id="b_ballL" alt=""><span class="num" id="b_numL"></span></div>
+      </div>
+      <div class="numpick" id="b_pickR">
+        <svg class="ring" id="b_ringR" viewBox="0 0 100 100"><ellipse cx="50" cy="50" rx="45" ry="45" fill="none" stroke="#ec5866" stroke-width="4.5" filter="url(#b_rough)"/></svg>
+        <div class="ncard"><img class="nb" id="b_ballR" alt=""><span class="num" id="b_numR"></span></div>
+      </div>
+    </div>
+
+    <!-- 3D characters -->
+    <div class="shadow girl"></div><div class="shadow boy"></div>
+    <img id="b_girlIdle" class="hero" src="assets/girl_idle.png" alt="">
+    <img id="b_boyIdle" class="hero" src="assets/boy_idle.png" alt="">
+    <video id="b_girlS" class="hero" src="assets/girl.webm" muted playsinline preload="auto"></video>
+    <video id="b_flipS" class="hero" src="assets/flip.webm?v=5" muted playsinline preload="auto"></video>
+
+    <div id="b_sentence"></div>
+    <div id="b_banner">GREAT JOB!</div>
+
+    <button id="b_homeBtn" title="Menu"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg></button>
+
+    <div id="b_end">
+      <!-- full transparent fireworks video (VP9 + alpha), not frame sprites -->
+      <video id="b_fw" src="assets/fireworks_end_alpha.webm" muted playsinline preload="auto"></video>
+      <h1>You did it!</h1>
+      <div id="b_endStars"></div>
+      <button id="b_againBtn" class="btn">Play again</button>
+    </div>
+  </div></div>
+
+  <!-- menu -->
+  </div></div><div class="game g-think-pat" id="screen-thinkPat"><svg width="0" height="0"><defs>
+  <filter id="tp_rough"><feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="2" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="4"/></filter>
+</defs></svg>
+
+<div id="tp_app">
+  <div class="panel"><div class="pad">
+    <div class="title">Thinking Math</div>
+    <div class="head">
+      <div class="ribbon">Patterns</div>
+      <div id="qblock">
+        <div class="pre" id="tp_qPre"></div>
+        <div class="ask" id="tp_qAsk">What comes next in the <b>pattern</b>?</div>
+      </div>
+    </div>
+    <div id="tp_stars"></div>
+
+    <div class="board">
+      <div class="sample-wrap">
+        <div class="prow" id="tp_sampleRow"></div>
+      </div>
+      <div class="choices" id="tp_choices"></div>
+    </div>
+
+    <div class="shadow girl"></div><div class="shadow boy"></div>
+    <img id="tp_girlIdle" class="hero" src="assets/girl_idle.png" alt="">
+    <img id="tp_boyIdle" class="hero" src="assets/boy_idle.png" alt="">
+    <video id="tp_girlS" class="hero" src="assets/girl.webm" muted playsinline preload="auto"></video>
+    <video id="tp_flipS" class="hero" src="assets/flip.webm?v=5" muted playsinline preload="auto"></video>
+
+    <div id="tp_sentence"></div>
+    <button id="tp_homeBtn" title="Menu"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg></button>
+
+    <div id="tp_end">
+      <video id="tp_fw" src="assets/fireworks_end_alpha.webm" muted playsinline preload="auto"></video>
+      <h1>You did it!</h1>
+      <div id="tp_endStars"></div>
+      <button id="tp_againBtn" class="btn">Play again</button>
+    </div>
+  </div></div>
+
+  </div></div><div class="game g-think-big" id="screen-thinkBig"><div id="tb_app">
+  <div class="panel"><div class="pad">
+    <div class="title">Thinking Math</div>
+    <div class="head">
+      <div class="ribbon">Bigger Numbers</div>
+      <div id="qblock">
+        <div class="pre" id="tb_qPre"></div>
+        <div class="ask" id="tb_qAsk">Which number is <b>bigger</b>?</div>
+      </div>
+    </div>
+    <div id="tb_stars"></div>
+
+    <div class="board" id="tb_board">
+      <div class="side" id="tb_sideL" data-side="L">
+        <div class="pile" id="tb_pileL"></div>
+        <div class="count" id="tb_countL"></div>
+        <div class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div>
+      </div>
+      <div class="side" id="tb_sideR" data-side="R">
+        <div class="pile" id="tb_pileR"></div>
+        <div class="count" id="tb_countR"></div>
+        <div class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div>
+      </div>
+    </div>
+
+    <div class="shadow girl"></div><div class="shadow boy"></div>
+    <img id="tb_girlIdle" class="hero" src="assets/girl_idle.png" alt="">
+    <img id="tb_boyIdle" class="hero" src="assets/boy_idle.png" alt="">
+    <video id="tb_girlS" class="hero" src="assets/girl.webm" muted playsinline preload="auto"></video>
+    <video id="tb_flipS" class="hero" src="assets/flip.webm?v=5" muted playsinline preload="auto"></video>
+
+    <div id="tb_sentence"></div>
+    <button id="tb_homeBtn" title="Menu"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg></button>
+
+    <div id="tb_end">
+      <video id="tb_fw" src="assets/fireworks_end_alpha.webm" muted playsinline preload="auto"></video>
+      <h1>You did it!</h1>
+      <div id="tb_endStars"></div>
+      <button id="tb_againBtn" class="btn">Play again</button>
+    </div>
+  </div></div>
+
+  </div></div>
+<script>
+/* ---- index.html ---- */
+(function(){
+
+const STAR_PATH='M12 2l3 6.3 6.9.9-5 4.8 1.2 6.9L12 18.6 5.9 21l1.2-6.9-5-4.8 6.9-.9z';
+const cells=[document.getElementById('p_c0'),document.getElementById('p_c1'),document.getElementById('p_c2')].map(c=>c.querySelector('img'));
+const reveal=document.getElementById('p_reveal');
+const qmark=document.querySelector('#p_qcell .qm');
+const pickA=document.getElementById('p_pickA'), pickB=document.getElementById('p_pickB');
+const circleA=document.getElementById('p_circleA'), circleB=document.getElementById('p_circleB');
+const ballA=document.getElementById('p_ballA'), ballB=document.getElementById('p_ballB');
+const starsEl=document.getElementById('p_stars');
+const banner=document.getElementById('p_banner');
+const flipS=document.getElementById('p_flipS'), girlS=document.getElementById('p_girlS');
+const boyIdle=document.getElementById('p_boyIdle'), girlIdle=document.getElementById('p_girlIdle');
+const fw=document.getElementById('p_fw');
+const fenny=document.getElementById('p_fenny');
+function showIdle(on){ boyIdle.style.opacity=on?'1':'0'; girlIdle.style.opacity=on?'1':'0';
+  flipS.style.opacity=on?'0':'1'; girlS.style.opacity=on?'0':'1'; }
+
+// ---- activities: each just swaps which balls are A and B ----
+// nameS / nameB = singular labels; voice keys match recorded VO per pattern order
+const ACTIVITIES={
+  soccer:    { id:'soccer', A:'assets/soccer.png', B:'assets/baseball.png',
+    nameS:'soccer ball', nameB:'baseball',
+    // sb = soccer→baseball → Great job; bs = baseball→soccer → Excellent
+    voice:{ sb:'say_soccer_sb', bs:'say_soccer_bs' },
+    fennyVideo:'assets/fenny_look_pattern.webm',
+    fennyVoice:'fenny_soccer' },
+  basketball:{ id:'basketball', A:'assets/basketball.png', B:'assets/golf.png',
+    nameS:'basketball', nameB:'golf ball',
+    voice:{ sb:'say_basket_sb', bs:'say_basket_bs' },
+    // Fenny explains basketball → golf → basketball (round 1, always)
+    fennyVideo:'assets/fenny_basket_pattern.webm?v=2',
+    fennyVoice:'fenny_basket' },
+};
+let CFG=ACTIVITIES.soccer;
+let IMG={s:CFG.A,b:CFG.B};
+// Fixed order: round 1 is always A→B→A (matches each activity's Fenny intro)
+// soccer: soccer→baseball→soccer ; basketball: basketball→golf→basketball
+const ROUNDS=[
+  {cells:['s','b','s'], ans:'b'},   // A B A → next B  (Great job VO)
+  {cells:['b','s','b'], ans:'s'},   // B A B → next A  (Excellent VO)
+  {cells:['s','b','s'], ans:'b'},   // A B A → next B
+];
+let roundIdx=0, score=0, locked=false;
+
+function applyLayout(){
+  IMG={s:CFG.A,b:CFG.B};
+  ballA.src=CFG.A; ballB.src=CFG.B;   // A box = soccer/basketball, B box = baseball/golf
+  // Swap Fenny clip to match this activity (basketball intro shows basketball/golf/basketball)
+  const want=CFG.fennyVideo;
+  if(fenny.getAttribute('src')!==want){
+    fenny.src=want;
+    try{fenny.load();}catch(e){}
+  }
+}
+
+// Build English line + VO from this round's pattern order (matches recorded files)
+// sb: "Great job! Soccer ball, baseball — it repeats! It's a pattern."
+// bs: "Excellent! Baseball, soccer ball — it repeats! It's a pattern."
+function patternSay(r){
+  const order=r.cells[0]+r.cells[1]; // 'sb' or 'bs'
+  const n1=r.cells[0]==='s'?CFG.nameS:CFG.nameB;
+  const n2=r.cells[1]==='s'?CFG.nameS:CFG.nameB;
+  const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
+  const praise=order==='sb'?'Great job!':'Excellent!';
+  const say=cap(n1)+', '+n2+" — it repeats! It's a pattern.";
+  return {
+    praise,
+    say,
+    full:praise+' '+say,
+    sayHtml:'<b>'+cap(n1)+'</b>, <b>'+n2+'</b> — it repeats! It\'s a pattern.',
+    voice:CFG.voice[order],
+  };
+}
+
+// ---- audio (synth fallback) ----
+let AC; function ac(){AC=AC||new(window.AudioContext||window.webkitAudioContext)();return AC;}
+function tone(f,d,ty,v){const c=ac(),t=c.currentTime;const o=c.createOscillator(),g=c.createGain();
+  o.type=ty||'triangle';o.frequency.value=f;g.gain.setValueAtTime(v||.5,t);
+  g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g).connect(c.destination);o.start(t);o.stop(t+d);}
+function ding(){[660,880,1175].forEach((f,i)=>setTimeout(()=>tone(f,.4,'triangle',.5),i*80));}
+function buzz(){tone(180,.28,'sawtooth',.35);setTimeout(()=>tone(140,.3,'sawtooth',.35),120);}
+function fanfare(){[523,659,784,1047,1319,1568].forEach((f,i)=>setTimeout(()=>tone(f,.55,'triangle',.5),i*120));}
+
+const SFX={};
+function reg(name,src,fb,vol){let ok=false;const a=new Audio(src);a.preload='auto';a.volume=(vol==null?0.9:vol);
+  a.addEventListener('canplaythrough',()=>{ok=true;},{once:true});a.addEventListener('error',()=>{ok=false;});
+  SFX[name]={a,fb,ok:()=>ok};}
+function play(name){const s=SFX[name];if(!s)return null;
+  if(s.ok()){try{const n=s.a.cloneNode(true);n.volume=s.a.volume;n.play().catch(()=>{});return n;}catch(e){s.fb&&s.fb();}}
+  else if(s.fb){s.fb();}
+  return null;}
+// play with a gentle volume fade-in (ms) so it doesn't hit suddenly
+function playFade(name,dur){const s=SFX[name];if(!s)return null;
+  if(!s.ok()){s.fb&&s.fb();return null;}
+  let n;try{n=s.a.cloneNode(true);}catch(e){s.fb&&s.fb();return null;}
+  const target=s.a.volume; n.volume=0; n.play().catch(()=>{});
+  const t0=performance.now();
+  (function ramp(){const k=Math.min(1,(performance.now()-t0)/dur); n.volume=target*k; if(k<1) requestAnimationFrame(ramp);})();
+  return n;
+}
+// stop a playing sound node immediately
+function stopSound(n){ if(n){try{n.pause();n.currentTime=0;}catch(e){}} return null; }
+// fade a playing sound out over (ms), then stop it
+function fadeOut(n,dur){ if(!n) return null; const v0=n.volume, t0=performance.now();
+  (function ramp(){ const k=Math.min(1,(performance.now()-t0)/dur); n.volume=Math.max(0,v0*(1-k));
+    if(k<1) requestAnimationFrame(ramp); else {try{n.pause();n.currentTime=0;}catch(e){}} })();
+  return null; }
+let cheerNode=null, fwSound=null, sayNode=null, fennyNode=null;
+reg('correct','assets/sfx/correct.mp3',ding);
+reg('wrong','assets/sfx/wrong.mp3',buzz);
+reg('celebrate','assets/sfx/celebrate.mp3',fanfare);
+reg('pop','assets/sfx/pop.mp3',null,0.8);
+reg('cheer','assets/sfx/cheer.mp3',fanfare,1.0);   // crowd cheer on the "You did it!" screen
+reg('fireworks','assets/sfx/fireworks_sound.wav',null,0.95);   // fireworks on "You did it!" end screen
+reg('tap','assets/sfx/tap.mp3',null,0.5);
+reg('instruction','assets/voice/instruction.mp3',null,1.0);
+reg('fenny_soccer','assets/voice/fenny_look_pattern.wav',null,1.0);     // soccer/baseball intro
+reg('fenny_basket','assets/voice/fenny_basket_pattern.wav',null,1.0);   // basketball/golf/basketball intro
+// Combined praise + pattern VO (matches on-screen text)
+reg('say_soccer_sb','assets/voice/say_soccer_sb.wav',()=>speak("Great job! Soccer ball, baseball — it repeats! It's a pattern."),1.0);
+reg('say_soccer_bs','assets/voice/say_soccer_bs.wav',()=>speak("Excellent! Baseball, soccer ball — it repeats! It's a pattern."),1.0);
+reg('say_basket_sb','assets/voice/say_basket_sb.wav',()=>speak("Great job! Basketball, golf ball — it repeats! It's a pattern."),1.0);
+reg('say_basket_bs','assets/voice/say_basket_bs.wav',()=>speak("Excellent! Golf ball, basketball — it repeats! It's a pattern."),1.0);
+
+// ---- spoken English fallback (Web Speech) ----
+let enVoice=null;
+function loadVoices(){ try{ const vs=speechSynthesis.getVoices();
+  enVoice = vs.find(v=>/en[-_]?US/i.test(v.lang)&&/female|zira|samantha|aria|jenny|google/i.test(v.name))
+        || vs.find(v=>/^en/i.test(v.lang)) || null; }catch(e){} }
+if('speechSynthesis' in window){ loadVoices(); try{speechSynthesis.onvoiceschanged=loadVoices;}catch(e){} }
+function speak(text,cb){
+  if(!('speechSynthesis' in window)){ cb&&cb(); return; }
+  try{ const u=new SpeechSynthesisUtterance(text); u.lang='en-US'; u.rate=.88; u.pitch=1.1; u.volume=1;
+    if(enVoice) u.voice=enVoice;
+    let done=false; const fin=()=>{ if(done)return; done=true; cb&&cb(); };
+    u.onend=fin; u.onerror=fin;
+    speechSynthesis.cancel(); speechSynthesis.speak(u);
+    setTimeout(fin,4500);
+  }catch(e){ cb&&cb(); }
+}
+const el_sentence=document.getElementById('p_sentence');
+function fitSentenceLine(){
+  const snt=el_sentence.querySelector('.snt'); if(!snt) return;
+  const cs=getComputedStyle(el_sentence);
+  const avail=el_sentence.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight)-8;
+  if(avail<=0) return;
+  let lo=12, hi=Math.min(90, avail*0.28), best=lo;
+  for(let i=0;i<22;i++){
+    const mid=(lo+hi)/2;
+    snt.style.fontSize=mid+'px';
+    if(snt.scrollWidth<=avail){ best=mid; lo=mid; } else { hi=mid; }
+  }
+  snt.style.fontSize=best+'px';
+}
+function showSentence(line){
+  el_sentence.innerHTML='<span class="cmp">'+(line.praise||'Great job!')+'</span>'
+    +'<span class="snt">'+(line.sayHtml||line.say)+'</span>';
+  el_sentence.classList.remove('on'); void el_sentence.offsetWidth;
+  fitSentenceLine();
+  el_sentence.classList.add('on');
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(fitSentenceLine).catch(()=>{});
+}
+function hideSentence(){ el_sentence.classList.remove('on'); const s=el_sentence.querySelector('.snt'); if(s) s.style.fontSize=''; }
+
+function starSVG(){return '<svg class="st" viewBox="0 0 24 24"><path d="'+STAR_PATH+'"/></svg>';}
+function buildStars(){starsEl.innerHTML=ROUNDS.map(starSVG).join('');}
+function litStars(n){[...starsEl.children].forEach((s,i)=>s.classList.toggle('on',i<n));}
+
+function renderRound(){
+  locked=false;
+  const r=ROUNDS[roundIdx];
+  cells.forEach((img,i)=>{ img.src=IMG[r.cells[i]]; });
+  reveal.classList.remove('on'); reveal.src=IMG[r.ans];
+  qmark.classList.remove('hide');
+  circleA.classList.remove('on'); circleB.classList.remove('on');
+  pickA.classList.add('pulsing'); pickB.classList.add('pulsing');
+  [flipS,girlS].forEach(v=>{ v.pause(); try{v.currentTime=0;}catch(e){} });
+  showIdle(true);
+  hideSentence();
+}
+
+function pick(which){ // 'A' or 'B'
+  if(locked) return;
+  ac(); play('tap');
+  const r=ROUNDS[roundIdx];
+  const chosen = which==='A' ? 's' : 'b';
+  if(chosen===r.ans){ locked=true; correctFlow(which); }
+  else{
+    ac(); play('wrong');
+    const p = which==='A'?pickA:pickB;
+    p.classList.add('shake'); setTimeout(()=>p.classList.remove('shake'),450);
+  }
+}
+pickA.addEventListener('click',()=>pick('A'));
+pickB.addEventListener('click',()=>pick('B'));
+
+function correctFlow(which){
+  pickA.classList.remove('pulsing'); pickB.classList.remove('pulsing');
+  (which==='A'?circleA:circleB).classList.add('on');
+  qmark.classList.add('hide');
+  reveal.classList.add('on');
+  ac(); play('pop'); play('correct');
+  score++; litStars(score);
+  setTimeout(celebrateGrand, 650);
+}
+
+function playBoyFlip(){
+  // Seek to start WHILE still hidden, then reveal + play at 2x
+  return new Promise(resolve=>{
+    let started=false;
+    const go=()=>{
+      if(started) return; started=true;
+      flipS.removeEventListener('seeked', onSeeked);
+      flipS.playbackRate=3;   // 1.5× faster than prior 2×
+      showIdle(false);
+      flipS.play().catch(()=>{});
+      resolve();
+    };
+    const onSeeked=()=> go();
+    flipS.pause();
+    flipS.addEventListener('seeked', onSeeked);
+    try{
+      if(flipS.currentTime===0){
+        // force a seek so we never show a leftover mid-crouch frame
+        flipS.currentTime=0.001;
+        flipS.currentTime=0;
+      }else{
+        flipS.currentTime=0;
+      }
+    }catch(e){ go(); return; }
+    setTimeout(go, 250);   // fallback if seeked never fires
+  });
+}
+
+function celebrateGrand(){
+  banner.classList.remove('on');
+  const line=patternSay(ROUNDS[roundIdx]);   // text + VO match this round's pattern order
+  showSentence(line);
+  sayNode=stopSound(sayNode);
+  sayNode=play(line.voice);
+  try{girlS.currentTime=0;}catch(e){} girlS.playbackRate=1.7;
+  // Same start timing as bigger-numbers: praise lands, then boy/girl together
+  setTimeout(()=>{
+    playBoyFlip().then(()=>{ girlS.play().catch(()=>{}); });
+  }, 550);
+  let flipDone=false, voDone=false, advanced=false;
+  const advance=()=>{
+    if(advanced || !flipDone || !voDone) return;
+    advanced=true;
+    hideSentence(); sayNode=stopSound(sayNode); try{speechSynthesis.cancel();}catch(e){}
+    [flipS,girlS].forEach(v=>{ v.pause(); v.onended=null; });
+    try{flipS.currentTime=0;}catch(e){}
+    showIdle(true);
+    roundIdx++; if(roundIdx<ROUNDS.length) renderRound(); else endGame();
+  };
+  const onFlipDone=()=>{
+    if(flipDone) return; flipDone=true;
+    [flipS,girlS].forEach(v=>{ v.pause(); v.onended=null; });
+    try{flipS.currentTime=0;}catch(e){}
+    showIdle(true);   // characters settle; keep sentence + VO until line ends
+    advance();
+  };
+  const onVoDone=()=>{ if(voDone) return; voDone=true; advance(); };
+  flipS.onended=onFlipDone;
+  setTimeout(onFlipDone, 6000);   // ~(10s clip)/2 + buffer
+  if(sayNode){
+    sayNode.addEventListener('ended', onVoDone, {once:true});
+    setTimeout(onVoDone, 7500);   // safety (~6s soccer VO)
+  }else{
+    setTimeout(onVoDone, 7000);   // speech-synthesis fallback
+  }
+}
+
+function playEndFireworks(){
+  fw.loop=true; fw.muted=true;
+  fw.style.opacity='0.95';
+  try{fw.currentTime=0;}catch(e){}
+  fw.play().catch(()=>{});
+  fwSound=stopSound(fwSound);
+  // always try to play — don't wait on canplaythrough (end screen can beat preload)
+  const s=SFX.fireworks;
+  if(s){
+    try{
+      const n=s.a.cloneNode(true);
+      n.loop=true;
+      n.volume=0;
+      n.play().catch(()=>{});
+      const target=s.a.volume, t0=performance.now(), dur=400;
+      (function ramp(){const k=Math.min(1,(performance.now()-t0)/dur); n.volume=target*k; if(k<1) requestAnimationFrame(ramp);})();
+      fwSound=n;
+    }catch(e){}
+  }
+}
+function stopEndFireworks(){
+  fw.style.opacity='0';
+  try{fw.pause(); fw.currentTime=0;}catch(e){}
+  fwSound=stopSound(fwSound);
+}
+function endGame(){
+  document.getElementById('p_endStars').innerHTML=ROUNDS.map((_,i)=>
+    '<svg viewBox="0 0 24 24"><path d="'+STAR_PATH+'" fill="'+(i<score?'#ffc23e':'#efe6d5')+'" stroke="'+(i<score?'#eaa41c':'#d8ccb4')+'" stroke-width="1.1"/></svg>').join('');
+  document.getElementById('p_end').style.display='flex';
+  cheerNode=playFade('cheer',1400);   // crowd cheer fades in on the "You did it!" screen
+  playEndFireworks();
+}
+// stop the celebration/cheer audio the moment the user leaves the end screen
+function stopFenny(){
+  fennyNode=stopSound(fennyNode);
+  fenny.classList.remove('on','fade-out');
+  fenny._cancel=true;
+  fenny._syncGen=(fenny._syncGen||0)+1;
+  if(fenny._syncRaf){ try{cancelAnimationFrame(fenny._syncRaf);}catch(e){} fenny._syncRaf=0; }
+  try{fenny.pause(); fenny.currentTime=0;}catch(e){}
+  fenny.onended=null;
+}
+function fadeOutFenny(done){
+  fennyNode=stopSound(fennyNode);
+  fenny.onended=null;
+  fenny.classList.add('fade-out');
+  fenny.classList.remove('on');
+  setTimeout(()=>{
+    fenny.classList.remove('fade-out');
+    try{fenny.pause(); fenny.currentTime=0;}catch(e){}
+    if(fenny._cancel) return;
+    done&&done();
+  }, 780);
+}
+function whenCanPlay(el, ms){
+  return new Promise(resolve=>{
+    if(!el) return resolve();
+    if(el.readyState>=3) return resolve();
+    let done=false;
+    const finish=()=>{ if(done)return; done=true; cleanup(); resolve(); };
+    const cleanup=()=>{
+      el.removeEventListener('canplaythrough', finish);
+      el.removeEventListener('canplay', finish);
+      el.removeEventListener('loadeddata', finish);
+    };
+    el.addEventListener('canplaythrough', finish);
+    el.addEventListener('canplay', finish);
+    el.addEventListener('loadeddata', finish);
+    if(el.readyState===0){ try{ el.load(); }catch(e){} }
+    setTimeout(finish, ms==null?2500:ms);
+  });
+}
+function seekToZero(el){
+  return new Promise(resolve=>{
+    if(!el) return resolve();
+    let done=false;
+    const finish=()=>{ if(done)return; done=true; el.removeEventListener('seeked', finish); resolve(); };
+    el.addEventListener('seeked', finish);
+    try{
+      if(el.currentTime===0){ el.currentTime=0.001; el.currentTime=0; }
+      else el.currentTime=0;
+    }catch(e){ finish(); return; }
+    setTimeout(finish, 450);
+  });
+}
+// Character intro before kids can answer (first round of every set)
+async function playFennyIntro(){
+  locked=true;
+  pickA.classList.remove('pulsing'); pickB.classList.remove('pulsing');
+  showIdle(true);   // keep 3D boy & girl visible during Fenny's talk
+  stopFenny();
+  fenny._cancel=false;
+  const gen=(fenny._syncGen=(fenny._syncGen||0)+1);
+
+  fenny.classList.remove('on','fade-out');
+  try{fenny.pause();}catch(e){}
+  fenny.muted=true;
+  fenny.playbackRate=1;
+  void fenny.offsetWidth;
+  requestAnimationFrame(()=> fenny.classList.add('on'));
+
+  // Prepare separate VO clone while the character fades in (per-activity line)
+  let audio=null;
+  const s=SFX[CFG.fennyVoice];
+  if(s){
+    try{
+      audio=s.a.cloneNode(true);
+      audio.preload='auto';
+      audio.volume=s.a.volume;
+    }catch(e){ audio=null; }
+  }
+  fennyNode=audio;
+
+  const fadeDone=new Promise(r=>setTimeout(r, 780));
+  await Promise.all([fadeDone, whenCanPlay(fenny), seekToZero(fenny), whenCanPlay(audio), seekToZero(audio)]);
+  if(fenny._cancel || fenny._syncGen!==gen) return;
+
+  // Shared-clock start: same frame, both at t=0 (no mid-play seeking — that cuts words)
+  try{fenny.currentTime=0;}catch(e){}
+  if(audio) try{audio.currentTime=0;}catch(e){}
+  await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+  if(fenny._cancel || fenny._syncGen!==gen) return;
+
+  const plays=[fenny.play().catch(()=>{})];
+  if(audio) plays.push(audio.play().catch(()=>{}));
+  await Promise.all(plays);
+
+  // Fade when the spoken line ends (don't wait on leftover video hold)
+  let finished=false;
+  const finish=()=>{
+    if(fenny._cancel || finished) return;
+    finished=true;
+    fadeOutFenny(()=>{
+      if(fenny._cancel) return;
+      showIdle(true);
+      locked=false;
+      pickA.classList.add('pulsing'); pickB.classList.add('pulsing');
+      play('instruction');   // read "What comes next in the pattern?" after Fenny
+    });
+  };
+  if(audio){
+    // Line over → fade right away (don't wait for leftover video hold ~1s)
+    audio.addEventListener('ended', finish, {once:true});
+  }else{
+    fenny.onended=finish;
+  }
+  const durMs=Math.ceil(((audio&&audio.duration)||fenny.duration||15)*1000)+800;
+  setTimeout(finish, durMs);
+}
+
+function stopCelebrationAudio(){ cheerNode=stopSound(cheerNode); fwSound=stopSound(fwSound);
+  sayNode=stopSound(sayNode); stopFenny(); stopEndFireworks();
+  try{speechSynthesis.cancel();}catch(e){} hideSentence(); banner.classList.remove('on'); }
+
+function start(opts){
+  stopCelebrationAudio();   // kill the cheer immediately on "Play again"
+  document.getElementById('p_end').style.display='none';
+  ac(); roundIdx=0; score=0; buildStars(); litStars(0); renderRound();
+  if(opts&&opts.intro) playFennyIntro();
+}
+window.addEventListener('pointerdown',()=>{const c=ac();c.resume&&c.resume();},{once:true});
+document.getElementById('p_againBtn').addEventListener('click',()=>start({intro:true}));
+[flipS,girlS].forEach(v=>{ v.pause(); v.addEventListener('loadeddata',()=>{try{v.currentTime=0;}catch(e){}},{once:true}); });
+/* menu handled by Hub */
+document.getElementById('p_homeBtn').addEventListener('click',()=>{ if(window.PatternGame) PatternGame.stop(); if(window.Hub) Hub.showMenu();});
+buildStars();
+
+
+window.PatternGame={
+  start(act){
+    const c=ac(); c.resume&&c.resume();
+    stopCelebrationAudio();
+    CFG=ACTIVITIES[act];
+    applyLayout();
+    start({intro:true});   // Fenny once (inside start)
+  },
+  stop(){
+    stopCelebrationAudio();
+    document.getElementById('p_end').style.display='none';
+    if(window.Hub) Hub.silence();
+  }
+};
+
+})();
+/* ---- bigger-numbers.html ---- */
+(function(){
+
+const STAR_PATH='M12 2l3 6.3 6.9.9-5 4.8 1.2 6.9L12 18.6 5.9 21l1.2-6.9-5-4.8 6.9-.9z';
+const pickL=document.getElementById('b_pickL'), pickR=document.getElementById('b_pickR');
+const ringL=document.getElementById('b_ringL'), ringR=document.getElementById('b_ringR');
+const ballL=document.getElementById('b_ballL'), ballR=document.getElementById('b_ballR');
+const numL=document.getElementById('b_numL'), numR=document.getElementById('b_numR');
+const starsEl=document.getElementById('b_stars');
+const banner=document.getElementById('b_banner');
+const flipS=document.getElementById('b_flipS'), girlS=document.getElementById('b_girlS');
+const boyIdle=document.getElementById('b_boyIdle'), girlIdle=document.getElementById('b_girlIdle');
+const fw=document.getElementById('b_fw');
+const fenny=document.getElementById('b_fenny');
+function showIdle(on){ boyIdle.style.opacity=on?'1':'0'; girlIdle.style.opacity=on?'1':'0';
+  flipS.style.opacity=on?'0':'1'; girlS.style.opacity=on?'0':'1'; }
+
+// ---- two workbook sets (menu picks one) ----
+const ACTIVITIES={
+  set1:{
+    id:'set1',
+    rounds:[
+      {ball:'assets/soccer.png',     L:1, R:2},   // -> R (2)
+      {ball:'assets/basketball.png', L:3, R:2},   // -> L (3)
+      {ball:'assets/baseball.png',   L:3, R:4},   // -> R (4)
+    ],
+    says:['say_set1_0','say_set1_1','say_set1_2'],
+  },
+  week1:{
+    id:'week1',
+    rounds:[
+      {ball:'assets/golf.png',   L:5, R:4},   // -> L (5)
+      {ball:'assets/tennis.png', L:2, R:4},   // -> R (4)
+      {ball:'assets/soccer.png', L:5, R:3},   // -> L (5)
+    ],
+    says:['say_week1_0','say_week1_1','say_week1_2'],
+  },
+};
+let CFG=ACTIVITIES.set1;
+let ROUNDS=CFG.rounds;
+let roundIdx=0, score=0, locked=false;
+
+// ---- audio (synth fallback) ----
+let AC; function ac(){AC=AC||new(window.AudioContext||window.webkitAudioContext)();return AC;}
+function tone(f,d,ty,v){const c=ac(),t=c.currentTime;const o=c.createOscillator(),g=c.createGain();
+  o.type=ty||'triangle';o.frequency.value=f;g.gain.setValueAtTime(v||.5,t);
+  g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g).connect(c.destination);o.start(t);o.stop(t+d);}
+function ding(){[660,880,1175].forEach((f,i)=>setTimeout(()=>tone(f,.4,'triangle',.5),i*80));}
+function buzz(){tone(180,.28,'sawtooth',.35);setTimeout(()=>tone(140,.3,'sawtooth',.35),120);}
+function fanfare(){[523,659,784,1047,1319,1568].forEach((f,i)=>setTimeout(()=>tone(f,.55,'triangle',.5),i*120));}
+
+const SFX={};
+function reg(name,src,fb,vol){let ok=false;const a=new Audio(src);a.preload='auto';a.volume=(vol==null?0.9:vol);
+  a.addEventListener('canplaythrough',()=>{ok=true;},{once:true});a.addEventListener('error',()=>{ok=false;});
+  SFX[name]={a,fb,ok:()=>ok};}
+function play(name){const s=SFX[name];if(!s)return null;
+  if(s.ok()){try{const n=s.a.cloneNode(true);n.volume=s.a.volume;n.play().catch(()=>{});return n;}catch(e){s.fb&&s.fb();}}
+  else if(s.fb){s.fb();}
+  return null;}
+function playFade(name,dur){const s=SFX[name];if(!s)return null;
+  if(!s.ok()){s.fb&&s.fb();return null;}
+  let n;try{n=s.a.cloneNode(true);}catch(e){s.fb&&s.fb();return null;}
+  const target=s.a.volume; n.volume=0; n.play().catch(()=>{});
+  const t0=performance.now();
+  (function ramp(){const k=Math.min(1,(performance.now()-t0)/dur); n.volume=target*k; if(k<1) requestAnimationFrame(ramp);})();
+  return n;
+}
+function stopSound(n){ if(n){try{n.pause();n.currentTime=0;}catch(e){}} return null; }
+function fadeOut(n,dur){ if(!n) return null; const v0=n.volume, t0=performance.now();
+  (function ramp(){ const k=Math.min(1,(performance.now()-t0)/dur); n.volume=Math.max(0,v0*(1-k));
+    if(k<1) requestAnimationFrame(ramp); else {try{n.pause();n.currentTime=0;}catch(e){}} })();
+  return null; }
+let cheerNode=null, fwSound=null, sayNode=null, fennyNode=null;
+let fennyTimers=[];
+function clearFennyTimers(){ fennyTimers.forEach(clearTimeout); fennyTimers=[]; }
+function fennyLater(fn, ms){ const id=setTimeout(fn, ms); fennyTimers.push(id); return id; }
+reg('correct','assets/sfx/correct.mp3',ding);
+reg('wrong','assets/sfx/wrong.mp3',buzz);
+reg('celebrate','assets/sfx/celebrate.mp3',fanfare);
+reg('pop','assets/sfx/pop.mp3',null,0.8);
+reg('cheer','assets/sfx/cheer.mp3',fanfare,1.0);
+reg('fireworks','assets/sfx/fireworks_sound.wav',null,0.95);
+reg('tap','assets/sfx/tap.mp3',null,0.5);
+reg('praise0','assets/voice/greatjob.wav',fanfare,1.0);
+reg('praise1','assets/voice/excellent.wav',fanfare,1.0);
+reg('praise2','assets/voice/amazing.wav',fanfare,1.0);
+reg('question','assets/voice/which_bigger.wav',null,1.0);   // "Which number is bigger?" voice-over
+reg('fenny','assets/voice/fenny_bigger_numbers.wav',null,1.0);   // teacher intro VO (synced with video)
+// Set 1 (soccer / basketball / baseball) — previous recordings
+reg('say_set1_0','assets/voice/say0_old.wav',()=>speak('Great job! 2 is bigger than 1'),1.0);
+reg('say_set1_1','assets/voice/say1_old.wav',()=>speak('Excellent! 3 is bigger than 2'),1.0);
+reg('say_set1_2','assets/voice/say2_old.wav',()=>speak('Amazing! 4 is bigger than 3'),1.0);
+// Week 1 (golf / tennis / soccer) — drop new wavs here when ready
+reg('say_week1_0','assets/voice/say_week1_0.wav',()=>speak('Great job! 5 is bigger than 4'),1.0);
+reg('say_week1_1','assets/voice/say_week1_1.wav',()=>speak('Excellent! 4 is bigger than 2'),1.0);
+reg('say_week1_2','assets/voice/say_week1_2.wav',()=>speak('Amazing! 5 is bigger than 3'),1.0);
+const PRAISE=['Great job!','Excellent!','Amazing!'];
+function praise(i){ play('praise'+i); }
+
+// ---- spoken English math sentence (Web Speech; scales to any numbers) ----
+let enVoice=null;
+function loadVoices(){ try{ const vs=speechSynthesis.getVoices();
+  enVoice = vs.find(v=>/en[-_]?US/i.test(v.lang)&&/female|zira|samantha|aria|jenny|google/i.test(v.name))
+        || vs.find(v=>/^en/i.test(v.lang)) || null; }catch(e){} }
+if('speechSynthesis' in window){ loadVoices(); try{speechSynthesis.onvoiceschanged=loadVoices;}catch(e){} }
+function speak(text,cb){
+  if(!('speechSynthesis' in window)){ cb&&cb(); return; }
+  try{ const u=new SpeechSynthesisUtterance(text); u.lang='en-US'; u.rate=.82; u.pitch=1.15; u.volume=1;
+    if(enVoice) u.voice=enVoice;
+    let done=false; const fin=()=>{ if(done)return; done=true; cb&&cb(); };
+    u.onend=fin; u.onerror=fin;
+    speechSynthesis.cancel(); speechSynthesis.speak(u);
+    setTimeout(fin,2800);   // fallback if onend never fires
+  }catch(e){ cb&&cb(); }
+}
+const el_sentence=document.getElementById('b_sentence');
+function fitSentenceLine(){
+  const snt=el_sentence.querySelector('.snt'); if(!snt) return;
+  const cs=getComputedStyle(el_sentence);
+  // fill the box width on one line (margin avoids stroke clipping)
+  const avail=el_sentence.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight)-8;
+  if(avail<=0) return;
+  // binary search: largest single-line size that fits the box width
+  let lo=12, hi=Math.min(120, avail*0.42), best=lo;
+  for(let i=0;i<22;i++){
+    const mid=(lo+hi)/2;
+    snt.style.fontSize=mid+'px';
+    if(snt.scrollWidth<=avail){ best=mid; lo=mid; } else { hi=mid; }
+  }
+  snt.style.fontSize=best+'px';
+}
+function showSentence(big,small){
+  el_sentence.innerHTML='<span class="cmp">'+(PRAISE[roundIdx]||'Great job!')+'</span>'
+    +'<span class="snt"><b>'+big+'</b> is bigger than <b>'+small+'</b></span>';
+  el_sentence.classList.remove('on'); void el_sentence.offsetWidth;
+  fitSentenceLine();
+  el_sentence.classList.add('on');
+  // re-fit after Baloo loads (fallback font can measure differently)
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(fitSentenceLine).catch(()=>{});
+}
+function hideSentence(){ el_sentence.classList.remove('on'); const s=el_sentence.querySelector('.snt'); if(s) s.style.fontSize=''; }
+
+function starSVG(){return '<svg class="st" viewBox="0 0 24 24"><path d="'+STAR_PATH+'"/></svg>';}
+function buildStars(){starsEl.innerHTML=ROUNDS.map(starSVG).join('');}
+function litStars(n){[...starsEl.children].forEach((s,i)=>s.classList.toggle('on',i<n));}
+
+function renderRound(opts){
+  locked=false;
+  const deferQuestion=!!(opts&&opts.deferQuestion);
+  const r=ROUNDS[roundIdx];
+  ballL.src=r.ball; ballR.src=r.ball;
+  numL.textContent=r.L; numR.textContent=r.R;
+  ringL.classList.remove('on'); ringR.classList.remove('on');
+  pickL.classList.add('pulsing'); pickR.classList.add('pulsing');
+  [flipS,girlS].forEach(v=>{ v.pause(); try{v.currentTime=0;}catch(e){} });
+  showIdle(true);
+  hideSentence();
+  // question VO: first round only, unless deferred for teacher intro
+  if(roundIdx===0 && !deferQuestion){
+    fennyLater(()=>{ sayNode=stopSound(sayNode); sayNode=play('question'); }, 300);
+  }
+}
+
+function pick(side){ // 'L' or 'R'
+  if(locked) return;
+  ac(); play('tap');
+  const r=ROUNDS[roundIdx];
+  const val = side==='L' ? r.L : r.R;
+  const other = side==='L' ? r.R : r.L;
+  if(val>other){ locked=true; correctFlow(side); }
+  else{
+    ac(); play('wrong');
+    const p = side==='L'?pickL:pickR;
+    p.classList.add('shake'); setTimeout(()=>p.classList.remove('shake'),450);
+  }
+}
+pickL.addEventListener('click',()=>pick('L'));
+pickR.addEventListener('click',()=>pick('R'));
+
+function correctFlow(side){
+  pickL.classList.remove('pulsing'); pickR.classList.remove('pulsing');
+  (side==='L'?ringL:ringR).classList.add('on');   // circle the bigger number
+  ac(); play('pop'); play('correct');
+  score++; litStars(score);
+  const r=ROUNDS[roundIdx];
+  const big=Math.max(r.L,r.R), small=Math.min(r.L,r.R);
+  celebrate(big,small);
+}
+
+function playBoyFlip(){
+  // Seek to start WHILE still hidden, then reveal + play — girl waits on this so they stay in sync
+  return new Promise(resolve=>{
+    let started=false;
+    const go=()=>{
+      if(started) return; started=true;
+      flipS.removeEventListener('seeked', onSeeked);
+      flipS.playbackRate=3;   // 1.5× faster than prior 2×
+      showIdle(false);
+      flipS.play().catch(()=>{});
+      resolve();
+    };
+    const onSeeked=()=> go();
+    flipS.pause();
+    flipS.addEventListener('seeked', onSeeked);
+    try{
+      if(flipS.currentTime===0){
+        flipS.currentTime=0.001;
+        flipS.currentTime=0;
+      }else{
+        flipS.currentTime=0;
+      }
+    }catch(e){ go(); return; }
+    setTimeout(go, 250);
+  });
+}
+
+// characters cheer + the COMPLIMENT goes together with the SAYING (no fireworks)
+function celebrate(big,small){
+  showSentence(big,small);
+  sayNode=stopSound(sayNode);
+  sayNode=play(CFG.says[roundIdx]);
+  try{girlS.currentTime=0;}catch(e){} girlS.playbackRate=1.7;
+  // Let ring + praise land first, then start boy/girl together
+  setTimeout(()=>{
+    playBoyFlip().then(()=>{ girlS.play().catch(()=>{}); });
+  }, 550);
+  let flipDone=false, voDone=false, advanced=false;
+  const advance=()=>{
+    if(advanced || !flipDone || !voDone) return;
+    advanced=true;
+    banner.classList.remove('on'); hideSentence();
+    sayNode=stopSound(sayNode);
+    [flipS,girlS].forEach(v=>{ v.pause(); v.onended=null; });
+    try{flipS.currentTime=0;}catch(e){}
+    showIdle(true);
+    roundIdx++; if(roundIdx<ROUNDS.length) renderRound(); else endGame();
+  };
+  const onFlipDone=()=>{
+    if(flipDone) return; flipDone=true;
+    [flipS,girlS].forEach(v=>{ v.pause(); v.onended=null; });
+    try{flipS.currentTime=0;}catch(e){}
+    showIdle(true);
+    advance();
+  };
+  const onVoDone=()=>{ if(voDone) return; voDone=true; advance(); };
+  flipS.onended=onFlipDone;
+  setTimeout(onFlipDone, 6000);   // ~(10s clip)/3 + buffer
+  if(sayNode){
+    sayNode.addEventListener('ended', onVoDone, {once:true});
+    setTimeout(onVoDone, 6500);   // cover longest praise VO (~4.3s) + buffer
+  }else{
+    setTimeout(onVoDone, 5500);
+  }
+}
+
+function playEndFireworks(){
+  fw.loop=true; fw.muted=true;
+  fw.style.opacity='0.95';
+  try{fw.currentTime=0;}catch(e){}
+  fw.play().catch(()=>{});
+  fwSound=stopSound(fwSound);
+  // always try to play — don't wait on canplaythrough (end screen can beat preload)
+  const s=SFX.fireworks;
+  if(s){
+    try{
+      const n=s.a.cloneNode(true);
+      n.loop=true;
+      n.volume=0;
+      n.play().catch(()=>{});
+      const target=s.a.volume, t0=performance.now(), dur=400;
+      (function ramp(){const k=Math.min(1,(performance.now()-t0)/dur); n.volume=target*k; if(k<1) requestAnimationFrame(ramp);})();
+      fwSound=n;
+    }catch(e){}
+  }
+}
+function stopEndFireworks(){
+  fw.style.opacity='0';
+  try{fw.pause(); fw.currentTime=0;}catch(e){}
+  fwSound=stopSound(fwSound);
+}
+function endGame(){
+  document.getElementById('b_endStars').innerHTML=ROUNDS.map((_,i)=>
+    '<svg viewBox="0 0 24 24"><path d="'+STAR_PATH+'" fill="'+(i<score?'#ffc23e':'#efe6d5')+'" stroke="'+(i<score?'#eaa41c':'#d8ccb4')+'" stroke-width="1.1"/></svg>').join('');
+  document.getElementById('b_end').style.display='flex';
+  cheerNode=playFade('cheer',1400);
+  playEndFireworks();   // transparent fireworks video + sound on "You did it!"
+}
+function stopCelebrationAudio(){
+  clearFennyTimers();
+  cheerNode=stopSound(cheerNode); fwSound=stopSound(fwSound); sayNode=stopSound(sayNode);
+  stopFenny(); stopEndFireworks();
+  try{speechSynthesis.cancel();}catch(e){} hideSentence(); banner.classList.remove('on');
+}
+
+function stopFenny(){
+  clearFennyTimers();
+  fennyNode=stopSound(fennyNode);
+  fenny.classList.remove('on','fade-out');
+  fenny._cancel=true;
+  fenny._syncGen=(fenny._syncGen||0)+1;
+  if(fenny._syncRaf){ try{cancelAnimationFrame(fenny._syncRaf);}catch(e){} fenny._syncRaf=0; }
+  try{fenny.pause(); fenny.currentTime=0;}catch(e){}
+  fenny.onended=null;
+}
+function fadeOutFenny(done){
+  fennyNode=stopSound(fennyNode);
+  fenny.onended=null;
+  fenny.classList.add('fade-out');
+  fenny.classList.remove('on');
+  setTimeout(()=>{
+    fenny.classList.remove('fade-out');
+    try{fenny.pause(); fenny.currentTime=0;}catch(e){}
+    if(fenny._cancel) return;
+    done&&done();
+  }, 780);
+}
+function whenCanPlay(el, ms){
+  return new Promise(resolve=>{
+    if(!el) return resolve();
+    if(el.readyState>=3) return resolve();
+    let done=false;
+    const finish=()=>{ if(done)return; done=true; cleanup(); resolve(); };
+    const cleanup=()=>{
+      el.removeEventListener('canplaythrough', finish);
+      el.removeEventListener('canplay', finish);
+      el.removeEventListener('loadeddata', finish);
+    };
+    el.addEventListener('canplaythrough', finish);
+    el.addEventListener('canplay', finish);
+    el.addEventListener('loadeddata', finish);
+    if(el.readyState===0){ try{ el.load(); }catch(e){} }
+    setTimeout(finish, ms==null?2500:ms);
+  });
+}
+function seekToZero(el){
+  return new Promise(resolve=>{
+    if(!el) return resolve();
+    let done=false;
+    const finish=()=>{ if(done)return; done=true; el.removeEventListener('seeked', finish); resolve(); };
+    el.addEventListener('seeked', finish);
+    try{
+      if(el.currentTime===0){ el.currentTime=0.001; el.currentTime=0; }
+      else el.currentTime=0;
+    }catch(e){ finish(); return; }
+    setTimeout(finish, 450);
+  });
+}
+// Teacher explains bigger numbers before kids can answer
+function playFennyIntro(){
+  locked=true;
+  pickL.classList.remove('pulsing'); pickR.classList.remove('pulsing');
+  showIdle(true);   // keep 3D boy & girl visible during the talk
+  stopFenny();
+  fenny._cancel=false;
+  const gen=(fenny._syncGen=(fenny._syncGen||0)+1);
+
+  // Appear + talk immediately (no multi-second canplay/seek gate)
+  fenny.classList.remove('on','fade-out');
+  try{fenny.pause();}catch(e){}
+  fenny.muted=true;
+  fenny.playbackRate=1;
+  try{fenny.currentTime=0;}catch(e){}
+  void fenny.offsetWidth;
+  fenny.classList.add('on');
+
+  let audio=null;
+  const s=SFX.fenny;
+  if(s){
+    try{
+      audio=s.a.cloneNode(true);
+      audio.volume=s.a.volume;
+      try{audio.currentTime=0;}catch(e){}
+    }catch(e){ audio=null; }
+  }
+  fennyNode=audio;
+
+  fenny.play().catch(()=>{});
+  if(audio) audio.play().catch(()=>{});
+
+  // Fade when the spoken line ends (don't wait on leftover video hold)
+  let finished=false;
+  const finish=()=>{
+    if(fenny._cancel || fenny._syncGen!==gen || finished) return;
+    finished=true;
+    fadeOutFenny(()=>{
+      if(fenny._cancel) return;
+      showIdle(true);
+      locked=false;
+      pickL.classList.add('pulsing'); pickR.classList.add('pulsing');
+      sayNode=stopSound(sayNode);
+      sayNode=play('question');   // tracked so Home can kill it
+    });
+  };
+  if(audio){
+    audio.addEventListener('ended', finish, {once:true});
+  }else{
+    fenny.onended=finish;
+  }
+  const durMs=Math.ceil(((audio&&audio.duration)||fenny.duration||15)*1000)+800;
+  fennyLater(finish, durMs);
+}
+
+function start(opts){
+  stopCelebrationAudio();
+  document.getElementById('b_end').style.display='none';
+  ac(); roundIdx=0; score=0; buildStars(); litStars(0);
+  renderRound({deferQuestion:!!(opts&&opts.intro)});
+}
+window.addEventListener('pointerdown',()=>{const c=ac();c.resume&&c.resume();},{once:true});
+document.getElementById('b_againBtn').addEventListener('click',()=>{
+  start({intro:true});
+  playFennyIntro();
+});
+[flipS,girlS].forEach(v=>{ v.pause(); v.addEventListener('loadeddata',()=>{try{v.currentTime=0;}catch(e){}},{once:true}); });
+/* menu handled by Hub */
+document.getElementById('b_homeBtn').addEventListener('click',()=>{ if(window.BiggerGame) BiggerGame.stop(); if(window.Hub) Hub.showMenu();});
+buildStars();
+
+
+window.BiggerGame={
+  start(act){
+    const c=ac(); c.resume&&c.resume();
+    stopCelebrationAudio();
+    CFG=ACTIVITIES[act];
+    ROUNDS=CFG.rounds;
+    start({intro:true});
+    playFennyIntro();
+  },
+  stop(){
+    stopCelebrationAudio();
+    document.getElementById('b_end').style.display='none';
+    if(window.Hub) Hub.silence();
+  }
+};
+
+})();
+/* ---- thinking-pattern-match.html ---- */
+(function(){
+
+const STAR_PATH='M12 2l3 6.3 6.9.9-5 4.8 1.2 6.9L12 18.6 5.9 21l1.2-6.9-5-4.8 6.9-.9z';
+// Pairs with celebration VOs (sb = A→B "Great job!", bs = B→A "Excellent!")
+const PAIR_SOCCER={
+  id:'soccer', A:'assets/soccer.png', B:'assets/baseball.png',
+  nameA:'soccer ball', nameB:'baseball',
+  voice:{ sb:'say_soccer_sb', bs:'say_soccer_bs' },
+};
+const PAIR_BASKET={
+  id:'basket', A:'assets/basketball.png', B:'assets/golf.png',
+  nameA:'basketball', nameB:'golf ball',
+  voice:{ sb:'say_basket_sb', bs:'say_basket_bs' },
+};
+const PAIR_TENNIS={
+  id:'tennis', A:'assets/tennis.png', B:'assets/soccer.png',
+  nameA:'tennis ball', nameB:'soccer ball',
+  voice:{ sb:'say_tennis_sb', bs:'say_tennis_bs' },
+};
+let CFG=PAIR_SOCCER;
+const VO_BANK=[
+  { pair:PAIR_SOCCER, order:'sb', shown:['a','b','a','b'], ans:['a','b'], wrong:[['a','a'],['b','a']] },
+  { pair:PAIR_SOCCER, order:'bs', shown:['b','a','b','a'], ans:['b','a'], wrong:[['a','b'],['b','b']] },
+  { pair:PAIR_BASKET, order:'sb', shown:['a','b','a','b'], ans:['a','b'], wrong:[['b','b'],['b','a']] },
+  { pair:PAIR_BASKET, order:'bs', shown:['b','a','b','a'], ans:['b','a'], wrong:[['a','a'],['a','b']] },
+  { pair:PAIR_TENNIS, order:'sb', shown:['a','b','a','b'], ans:['a','b'], wrong:[['a','a'],['b','a']] },
+  { pair:PAIR_TENNIS, order:'bs', shown:['b','a','b','a'], ans:['b','a'], wrong:[['a','b'],['b','b']] },
+];
+let ROUNDS=[];
+let roundIdx=0, score=0, locked=false, choiceOrder=[];
+// 3 rounds: one round per ball pair; sb/bs order shuffled so celebration VOs match
+function buildRounds(){
+  const pick=id=>shuffle(VO_BANK.filter(r=>r.pair.id===id))[0];
+  return shuffle([pick('soccer'), pick('basket'), pick('tennis')]);
+}
+
+const starsEl=document.getElementById('tp_stars');
+const sampleRow=document.getElementById('tp_sampleRow');
+const choicesEl=document.getElementById('tp_choices');
+const qPre=document.getElementById('tp_qPre');
+const qAsk=document.getElementById('tp_qAsk');
+const flipS=document.getElementById('tp_flipS'), girlS=document.getElementById('tp_girlS');
+const boyIdle=document.getElementById('tp_boyIdle'), girlIdle=document.getElementById('tp_girlIdle');
+const fw=document.getElementById('tp_fw');
+const el_sentence=document.getElementById('tp_sentence');
+function showIdle(on){ boyIdle.style.opacity=on?'1':'0'; girlIdle.style.opacity=on?'1':'0';
+  flipS.style.opacity=on?'0':'1'; girlS.style.opacity=on?'0':'1'; }
+
+let AC; function ac(){AC=AC||new(window.AudioContext||window.webkitAudioContext)();return AC;}
+function tone(f,d,ty,v){const c=ac(),t=c.currentTime;const o=c.createOscillator(),g=c.createGain();
+  o.type=ty||'triangle';o.frequency.value=f;g.gain.setValueAtTime(v||.5,t);
+  g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g).connect(c.destination);o.start(t);o.stop(t+d);}
+function ding(){[660,880,1175].forEach((f,i)=>setTimeout(()=>tone(f,.4,'triangle',.5),i*80));}
+function buzz(){tone(180,.28,'sawtooth',.35);setTimeout(()=>tone(140,.3,'sawtooth',.35),120);}
+function fanfare(){[523,659,784,1047,1319,1568].forEach((f,i)=>setTimeout(()=>tone(f,.55,'triangle',.5),i*120));}
+
+const SFX={};
+function reg(name,src,fb,vol){let ok=false;const a=new Audio(src);a.preload='auto';a.volume=(vol==null?0.9:vol);
+  a.addEventListener('canplaythrough',()=>{ok=true;},{once:true});a.addEventListener('error',()=>{ok=false;});
+  SFX[name]={a,fb,ok:()=>ok};}
+function play(name){const s=SFX[name];if(!s)return null;
+  if(s.ok()){try{const n=s.a.cloneNode(true);n.volume=s.a.volume;n.play().catch(()=>{});return n;}catch(e){s.fb&&s.fb();}}
+  else if(s.fb){s.fb();}
+  return null;}
+function playFade(name,dur){const s=SFX[name];if(!s)return null;
+  if(!s.ok()){s.fb&&s.fb();return null;}
+  let n;try{n=s.a.cloneNode(true);}catch(e){s.fb&&s.fb();return null;}
+  const target=s.a.volume; n.volume=0; n.play().catch(()=>{});
+  const t0=performance.now();
+  (function ramp(){const k=Math.min(1,(performance.now()-t0)/dur); n.volume=target*k; if(k<1) requestAnimationFrame(ramp);})();
+  return n;}
+function stopSound(n){ if(n){try{n.pause();n.currentTime=0;}catch(e){}} return null; }
+let cheerNode=null, fwSound=null, sayNode=null;
+reg('correct','assets/sfx/correct.mp3',ding);
+reg('wrong','assets/sfx/wrong.mp3',buzz);
+reg('pop','assets/sfx/pop.mp3',null,0.8);
+reg('cheer','assets/sfx/cheer.mp3',fanfare,1.0);
+reg('fireworks','assets/sfx/fireworks_sound.wav',null,0.95);
+reg('tap','assets/sfx/tap.mp3',null,0.5);
+reg('instruction','assets/voice/instruction.mp3',null,1.0);   // "What comes next in the pattern?"
+// Teaching VO — drop file here (no TTS fallback)
+reg('think_teach','assets/voice/think_pattern_teach.wav',null,1.0);
+reg('say_soccer_sb','assets/voice/say_soccer_sb.wav',()=>speak("Great job! Soccer ball, baseball — it repeats! It's a pattern."),1.0);
+reg('say_soccer_bs','assets/voice/say_soccer_bs.wav',()=>speak("Excellent! Baseball, soccer ball — it repeats! It's a pattern."),1.0);
+reg('say_basket_sb','assets/voice/say_basket_sb.wav',()=>speak("Great job! Basketball, golf ball — it repeats! It's a pattern."),1.0);
+reg('say_basket_bs','assets/voice/say_basket_bs.wav',()=>speak("Excellent! Golf ball, basketball — it repeats! It's a pattern."),1.0);
+reg('say_tennis_sb','assets/voice/say_tennis_sb.wav',()=>speak("Great job! Tennis ball, soccer ball — it repeats! It's a pattern."),1.0);
+reg('say_tennis_bs','assets/voice/say_tennis_bs.wav',()=>speak("Excellent! Soccer ball, tennis ball — it repeats! It's a pattern."),1.0);
+
+let enVoice=null;
+function loadVoices(){ try{ const vs=speechSynthesis.getVoices();
+  enVoice = vs.find(v=>/en[-_]?US/i.test(v.lang)&&/female|zira|samantha|aria|jenny|google/i.test(v.name))
+        || vs.find(v=>/^en/i.test(v.lang)) || null; }catch(e){} }
+if('speechSynthesis' in window){ loadVoices(); try{speechSynthesis.onvoiceschanged=loadVoices;}catch(e){} }
+function speak(text,cb){
+  if(!('speechSynthesis' in window)){ cb&&cb(); return; }
+  try{ const u=new SpeechSynthesisUtterance(text); u.lang='en-US'; u.rate=.88; u.pitch=1.1; u.volume=1;
+    if(enVoice) u.voice=enVoice;
+    let done=false; const fin=()=>{ if(done)return; done=true; cb&&cb(); };
+    u.onend=fin; u.onerror=fin;
+    speechSynthesis.cancel(); speechSynthesis.speak(u);
+    setTimeout(fin,5200);   // cover full math teaching line
+  }catch(e){ cb&&cb(); }
+}
+
+function ballSrc(tok){ return tok==='a'?CFG.A:CFG.B; }
+function ballsHtml(cells){
+  return cells.map(t=>'<img class="ball" src="'+ballSrc(t)+'" alt="">').join('');
+}
+function shuffle(arr){
+  const a=arr.slice();
+  for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  return a;
+}
+// Celebration text + VO keyed to round.order so it matches recorded pattern-game files
+function patternLine(r){
+  const pair=r.pair||CFG;
+  const order=r.order||((r.ans[0]==='a'?'s':'b')+(r.ans[1]==='a'?'s':'b'));
+  const n1=order==='sb'?pair.nameA:pair.nameB;
+  const n2=order==='sb'?pair.nameB:pair.nameA;
+  const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
+  const praise=order==='sb'?'Great job!':'Excellent!';
+  const say=cap(n1)+', '+n2+" — it repeats! It's a pattern.";
+  return {
+    praise, say, full:praise+' '+say,
+    sayHtml:'<b>'+cap(n1)+'</b>, <b>'+n2+'</b> — it repeats! It\'s a pattern.',
+    voice:pair.voice[order],
+  };
+}
+// Preceding lines of the question (shown first; question line follows after teach VO)
+function mathTeachHtml(){
+  return '<span class="ml">Look at the balls.</span>'
+    +'<span class="ml">They make a <b>pattern</b>.</span>'
+    +'<span class="ml">The pattern <b>repeats</b>.</span>';
+}
+function showQuestionPre(){
+  qPre.innerHTML=mathTeachHtml();
+  qAsk.classList.remove('on');
+}
+function showQuestionAsk(){
+  qAsk.classList.add('on');
+}
+function hideMathLine(){
+  qPre.innerHTML='';
+  qAsk.classList.remove('on');
+}
+
+function setChoicesReady(on){
+  [...choicesEl.querySelectorAll('.choice')].forEach(c=>{
+    c.classList.toggle('pulsing', !!on);
+    c.style.pointerEvents=on?'auto':'none';
+    c.style.opacity=on?'1':'0.55';
+  });
+}
+function afterTeach(){
+  if(afterTeach._done) return;
+  afterTeach._done=true;
+  // short pause, then show question line + play question VO
+  setTimeout(()=>{
+    showQuestionAsk();
+    play('instruction');
+    locked=false;
+    setChoicesReady(true);
+  }, 1500);
+}
+function playTeachVo(){
+  const s=SFX.think_teach;
+  if(!s) return null;
+  try{
+    const n=s.a.cloneNode(true);
+    n.volume=s.a.volume;
+    n.play().catch(()=>{});
+    return n;
+  }catch(e){ return null; }
+}
+// Round 1: teach lines + teach VO → pause → question line + question VO → unlock
+// Later rounds: same text on screen, no VO → unlock
+function teachThenAsk(){
+  locked=true;
+  afterTeach._done=false;
+  setChoicesReady(false);
+  sayNode=stopSound(sayNode);
+  showQuestionPre();
+  if(roundIdx===0){
+    sayNode=playTeachVo();
+    if(sayNode){
+      sayNode.addEventListener('ended', afterTeach, {once:true});
+      setTimeout(afterTeach, 8500);   // ~6.75s revised teach + buffer
+    }else{
+      setTimeout(afterTeach, 2800);
+    }
+  }else{
+    showQuestionAsk();
+    locked=false;
+    setChoicesReady(true);
+  }
+}
+
+function fitSentenceLine(){
+  const snt=el_sentence.querySelector('.snt'); if(!snt) return;
+  const cs=getComputedStyle(el_sentence);
+  const avail=el_sentence.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight)-8;
+  if(avail<=0) return;
+  let lo=12, hi=Math.min(80, avail*0.26), best=lo;
+  for(let i=0;i<22;i++){
+    const mid=(lo+hi)/2; snt.style.fontSize=mid+'px';
+    if(snt.scrollWidth<=avail){ best=mid; lo=mid; } else { hi=mid; }
+  }
+  snt.style.fontSize=best+'px';
+}
+function showSentence(praise, html){
+  el_sentence.innerHTML='<span class="cmp">'+praise+'</span><span class="snt">'+html+'</span>';
+  el_sentence.classList.remove('on'); void el_sentence.offsetWidth;
+  fitSentenceLine(); el_sentence.classList.add('on');
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(fitSentenceLine).catch(()=>{});
+}
+function hideSentence(){ el_sentence.classList.remove('on'); const s=el_sentence.querySelector('.snt'); if(s) s.style.fontSize=''; }
+
+function starSVG(){return '<svg class="st" viewBox="0 0 24 24"><path d="'+STAR_PATH+'"/></svg>';}
+function buildStars(){starsEl.innerHTML=ROUNDS.map(starSVG).join('');}
+function litStars(n){[...starsEl.children].forEach((s,i)=>s.classList.toggle('on',i<n));}
+
+function renderRound(){
+  locked=true;
+  const r=ROUNDS[roundIdx];
+  CFG=r.pair;
+  sampleRow.innerHTML=ballsHtml(r.shown)
+    +'<div class="blank" aria-label="blank"><span class="qm">?</span></div>'
+    +'<div class="blank" aria-label="blank"><span class="qm">?</span></div>';
+  choiceOrder=shuffle([
+    {cells:r.ans.slice(), ok:true},
+    {cells:r.wrong[0].slice(), ok:false},
+    {cells:r.wrong[1].slice(), ok:false},
+  ]);
+  const tags=['A','B','C'];
+  choicesEl.innerHTML=choiceOrder.map((ch,i)=>`
+    <div class="choice" data-i="${i}" data-ok="${ch.ok?1:0}" style="pointer-events:none;opacity:.55">
+      <div class="tag">${tags[i]}</div>
+      <div class="balls">${ballsHtml(ch.cells)}</div>
+      <div class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div>
+    </div>`).join('');
+  [...choicesEl.querySelectorAll('.choice')].forEach(el=>{
+    el.addEventListener('click',()=>pickChoice(el));
+  });
+  [flipS,girlS].forEach(v=>{ v.pause(); try{v.currentTime=0;}catch(e){} });
+  showIdle(true); hideSentence();
+  teachThenAsk();
+}
+
+function pickChoice(el){
+  if(locked) return;
+  ac(); play('tap');
+  const ok=el.dataset.ok==='1';
+  if(ok){
+    locked=true;
+    [...choicesEl.querySelectorAll('.choice')].forEach(c=>c.classList.remove('pulsing'));
+    el.classList.add('correct');
+    play('pop'); play('correct');
+    score++; litStars(score);
+    setTimeout(celebrate, 550);
+  }else{
+    play('wrong');
+    el.classList.add('shake');
+    setTimeout(()=>el.classList.remove('shake'),450);
+  }
+}
+
+function playBoyFlip(){
+  return new Promise(resolve=>{
+    let started=false;
+    const go=()=>{
+      if(started) return; started=true;
+      flipS.removeEventListener('seeked', onSeeked);
+      flipS.playbackRate=3;   // 1.5× faster than prior 2×
+      showIdle(false);
+      flipS.play().catch(()=>{});
+      resolve();
+    };
+    const onSeeked=()=> go();
+    flipS.pause();
+    flipS.addEventListener('seeked', onSeeked);
+    try{
+      if(flipS.currentTime===0){ flipS.currentTime=0.001; flipS.currentTime=0; }
+      else flipS.currentTime=0;
+    }catch(e){ go(); return; }
+    setTimeout(go, 250);
+  });
+}
+
+function celebrate(){
+  const r=ROUNDS[roundIdx];
+  const line=patternLine(r);
+  showSentence(line.praise, line.sayHtml);
+  sayNode=stopSound(sayNode);
+  if(line.voice) sayNode=play(line.voice);
+  else speak(line.full);
+  try{girlS.currentTime=0;}catch(e){} girlS.playbackRate=1.7;
+  // Same start timing as bigger-numbers: praise lands, then boy/girl together
+  setTimeout(()=>{
+    playBoyFlip().then(()=>{ girlS.play().catch(()=>{}); });
+  }, 550);
+  let flipDone=false, voDone=false, advanced=false;
+  const advance=()=>{
+    if(advanced || !flipDone || !voDone) return;
+    advanced=true;
+    hideSentence(); sayNode=stopSound(sayNode); try{speechSynthesis.cancel();}catch(e){}
+    [flipS,girlS].forEach(v=>{ v.pause(); v.onended=null; });
+    try{flipS.currentTime=0;}catch(e){}
+    showIdle(true);
+    roundIdx++; if(roundIdx<ROUNDS.length) renderRound(); else endGame();
+  };
+  const onFlipDone=()=>{
+    if(flipDone) return; flipDone=true;
+    [flipS,girlS].forEach(v=>{ v.pause(); v.onended=null; });
+    try{flipS.currentTime=0;}catch(e){}
+    showIdle(true); advance();
+  };
+  const onVoDone=()=>{ if(voDone) return; voDone=true; advance(); };
+  flipS.onended=onFlipDone;
+  setTimeout(onFlipDone, 6000);
+  if(sayNode){
+    sayNode.addEventListener('ended', onVoDone, {once:true});
+    setTimeout(onVoDone, 7500);
+  }else{
+    setTimeout(onVoDone, 5500);
+  }
+}
+
+function playEndFireworks(){
+  fw.loop=true; fw.muted=true; fw.style.opacity='0.95';
+  try{fw.currentTime=0;}catch(e){} fw.play().catch(()=>{});
+  fwSound=stopSound(fwSound);
+  const s=SFX.fireworks;
+  if(s){
+    try{
+      const n=s.a.cloneNode(true); n.loop=true; n.volume=0; n.play().catch(()=>{});
+      const target=s.a.volume, t0=performance.now(), dur=400;
+      (function ramp(){const k=Math.min(1,(performance.now()-t0)/dur); n.volume=target*k; if(k<1) requestAnimationFrame(ramp);})();
+      fwSound=n;
+    }catch(e){}
+  }
+}
+function stopEndFireworks(){
+  fw.style.opacity='0';
+  try{fw.pause(); fw.currentTime=0;}catch(e){}
+  fwSound=stopSound(fwSound);
+}
+function endGame(){
+  document.getElementById('tp_endStars').innerHTML=ROUNDS.map((_,i)=>
+    '<svg viewBox="0 0 24 24"><path d="'+STAR_PATH+'" fill="'+(i<score?'#ffc23e':'#efe6d5')+'" stroke="'+(i<score?'#eaa41c':'#d8ccb4')+'" stroke-width="1.1"/></svg>').join('');
+  document.getElementById('tp_end').style.display='flex';
+  cheerNode=playFade('cheer',1400);
+  playEndFireworks();
+}
+function stopCelebrationAudio(){
+  cheerNode=stopSound(cheerNode); fwSound=stopSound(fwSound); sayNode=stopSound(sayNode);
+  try{speechSynthesis.cancel();}catch(e){} hideSentence(); hideMathLine(); stopEndFireworks();
+}
+
+function start(){
+  stopCelebrationAudio();
+  document.getElementById('tp_end').style.display='none';
+  ac();
+  ROUNDS=buildRounds();
+  roundIdx=0; score=0; buildStars(); litStars(0);
+  renderRound();
+}
+
+window.addEventListener('pointerdown',()=>{const c=ac();c.resume&&c.resume();},{once:true});
+document.getElementById('tp_againBtn').addEventListener('click',start);
+[flipS,girlS].forEach(v=>{ v.pause(); v.addEventListener('loadeddata',()=>{try{v.currentTime=0;}catch(e){}},{once:true}); });
+/* playBtn handled by Hub */
+document.getElementById('tp_homeBtn').addEventListener('click',()=>{ if(window.ThinkPatGame) ThinkPatGame.stop(); if(window.Hub) Hub.showMenu();});
+ROUNDS=buildRounds();
+buildStars();
+
+
+window.ThinkPatGame={
+  start(){
+    const c=ac(); c.resume&&c.resume();
+    stopCelebrationAudio();
+    start();
+  },
+  stop(){
+    try{ afterTeach._done=true; }catch(e){}
+    stopCelebrationAudio();
+    document.getElementById('tp_end').style.display='none';
+    if(window.Hub) Hub.silence();
+  }
+};
+
+})();
+/* ---- thinking-bigger-numbers.html ---- */
+(function(){
+
+const STAR_PATH='M12 2l3 6.3 6.9.9-5 4.8 1.2 6.9L12 18.6 5.9 21l1.2-6.9-5-4.8 6.9-.9z';
+const BALLS=[
+  'assets/soccer.png','assets/basketball.png','assets/baseball.png',
+  'assets/golf.png','assets/tennis.png',
+];
+// VO-locked bank: celebration files from bigger-numbers.html
+const VO_BANK=[
+  { big:2, small:1, voice:'say_set1_0', praise:'Great job!' },
+  { big:3, small:2, voice:'say_set1_1', praise:'Excellent!' },
+  { big:4, small:3, voice:'say_set1_2', praise:'Amazing!' },
+  { big:5, small:4, voice:'say_week1_0', praise:'Great job!' },
+  { big:4, small:2, voice:'say_week1_1', praise:'Excellent!' },
+  { big:5, small:3, voice:'say_week1_2', praise:'Amazing!' },
+];
+let ROUNDS=[];
+let roundIdx=0, score=0, locked=false;
+
+const starsEl=document.getElementById('tb_stars');
+const sideL=document.getElementById('tb_sideL'), sideR=document.getElementById('tb_sideR');
+const pileL=document.getElementById('tb_pileL'), pileR=document.getElementById('tb_pileR');
+const countL=document.getElementById('tb_countL'), countR=document.getElementById('tb_countR');
+const qPre=document.getElementById('tb_qPre'), qAsk=document.getElementById('tb_qAsk');
+const flipS=document.getElementById('tb_flipS'), girlS=document.getElementById('tb_girlS');
+const boyIdle=document.getElementById('tb_boyIdle'), girlIdle=document.getElementById('tb_girlIdle');
+const fw=document.getElementById('tb_fw');
+const el_sentence=document.getElementById('tb_sentence');
+function showIdle(on){ boyIdle.style.opacity=on?'1':'0'; girlIdle.style.opacity=on?'1':'0';
+  flipS.style.opacity=on?'0':'1'; girlS.style.opacity=on?'0':'1'; }
+
+function shuffle(arr){
+  const a=arr.slice();
+  for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  return a;
+}
+function buildRounds(){
+  const picks=shuffle(VO_BANK).slice(0,3);
+  const balls=shuffle(BALLS);
+  return picks.map((p,i)=>{
+    const bigLeft=Math.random()<0.5;
+    return {
+      ball:balls[i%balls.length],
+      L: bigLeft?p.big:p.small,
+      R: bigLeft?p.small:p.big,
+      big:p.big, small:p.small,
+      voice:p.voice, praise:p.praise,
+    };
+  });
+}
+
+let AC; function ac(){AC=AC||new(window.AudioContext||window.webkitAudioContext)();return AC;}
+function tone(f,d,ty,v){const c=ac(),t=c.currentTime;const o=c.createOscillator(),g=c.createGain();
+  o.type=ty||'triangle';o.frequency.value=f;g.gain.setValueAtTime(v||.5,t);
+  g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g).connect(c.destination);o.start(t);o.stop(t+d);}
+function ding(){[660,880,1175].forEach((f,i)=>setTimeout(()=>tone(f,.4,'triangle',.5),i*80));}
+function buzz(){tone(180,.28,'sawtooth',.35);setTimeout(()=>tone(140,.3,'sawtooth',.35),120);}
+function fanfare(){[523,659,784,1047,1319,1568].forEach((f,i)=>setTimeout(()=>tone(f,.55,'triangle',.5),i*120));}
+
+const SFX={};
+function reg(name,src,fb,vol){let ok=false;const a=new Audio(src);a.preload='auto';a.volume=(vol==null?0.9:vol);
+  a.addEventListener('canplaythrough',()=>{ok=true;},{once:true});a.addEventListener('error',()=>{ok=false;});
+  SFX[name]={a,fb,ok:()=>ok};}
+function play(name){const s=SFX[name];if(!s)return null;
+  if(s.ok()){try{const n=s.a.cloneNode(true);n.volume=s.a.volume;n.play().catch(()=>{});return n;}catch(e){s.fb&&s.fb();}}
+  else if(s.fb){s.fb();}
+  return null;}
+function playFade(name,dur){const s=SFX[name];if(!s)return null;
+  if(!s.ok()){s.fb&&s.fb();return null;}
+  let n;try{n=s.a.cloneNode(true);}catch(e){s.fb&&s.fb();return null;}
+  const target=s.a.volume; n.volume=0; n.play().catch(()=>{});
+  const t0=performance.now();
+  (function ramp(){const k=Math.min(1,(performance.now()-t0)/dur); n.volume=target*k; if(k<1) requestAnimationFrame(ramp);})();
+  return n;}
+function stopSound(n){ if(n){try{n.pause();n.currentTime=0;}catch(e){}} return null; }
+let cheerNode=null, fwSound=null, sayNode=null;
+
+reg('correct','assets/sfx/correct.mp3',ding);
+reg('wrong','assets/sfx/wrong.mp3',buzz);
+reg('pop','assets/sfx/pop.mp3',null,0.8);
+reg('cheer','assets/sfx/cheer.mp3',fanfare,1.0);
+reg('fireworks','assets/sfx/fireworks_sound.wav',null,0.95);
+reg('tap','assets/sfx/tap.mp3',null,0.5);
+reg('question','assets/voice/which_bigger.wav',null,1.0);
+// Teach VO — drop assets/voice/think_bigger_teach.wav when ready (TTS fallback)
+reg('think_teach','assets/voice/think_bigger_teach.wav',null,1.0);
+reg('say_set1_0','assets/voice/say0_old.wav',()=>speak('Great job! 2 is bigger than 1'),1.0);
+reg('say_set1_1','assets/voice/say1_old.wav',()=>speak('Excellent! 3 is bigger than 2'),1.0);
+reg('say_set1_2','assets/voice/say2_old.wav',()=>speak('Amazing! 4 is bigger than 3'),1.0);
+reg('say_week1_0','assets/voice/say_week1_0.wav',()=>speak('Great job! 5 is bigger than 4'),1.0);
+reg('say_week1_1','assets/voice/say_week1_1.wav',()=>speak('Excellent! 4 is bigger than 2'),1.0);
+reg('say_week1_2','assets/voice/say_week1_2.wav',()=>speak('Amazing! 5 is bigger than 3'),1.0);
+
+let enVoice=null;
+function loadVoices(){ try{ const vs=speechSynthesis.getVoices();
+  enVoice = vs.find(v=>/en[-_]?US/i.test(v.lang)&&/female|zira|samantha|aria|jenny|google/i.test(v.name))
+        || vs.find(v=>/^en/i.test(v.lang)) || null; }catch(e){} }
+if('speechSynthesis' in window){ loadVoices(); try{speechSynthesis.onvoiceschanged=loadVoices;}catch(e){} }
+function speak(text,cb){
+  if(!('speechSynthesis' in window)){ cb&&cb(); return; }
+  try{ const u=new SpeechSynthesisUtterance(text); u.lang='en-US'; u.rate=.88; u.pitch=1.1; u.volume=1;
+    if(enVoice) u.voice=enVoice;
+    let done=false; const fin=()=>{ if(done)return; done=true; cb&&cb(); };
+    u.onend=fin; u.onerror=fin;
+    speechSynthesis.cancel(); speechSynthesis.speak(u);
+    setTimeout(fin,5200);
+  }catch(e){ cb&&cb(); }
+}
+
+function pileHtml(n, src){
+  return Array.from({length:n},()=>'<img src="'+src+'" alt="">').join('');
+}
+function mathTeachHtml(){
+  return '<span class="ml">Look at the balls.</span>'
+    +'<span class="ml">Count the balls on each side.</span>'
+    +'<span class="ml">Find which side has <b>more</b>.</span>';
+}
+function showQuestionPre(){
+  qPre.innerHTML=mathTeachHtml();
+  qAsk.classList.remove('on');
+}
+function showQuestionAsk(){ qAsk.classList.add('on'); }
+function hideMathLine(){ qPre.innerHTML=''; qAsk.classList.remove('on'); }
+
+function setSidesReady(on){
+  [sideL,sideR].forEach(s=>{
+    s.classList.toggle('pulsing', !!on);
+    s.style.pointerEvents=on?'auto':'none';
+    s.style.opacity=on?'1':'0.55';
+  });
+}
+let teachTimers=[], teachSession=0;
+function clearTeachTimers(){ teachTimers.forEach(clearTimeout); teachTimers=[]; }
+function teachLater(fn, ms){ const id=setTimeout(fn, ms); teachTimers.push(id); return id; }
+function afterTeach(){
+  if(afterTeach._done) return;
+  afterTeach._done=true;
+  const sess=teachSession;
+  teachLater(()=>{
+    if(sess!==teachSession) return; // Home/menu cancelled
+    showQuestionAsk();
+    sayNode=stopSound(sayNode);
+    sayNode=play('question');
+    locked=false;
+    setSidesReady(true);
+  }, 1500);
+}
+function playTeachVo(){
+  const s=SFX.think_teach;
+  if(!s) return null;
+  try{
+    const n=s.a.cloneNode(true);
+    n.volume=s.a.volume;
+    n.play().catch(()=>{});
+    return n;
+  }catch(e){ return null; }
+}
+// Round 1: teach text+VO → pause → question VO → unlock
+// Later rounds: same text, no VO → unlock
+function teachThenAsk(){
+  locked=true;
+  afterTeach._done=false;
+  clearTeachTimers();
+  setSidesReady(false);
+  sayNode=stopSound(sayNode);
+  showQuestionPre();
+  if(roundIdx===0){
+    sayNode=playTeachVo();
+    if(sayNode){
+      sayNode.addEventListener('ended', afterTeach, {once:true});
+      teachLater(afterTeach, 12000); // ~10.3s teach + buffer
+    }else{
+      teachLater(afterTeach, 4500); // TTS teach duration
+    }
+  }else{
+    showQuestionAsk();
+    locked=false;
+    setSidesReady(true);
+  }
+}
+
+function fitSentenceLine(){
+  const snt=el_sentence.querySelector('.snt'); if(!snt) return;
+  const cs=getComputedStyle(el_sentence);
+  const avail=el_sentence.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight)-8;
+  if(avail<=0) return;
+  let lo=12, hi=Math.min(100, avail*0.35), best=lo;
+  for(let i=0;i<22;i++){
+    const mid=(lo+hi)/2; snt.style.fontSize=mid+'px';
+    if(snt.scrollWidth<=avail){ best=mid; lo=mid; } else { hi=mid; }
+  }
+  snt.style.fontSize=best+'px';
+}
+function showSentence(praise, big, small){
+  el_sentence.innerHTML='<span class="cmp">'+praise+'</span>'
+    +'<span class="snt"><b>'+big+'</b> is bigger than <b>'+small+'</b></span>';
+  el_sentence.classList.remove('on'); void el_sentence.offsetWidth;
+  fitSentenceLine(); el_sentence.classList.add('on');
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(fitSentenceLine).catch(()=>{});
+}
+function hideSentence(){ el_sentence.classList.remove('on'); const s=el_sentence.querySelector('.snt'); if(s) s.style.fontSize=''; }
+
+function starSVG(){return '<svg class="st" viewBox="0 0 24 24"><path d="'+STAR_PATH+'"/></svg>';}
+function buildStars(){starsEl.innerHTML=ROUNDS.map(starSVG).join('');}
+function litStars(n){[...starsEl.children].forEach((s,i)=>s.classList.toggle('on',i<n));}
+
+function renderRound(){
+  locked=true;
+  const r=ROUNDS[roundIdx];
+  pileL.innerHTML=pileHtml(r.L, r.ball);
+  pileR.innerHTML=pileHtml(r.R, r.ball);
+  countL.textContent=r.L;
+  countR.textContent=r.R;
+  [sideL,sideR].forEach(s=>s.classList.remove('correct','shake','pulsing'));
+  [flipS,girlS].forEach(v=>{ v.pause(); try{v.currentTime=0;}catch(e){} });
+  showIdle(true); hideSentence();
+  teachThenAsk();
+}
+
+function pick(side){
+  if(locked) return;
+  ac(); play('tap');
+  const r=ROUNDS[roundIdx];
+  const val=side==='L'?r.L:r.R;
+  const el=side==='L'?sideL:sideR;
+  if(val===r.big){
+    locked=true;
+    setSidesReady(false);
+    el.classList.add('correct');
+    el.style.opacity='1';
+    play('pop'); play('correct');
+    score++; litStars(score);
+    setTimeout(celebrate, 550);
+  }else{
+    play('wrong');
+    el.classList.add('shake');
+    setTimeout(()=>el.classList.remove('shake'),450);
+  }
+}
+sideL.addEventListener('click',()=>pick('L'));
+sideR.addEventListener('click',()=>pick('R'));
+
+function playBoyFlip(){
+  // Seek to start WHILE still hidden, then reveal + play — girl waits on this so they stay in sync
+  return new Promise(resolve=>{
+    let started=false;
+    const go=()=>{
+      if(started) return; started=true;
+      flipS.removeEventListener('seeked', onSeeked);
+      flipS.playbackRate=3;   // 1.5× faster than prior 2×
+      showIdle(false);
+      flipS.play().catch(()=>{});
+      resolve();
+    };
+    const onSeeked=()=> go();
+    flipS.pause();
+    flipS.addEventListener('seeked', onSeeked);
+    try{
+      if(flipS.currentTime===0){ flipS.currentTime=0.001; flipS.currentTime=0; }
+      else flipS.currentTime=0;
+    }catch(e){ go(); return; }
+    setTimeout(go, 250);
+  });
+}
+
+function celebrate(){
+  const r=ROUNDS[roundIdx];
+  showSentence(r.praise, r.big, r.small);
+  sayNode=stopSound(sayNode);
+  sayNode=play(r.voice);
+  try{girlS.currentTime=0;}catch(e){} girlS.playbackRate=1.7;
+  // Let ring + praise land first, then start boy/girl together
+  setTimeout(()=>{
+    playBoyFlip().then(()=>{ girlS.play().catch(()=>{}); });
+  }, 550);
+  let flipDone=false, voDone=false, advanced=false;
+  const advance=()=>{
+    if(advanced || !flipDone || !voDone) return;
+    advanced=true;
+    hideSentence(); sayNode=stopSound(sayNode); try{speechSynthesis.cancel();}catch(e){}
+    [flipS,girlS].forEach(v=>{ v.pause(); v.onended=null; });
+    try{flipS.currentTime=0;}catch(e){}
+    showIdle(true);
+    roundIdx++; if(roundIdx<ROUNDS.length) renderRound(); else endGame();
+  };
+  const onFlipDone=()=>{
+    if(flipDone) return; flipDone=true;
+    [flipS,girlS].forEach(v=>{ v.pause(); v.onended=null; });
+    try{flipS.currentTime=0;}catch(e){}
+    showIdle(true); advance();
+  };
+  const onVoDone=()=>{ if(voDone) return; voDone=true; advance(); };
+  flipS.onended=onFlipDone;
+  setTimeout(onFlipDone, 6000);
+  if(sayNode){
+    sayNode.addEventListener('ended', onVoDone, {once:true});
+    setTimeout(onVoDone, 6500);
+  }else{
+    setTimeout(onVoDone, 5500);
+  }
+}
+
+function playEndFireworks(){
+  fw.loop=true; fw.muted=true; fw.style.opacity='0.95';
+  try{fw.currentTime=0;}catch(e){} fw.play().catch(()=>{});
+  fwSound=stopSound(fwSound);
+  const s=SFX.fireworks;
+  if(s){
+    try{
+      const n=s.a.cloneNode(true); n.loop=true; n.volume=0; n.play().catch(()=>{});
+      const target=s.a.volume, t0=performance.now(), dur=400;
+      (function ramp(){const k=Math.min(1,(performance.now()-t0)/dur); n.volume=target*k; if(k<1) requestAnimationFrame(ramp);})();
+      fwSound=n;
+    }catch(e){}
+  }
+}
+function stopEndFireworks(){
+  fw.style.opacity='0';
+  try{fw.pause(); fw.currentTime=0;}catch(e){}
+  fwSound=stopSound(fwSound);
+}
+function endGame(){
+  document.getElementById('tb_endStars').innerHTML=ROUNDS.map((_,i)=>
+    '<svg viewBox="0 0 24 24"><path d="'+STAR_PATH+'" fill="'+(i<score?'#ffc23e':'#efe6d5')+'" stroke="'+(i<score?'#eaa41c':'#d8ccb4')+'" stroke-width="1.1"/></svg>').join('');
+  document.getElementById('tb_end').style.display='flex';
+  cheerNode=playFade('cheer',1400);
+  playEndFireworks();
+}
+function stopCelebrationAudio(){
+  teachSession++;
+  clearTeachTimers();
+  afterTeach._done=true;   // block pending afterTeach → question VO
+  cheerNode=stopSound(cheerNode); fwSound=stopSound(fwSound); sayNode=stopSound(sayNode);
+  try{speechSynthesis.cancel();}catch(e){} hideSentence(); hideMathLine(); stopEndFireworks();
+}
+
+function start(){
+  stopCelebrationAudio();
+  document.getElementById('tb_end').style.display='none';
+  ac();
+  ROUNDS=buildRounds();
+  roundIdx=0; score=0; buildStars(); litStars(0);
+  renderRound();
+}
+
+window.addEventListener('pointerdown',()=>{const c=ac();c.resume&&c.resume();},{once:true});
+document.getElementById('tb_againBtn').addEventListener('click',start);
+[flipS,girlS].forEach(v=>{ v.pause(); v.addEventListener('loadeddata',()=>{try{v.currentTime=0;}catch(e){}},{once:true}); });
+/* playBtn handled by Hub */
+document.getElementById('tb_homeBtn').addEventListener('click',()=>{ if(window.ThinkBigGame) ThinkBigGame.stop(); if(window.Hub) Hub.showMenu();});
+ROUNDS=buildRounds();
+buildStars();
+
+
+window.ThinkBigGame={
+  start(){
+    const c=ac(); c.resume&&c.resume();
+    stopCelebrationAudio();
+    start();
+  },
+  stop(){
+    try{ afterTeach._done=true; }catch(e){}
+    stopCelebrationAudio();
+    document.getElementById('tb_end').style.display='none';
+    if(window.Hub) Hub.silence();
+  }
+};
+
+})();
+
+
+window.Hub = {
+  current: null,
+  silence(){
+    // Kill every playing voice/sfx/video when leaving a game or opening the hub
+    try{ speechSynthesis.cancel(); }catch(e){}
+    document.querySelectorAll('audio, video').forEach(el=>{
+      try{ el.pause(); el.currentTime=0; }catch(e){}
+    });
+  },
+  showMenu(){
+    this.silence();
+    ['pattern','bigger','thinkPat','thinkBig'].forEach(k=>{
+      const el=document.getElementById('screen-'+k);
+      if(el) el.classList.remove('on');
+    });
+    if(window.PatternGame) PatternGame.stop();
+    if(window.BiggerGame) BiggerGame.stop();
+    if(window.ThinkPatGame) ThinkPatGame.stop();
+    if(window.ThinkBigGame) ThinkBigGame.stop();
+    this.silence();
+    document.getElementById('hub').classList.remove('hide');
+    this.current=null;
+  },
+  launch(kind, act){
+    this.silence();
+    if(window.PatternGame) PatternGame.stop();
+    if(window.BiggerGame) BiggerGame.stop();
+    if(window.ThinkPatGame) ThinkPatGame.stop();
+    if(window.ThinkBigGame) ThinkBigGame.stop();
+    this.silence();
+    document.getElementById('hub').classList.add('hide');
+    ['pattern','bigger','thinkPat','thinkBig'].forEach(k=>{
+      const el=document.getElementById('screen-'+k);
+      if(el) el.classList.toggle('on', k===kind);
+    });
+    this.current=kind;
+    // Defer start so the click that opened the menu cannot keep/trigger VO
+    requestAnimationFrame(()=>{
+      if(kind==='pattern') PatternGame.start(act);
+      else if(kind==='bigger') BiggerGame.start(act);
+      else if(kind==='thinkPat') ThinkPatGame.start();
+      else if(kind==='thinkBig') ThinkBigGame.start();
+    });
+  }
+};
+document.querySelectorAll('.hubBtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    Hub.launch(btn.dataset.launch, btn.dataset.act||null);
+  });
+});
+
+</script>
+</body>
+</html>
