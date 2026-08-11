@@ -1,2 +1,6 @@
-# Original source is over GitHub's 100 MB per-file limit.
+# Local source and preview material that is not part of the website deployment.
 assets/videos/math_poem_final.mp4
+assets/videos/_preview/
+assets/voice/_pre_nobook/
+assets/voice/_pre_normalize_backup/
+assets/flip_backup.webm
