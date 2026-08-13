@@ -1,6 +1,0 @@
-# Local source, backup, and preview material excluded from deployment.
-assets/videos/math_poem_final.mp4
-assets/videos/_preview/
-assets/voice/_pre_nobook/
-assets/voice/_pre_normalize_backup/
-assets/flip_backup.webm

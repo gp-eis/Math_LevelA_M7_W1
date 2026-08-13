@@ -21,51 +21,163 @@
     padding:clamp(10px,2vh,22px) clamp(8px,2vw,20px) clamp(12px,2.2vh,24px);
     overflow:hidden;width:100vw;height:100vh;max-width:100%;max-height:100%;flex:none;
     background:
-      radial-gradient(circle at 12% 18%,rgba(255,170,200,.45),transparent 28%),
-      radial-gradient(circle at 88% 22%,rgba(255,210,120,.4),transparent 26%),
-      radial-gradient(circle at 70% 78%,rgba(160,210,255,.35),transparent 30%),
-      radial-gradient(circle at 22% 82%,rgba(190,170,255,.32),transparent 28%),
-      radial-gradient(circle at 50% 45%,rgba(180,240,200,.2),transparent 40%),
-      linear-gradient(180deg,#fbf7f1 0%,#f3ebe3 100%);
+      radial-gradient(ellipse 80% 55% at 15% 10%,rgba(180,220,255,.45),transparent 55%),
+      radial-gradient(ellipse 70% 50% at 90% 20%,rgba(200,230,255,.4),transparent 50%),
+      radial-gradient(ellipse 60% 45% at 50% 100%,rgba(170,210,245,.35),transparent 55%),
+      linear-gradient(180deg,#eaf5ff 0%,#f4f8fc 55%,#e8f2fb 100%);
     container-type:size;}
   @supports (height:100dvh){#hub{height:100dvh;}}
   #hub.hide{display:none;}
 
-  .hubHeader{width:min(980px,100%);display:flex;flex-direction:column;align-items:center;gap:6px;flex:none;z-index:2;}
-  .hubTitle{font-family:'Baloo';font-size:clamp(24px,4.8vh,48px);line-height:1;text-align:center;
-    display:flex;flex-wrap:wrap;justify-content:center;gap:.02em;letter-spacing:.02em;}
-  .hubTitle span{display:inline-block;color:#fff;-webkit-text-stroke:clamp(3px,.55vh,6px) #5a4638;
-    paint-order:stroke fill;filter:drop-shadow(0 3px 0 rgba(90,70,56,.18));}
-  .hubTitle span:nth-child(6n+1){color:#ff7aa2;}
-  .hubTitle span:nth-child(6n+2){color:#ff9a4a;}
-  .hubTitle span:nth-child(6n+3){color:#ffd84a;}
-  .hubTitle span:nth-child(6n+4){color:#6edc8a;}
-  .hubTitle span:nth-child(6n+5){color:#5cbcff;}
-  .hubTitle span:nth-child(6n+6){color:#b48cff;}
-  .hubBadge{display:inline-flex;align-items:center;padding:6px 16px;border-radius:999px;
-    background:#fff;color:#5a534c;font-family:'Baloo';font-size:clamp(12px,1.6vh,16px);
-    box-shadow:0 4px 0 rgba(90,70,56,.08),0 10px 22px rgba(90,70,56,.08);border:3px solid #fff;}
+  /* Level A week picker — matte soft pillow cards */
+  #weeks{position:relative;z-index:70;display:flex;flex-direction:column;align-items:center;
+    justify-content:center;gap:clamp(22px,4vh,40px);
+    padding:clamp(16px,3vh,36px) clamp(12px,3vw,28px);
+    overflow:hidden;width:100vw;height:100vh;max-width:100%;max-height:100%;flex:none;
+    background:
+      radial-gradient(ellipse 90% 70% at 20% 15%,rgba(255,196,210,.55),transparent 55%),
+      radial-gradient(ellipse 80% 60% at 85% 20%,rgba(255,220,150,.5),transparent 50%),
+      radial-gradient(ellipse 70% 50% at 50% 90%,rgba(255,210,180,.35),transparent 55%),
+      linear-gradient(165deg,#ffe8ef 0%,#fff1e0 45%,#ffe9d4 100%);}
+  @supports (height:100dvh){#weeks{height:100dvh;}}
+  #weeks.hide{display:none;}
+  .weeksHeader{display:flex;flex-direction:column;align-items:center;gap:12px;flex:none;}
+  .weeksLevel{font-family:'Fredoka',sans-serif;font-weight:700;font-size:clamp(16px,2.4vh,22px);
+    color:#6b5344;background:#fff;padding:10px 28px;border-radius:999px;border:none;
+    box-shadow:
+      0 1px 2px rgba(90,70,56,.06),
+      0 6px 16px rgba(90,70,56,.08),
+      0 14px 28px rgba(90,70,56,.06);}
+  .weeksTitle{font-family:'Fredoka',sans-serif;font-weight:700;font-size:clamp(28px,5vh,46px);
+    line-height:1.1;color:#5c4033;text-align:center;letter-spacing:.01em;
+    -webkit-text-stroke:0;filter:none;text-shadow:none;}
+  .weeksRow{display:flex;flex-direction:row;align-items:stretch;justify-content:center;
+    gap:clamp(12px,2.2vw,24px);width:min(1100px,100%);flex-wrap:nowrap;
+    perspective:1200px;padding:clamp(12px,2vh,28px) 4px clamp(28px,4vh,48px);}
+  .weekBtn{appearance:none;border:none;cursor:pointer;flex:1 1 0;min-width:0;
+    max-width:230px;aspect-ratio:3/4;border-radius:36px;padding:14px 12px 16px;
+    display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:6px;
+    font-family:'Fredoka',sans-serif;font-weight:700;color:#fff;
+    text-shadow:0 1px 1px rgba(70,50,40,.12);
+    position:relative;overflow:hidden;isolation:isolate;
+    transition:
+      transform .28s cubic-bezier(.22,.9,.28,1),
+      box-shadow .28s cubic-bezier(.22,.9,.28,1),
+      filter .28s ease,
+      outline-color .28s ease;
+    outline:2px solid transparent;outline-offset:2px;
+    transform:translateY(0) scale(1);
+    /* resting soft pillow depth */
+    box-shadow:
+      0 1px 2px rgba(70,50,40,.05),
+      0 6px 12px rgba(70,50,40,.08),
+      0 14px 28px rgba(70,50,40,.10),
+      0 22px 40px rgba(70,50,40,.06),
+      inset 0 2px 5px rgba(255,255,255,.28),
+      inset 0 -4px 8px rgba(60,45,35,.10);}
+  .weekBtn::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:0;
+    background:linear-gradient(165deg,rgba(255,255,255,.16),transparent 42%,rgba(60,45,35,.06) 100%);}
+  .weekBtn::after{display:none;}
+  .weekBtn .weekArt{position:relative;z-index:1;flex:1 1 auto;min-height:0;width:100%;
+    display:flex;align-items:flex-end;justify-content:center;pointer-events:none;}
+  .weekBtn .weekArt img{width:auto;height:100%;max-width:100%;max-height:100%;
+    object-fit:contain;object-position:bottom center;display:block;
+    filter:drop-shadow(0 4px 8px rgba(70,50,40,.18));}
+  .weekBtn .weekNum,
+  .weekBtn .weekLabel,
+  .weekBtn .weekHint{position:relative;z-index:1;flex:none;}
+  .weekBtn .weekNum{font-size:clamp(22px,3.4vh,32px);line-height:1;font-weight:700;}
+  .weekBtn .weekLabel{font-size:clamp(14px,2vh,18px);letter-spacing:.02em;font-weight:700;}
+  .weekBtn .weekHint{font-size:clamp(10px,1.35vh,12px);font-weight:600;opacity:.88;}
+  /* muted pillow fills */
+  .weekBtn[data-week="1"]{background:#7db88a;}
+  .weekBtn[data-week="2"]{background:#7aa9bf;}
+  .weekBtn[data-week="3"]{background:#c4a67a;}
+  .weekBtn[data-week="4"]{background:#b8796f;}
+  /* hover / touch pop-out */
+  .weekBtn:hover:not(:disabled),
+  .weekBtn:focus-visible:not(:disabled){
+    z-index:3;
+    transform:translateY(-16px) scale(1.07);
+    outline-color:rgba(255,255,255,.92);
+    box-shadow:
+      0 2px 4px rgba(70,50,40,.05),
+      0 12px 24px rgba(70,50,40,.10),
+      0 28px 48px rgba(70,50,40,.14),
+      0 42px 72px rgba(70,50,40,.12),
+      inset 0 2px 5px rgba(255,255,255,.3),
+      inset 0 -3px 7px rgba(60,45,35,.08);}
+  .weeksRow:has(.weekBtn:hover:not(:disabled)) .weekBtn:not(:hover):not(:disabled),
+  .weeksRow:has(.weekBtn:focus-visible:not(:disabled)) .weekBtn:not(:focus-visible):not(:disabled){
+    transform:translateY(4px) scale(.96);
+    filter:saturate(.92) brightness(.97);
+    box-shadow:
+      0 1px 2px rgba(70,50,40,.04),
+      0 4px 10px rgba(70,50,40,.07),
+      0 10px 18px rgba(70,50,40,.08),
+      inset 0 2px 4px rgba(255,255,255,.22),
+      inset 0 -3px 6px rgba(60,45,35,.1);}
+  .weekBtn:active:not(:disabled),
+  .weekBtn.is-pressing:not(:disabled){
+    z-index:3;
+    transform:translateY(-8px) scale(1.03)!important;
+    outline-color:rgba(255,255,255,.85);
+    box-shadow:
+      0 2px 4px rgba(70,50,40,.05),
+      0 10px 20px rgba(70,50,40,.10),
+      0 22px 40px rgba(70,50,40,.12),
+      inset 0 2px 5px rgba(255,255,255,.25),
+      inset 0 -3px 6px rgba(60,45,35,.1)!important;}
+  .weekBtn:disabled{cursor:default;filter:saturate(.72) brightness(.96);opacity:.9;}
+  .weekBtn:disabled:hover,
+  .weekBtn:disabled:focus-visible{transform:none;outline-color:transparent;filter:saturate(.72) brightness(.96);}
+  @media (max-width:700px){
+    .weeksRow{flex-wrap:wrap;max-width:420px;perspective:none;}
+    .weekBtn{flex:1 1 calc(50% - 10px);max-width:none;aspect-ratio:1/1.15;min-height:140px;border-radius:30px;}
+    .weekBtn:hover:not(:disabled),
+    .weekBtn:focus-visible:not(:disabled){transform:translateY(-10px) scale(1.04);}
+  }
 
-  .hubStage{position:relative;width:min(1100px,100%);flex:1;min-height:0;display:flex;align-items:center;justify-content:center;}
-  .hubTrack{position:relative;width:100%;height:100%;min-height:min(58vh,540px);display:flex;align-items:center;justify-content:center;}
-  .hubCard{position:absolute;width:min(420px,78vw);height:min(58vh,520px);border-radius:36px;
-    background:linear-gradient(180deg,#ffffff 0%,#fff7ef 100%);
-    border:6px solid #fff;box-shadow:0 18px 0 rgba(90,70,56,.08),0 28px 40px rgba(90,70,56,.12);
-    display:flex;flex-direction:column;align-items:center;padding:18px 16px 16px;gap:12px;
-    transition:transform .35s cubic-bezier(.2,.9,.2,1),opacity .35s ease,filter .35s ease;
-    opacity:.55;pointer-events:none;transform:scale(.78);filter:saturate(.85);}
-  .hubCard::before{content:"";position:absolute;inset:10px;border-radius:28px;pointer-events:none;
-    background:linear-gradient(180deg,rgba(255,255,255,.65),transparent 42%);opacity:.9;}
+  .hubHeader{width:min(980px,100%);display:flex;flex-direction:column;align-items:center;gap:6px;flex:none;z-index:2;position:relative;}
+  .hubWeekTitle{font-family:'Fredoka',sans-serif;font-weight:700;font-size:clamp(26px,4.8vh,46px);
+    line-height:1.1;color:#e8893a;text-align:center;letter-spacing:.01em;
+    text-shadow:0 1px 0 rgba(255,255,255,.8),0 2px 8px rgba(232,137,58,.18);}
+  .hubWeekSub{font-family:'Fredoka',sans-serif;font-weight:700;font-size:clamp(15px,2.2vh,22px);
+    color:#3d5a80;text-align:center;margin-top:2px;}
+  .hubBadge{display:none;}
+
+  .hubStage{position:relative;width:min(1200px,100%);flex:1;min-height:0;display:flex;align-items:center;justify-content:center;
+    padding:0 clamp(56px,7vw,88px);}
+  .hubTrack{position:relative;width:100%;height:100%;min-height:min(62vh,560px);display:flex;align-items:center;justify-content:center;}
+  /* large matte pillow cards — neighbor cards stay clearly visible */
+  .hubCard{position:absolute;width:min(460px,70vw);height:min(62vh,540px);aspect-ratio:1/1.05;max-height:100%;
+    border-radius:40px;border:none;
+    background:#fff8f2;
+    box-shadow:
+      0 2px 4px rgba(70,50,40,.05),
+      0 10px 22px rgba(70,50,40,.08),
+      0 22px 40px rgba(70,50,40,.10),
+      inset 0 2px 5px rgba(255,255,255,.55),
+      inset 0 -3px 8px rgba(60,45,35,.06);
+    display:flex;flex-direction:column;align-items:center;padding:18px 16px 16px;gap:10px;
+    transition:transform .35s cubic-bezier(.2,.9,.2,1),opacity .35s ease,filter .35s ease,box-shadow .35s ease;
+    opacity:.5;pointer-events:none;transform:scale(.78);filter:saturate(.9);}
+  .hubCard::before{display:none;}
   .hubCard.is-center{opacity:1;pointer-events:auto;transform:scale(1);z-index:3;filter:none;
-    background:linear-gradient(135deg,#ffe6f2 0%,#fff4d8 35%,#e8fff0 70%,#e6f3ff 100%);}
-  .hubCard.is-left{transform:translateX(-56%) scale(.74);z-index:2;}
-  .hubCard.is-right{transform:translateX(56%) scale(.74);z-index:2;}
-  .hubCard.is-far{opacity:0;transform:scale(.62);z-index:1;}
+    background:#fffdf9;
+    box-shadow:
+      0 2px 4px rgba(70,50,40,.05),
+      0 14px 28px rgba(70,50,40,.10),
+      0 28px 48px rgba(70,50,40,.12),
+      inset 0 2px 5px rgba(255,255,255,.6),
+      inset 0 -3px 8px rgba(60,45,35,.05);}
+  .hubCard.is-left{transform:translateX(-62%) scale(.86);z-index:2;opacity:.78;}
+  .hubCard.is-right{transform:translateX(62%) scale(.86);z-index:2;opacity:.78;}
+  .hubCard.is-far{opacity:0;transform:scale(.7);z-index:1;}
 
-  .hubCardTitle{position:relative;z-index:1;font-family:'Baloo';font-size:clamp(26px,4.6vh,42px);
-    color:#4d453e;line-height:1;text-align:center;max-width:100%;
-    -webkit-text-stroke:clamp(2px,.35vh,4px) #fff;paint-order:stroke fill;
-    filter:drop-shadow(0 2px 0 rgba(90,70,56,.12));}
+  .hubCardTitle{position:relative;z-index:1;font-family:'Fredoka',sans-serif;font-weight:700;
+    font-size:clamp(18px,2.8vh,28px);color:#5c4033;line-height:1.1;text-align:center;max-width:100%;
+    -webkit-text-stroke:0;paint-order:normal;filter:none;letter-spacing:.01em;}
   .hubCardArt{position:relative;z-index:1;flex:1;width:100%;min-height:0;border-radius:26px;
     background:linear-gradient(180deg,#fff 0%,#f7f1ea 100%);
     border:4px solid rgba(255,255,255,.95);
@@ -200,7 +312,7 @@
   .hubCard[data-idx="2"] .hubCardArt.is-pressing,
   .hubCard[data-idx="3"] .hubCardArt:active,
   .hubCard[data-idx="3"] .hubCardArt.is-pressing{transform:scale(.98);}
-  /* Math Activities 1–2 + Thinking Math: character thumbs like video cards */
+  /* Math Activities 1— + Thinking Math: character thumbs like video cards */
   .hubCard[data-idx="1"] .hubCardArt,
   .hubCard[data-idx="2"] .hubCardArt,
   .hubCard[data-idx="3"] .hubCardArt{
@@ -306,29 +418,67 @@
     object-fit:contain;object-position:center;display:block;
     filter:drop-shadow(0 3px 8px rgba(90,70,56,.12));pointer-events:none;}
 
-  .hubNav{width:min(980px,100%);display:flex;flex-direction:column;align-items:center;justify-content:center;
-    gap:10px;flex:none;z-index:2;margin-top:2px;}
-  .hubArrowRow{display:flex;align-items:center;justify-content:space-between;
-    width:min(220px,48vw);transform:translateY(-56px);}
-  .hubArrow{width:58px;height:58px;border:none;border-radius:20px;cursor:pointer;
-    background:linear-gradient(180deg,#ffd0dc 0%,#ff9db4 100%);color:#fff;
-    box-shadow:0 6px 0 #e07892,0 10px 18px rgba(224,120,146,.25),inset 0 2px 0 rgba(255,255,255,.5);
-    display:flex;align-items:center;justify-content:center;}
+  /* side arrows over the stage (reference layout) */
+  .hubArrow{position:absolute;top:50%;transform:translateY(-50%);z-index:8;
+    width:56px;height:56px;border:none;border-radius:50%;cursor:pointer;
+    background:#fff;color:#4a7eb5;
+    box-shadow:
+      0 2px 4px rgba(70,50,40,.06),
+      0 8px 18px rgba(70,50,40,.10),
+      inset 0 1px 3px rgba(255,255,255,.8);
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .15s ease, box-shadow .15s ease, opacity .15s ease;}
+  #hubPrev{left:clamp(6px,1.2vw,16px);}
+  #hubNext{right:clamp(6px,1.2vw,16px);}
   .hubArrow svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round;}
-  .hubArrow:active{transform:translateY(3px);box-shadow:0 2px 0 #e07892,0 6px 10px rgba(224,120,146,.22),inset 0 2px 0 rgba(255,255,255,.45);}
-  .hubArrow:disabled{opacity:.35;cursor:default;pointer-events:none;transform:none;box-shadow:0 6px 0 #e07892,0 10px 18px rgba(224,120,146,.18),inset 0 2px 0 rgba(255,255,255,.45);}
+  .hubArrow:hover{transform:translateY(-50%) scale(1.06);}
+  .hubArrow:active{transform:translateY(calc(-50% + 2px)) scale(.98);
+    box-shadow:0 2px 6px rgba(70,50,40,.1), inset 0 1px 2px rgba(255,255,255,.7);}
+  .hubArrow:disabled{opacity:.28;cursor:default;pointer-events:none;transform:translateY(-50%);}
+
+  .hubNav{width:min(980px,100%);display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:14px;flex:none;z-index:2;margin-top:4px;padding-bottom:4px;}
   .hubDots{display:flex;align-items:center;justify-content:center;gap:10px;}
   .hubDots button{width:12px;height:12px;border:none;border-radius:50%;padding:0;cursor:pointer;
-    background:#cfc6bc;box-shadow:inset 0 1px 2px rgba(0,0,0,.12);}
-  .hubDots button.on{width:18px;height:18px;background:linear-gradient(180deg,#ffd27a,#f0a040);
-    box-shadow:0 3px 0 #d4842a;}
+    background:#d8d0c8;box-shadow:inset 0 1px 2px rgba(0,0,0,.1);
+    transition:transform .15s ease, background .15s ease, width .15s ease, height .15s ease;}
+  .hubDots button.on{width:14px;height:14px;background:#e8893a;
+    box-shadow:0 2px 6px rgba(232,137,58,.35);}
+
+  /* matte pillow All Weeks button */
+  .hubAllWeeks{appearance:none;border:none;cursor:pointer;
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    min-width:min(280px,78vw);padding:14px 28px;border-radius:999px;
+    font-family:'Fredoka',sans-serif;font-weight:700;font-size:clamp(16px,2.2vh,20px);color:#fff;
+    background:#e8893a;
+    box-shadow:
+      0 2px 4px rgba(70,50,40,.06),
+      0 8px 18px rgba(232,137,58,.28),
+      0 16px 32px rgba(70,50,40,.08),
+      inset 0 2px 4px rgba(255,255,255,.28),
+      inset 0 -3px 6px rgba(120,60,20,.12);
+    transition:transform .18s ease, box-shadow .18s ease;}
+  .hubAllWeeks .hubAllIcon{width:28px;height:28px;border-radius:8px;background:#4a7eb5;
+    display:inline-flex;align-items:center;justify-content:center;flex:none;
+    box-shadow:inset 0 1px 2px rgba(255,255,255,.25);}
+  .hubAllWeeks .hubAllIcon svg{width:16px;height:16px;stroke:#fff;stroke-width:2.6;fill:none;
+    stroke-linecap:round;stroke-linejoin:round;}
+  .hubAllWeeks:hover{transform:translateY(-3px) scale(1.02);}
+  .hubAllWeeks:active,
+  .hubAllWeeks.is-pressing{transform:translateY(2px) scale(.98)!important;
+    box-shadow:
+      0 1px 3px rgba(70,50,40,.08),
+      0 4px 10px rgba(232,137,58,.22),
+      inset 0 2px 4px rgba(255,255,255,.22),
+      inset 0 -2px 5px rgba(120,60,20,.12)!important;}
 
   @media (max-width:700px){
-    .hubCard{width:min(86vw,360px);height:min(54vh,480px);}
-    .hubCard.is-left{transform:translateX(-40%) scale(.7);}
-    .hubCard.is-right{transform:translateX(40%) scale(.7);}
-    .hubArrow{width:50px;height:50px;border-radius:18px;}
-    .hubArrowRow{width:min(200px,56vw);}
+    .hubStage{padding:0 48px;}
+    .hubCard{width:min(78vw,340px);height:min(50vh,420px);}
+    .hubCard.is-left{transform:translateX(-48%) scale(.78);opacity:.65;}
+    .hubCard.is-right{transform:translateX(48%) scale(.78);opacity:.65;}
+    .hubArrow{width:46px;height:46px;}
+    .hubArrow svg{width:22px;height:22px;}
   }
 
   /* shared video viewer */
@@ -828,13 +978,14 @@
   @keyframes correctPop{0%{transform:scale(1);}45%{transform:scale(1.04);}100%{transform:scale(1);}}
   @keyframes checkIn{0%{opacity:0;transform:translateY(-50%) scale(0);}70%{opacity:1;transform:translateY(-50%) scale(1.15);}100%{opacity:1;transform:translateY(-50%) scale(1);}}
 
-  /* celebration heroes: JS places them between comment + pattern board */
-  .g-think-pat .hero{position:absolute;top:0;left:50%;bottom:auto;width:auto;z-index:20;pointer-events:none;
-    filter:drop-shadow(0 8px 7px rgba(0,0,0,.16));opacity:0;transition:opacity .45s ease;max-height:none;}
-  #tp_girlIdle,#tp_girlS{transform:translate(-108%,0);}
-  #tp_boyIdle,#tp_flipS{transform:translate(8%,0);}
-  #tp_flipS{filter:none!important;}
-  .g-think-pat .shadow{display:none;}
+  /* celebration heroes: bottom corners of the red panel (same as Thinking Bigger) */
+  .g-think-pat .hero{position:absolute;bottom:2.2cqh;left:auto;top:auto;width:auto;z-index:20;pointer-events:none;
+    filter:drop-shadow(0 8px 7px rgba(0,0,0,.16));opacity:0;transition:opacity .45s ease;max-height:none;transform:none;}
+  .g-think-pat #tp_boyIdle,.g-think-pat #tp_flipS{right:-1cqh;left:auto;height:22cqh;}
+  .g-think-pat #tp_girlIdle,.g-think-pat #tp_girlS{left:0;right:auto;height:19cqh;}
+  .g-think-pat #tp_flipS{filter:drop-shadow(0 8px 7px rgba(0,0,0,.16));}
+  .g-think-pat .shadow{position:absolute;bottom:1.9cqh;height:1.8cqh;border-radius:50%;background:rgba(40,55,70,.15);filter:blur(4px);z-index:7;pointer-events:none;display:block;}
+  .g-think-pat .shadow.boy{right:2.2cqh;width:10cqh;} .g-think-pat .shadow.girl{left:2.2cqh;width:8.5cqh;}
 
   #tp_fw{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;z-index:0;pointer-events:none;transition:opacity .5s;}
   #tp_end > *:not(#tp_fw){position:relative;z-index:1;}
@@ -1026,55 +1177,86 @@
 </head>
 <body>
 
-<div id="hub">
-  <header class="hubHeader">
-    <div class="hubTitle" aria-label="Math Literacy">
-      <span>M</span><span>a</span><span>t</span><span>h</span><span>&nbsp;</span><span>L</span><span>i</span><span>t</span><span>e</span><span>r</span><span>a</span><span>c</span><span>y</span><span>!</span>
-    </div>
-    <div class="hubBadge">Week 1</div>
+<div id="weeks">
+  <header class="weeksHeader">
+    <div class="weeksLevel">Level A</div>
+    <div class="weeksTitle">Choose a Week</div>
+  </header>
+  <div class="weeksRow" role="navigation" aria-label="Level A weeks">
+    <button type="button" class="weekBtn" data-week="1" aria-label="Open Week 1">
+      <span class="weekArt"><img src="assets/week_1_thumb.png?v=1" alt=""></span>
+      <span class="weekNum">1</span>
+      <span class="weekLabel">Week 1</span>
+    </button>
+    <button type="button" class="weekBtn" data-week="2" disabled aria-label="Week 2 coming soon">
+      <span class="weekArt"><img src="assets/week_2_thumb.png?v=1" alt=""></span>
+      <span class="weekNum">2</span>
+      <span class="weekLabel">Week 2</span>
+      <span class="weekHint">Coming soon</span>
+    </button>
+    <button type="button" class="weekBtn" data-week="3" disabled aria-label="Week 3 coming soon">
+      <span class="weekArt"><img src="assets/week_3_thumb.png?v=1" alt=""></span>
+      <span class="weekNum">3</span>
+      <span class="weekLabel">Week 3</span>
+      <span class="weekHint">Coming soon</span>
+    </button>
+    <button type="button" class="weekBtn" data-week="4" disabled aria-label="Week 4 coming soon">
+      <span class="weekArt"><img src="assets/week_4_thumb.png?v=1" alt=""></span>
+      <span class="weekNum">4</span>
+      <span class="weekLabel">Week 4</span>
+      <span class="weekHint">Coming soon</span>
+    </button>
+  </div>
+</div>
+
+<div id="hub" class="hide">
+  <header class="hubHeader" hidden>
+    <div class="hubWeekTitle" id="hubWeekTitle"></div>
+    <div class="hubWeekSub" id="hubWeekSub"></div>
   </header>
 
   <div class="hubStage">
+    <button class="hubArrow" id="hubPrev" aria-label="Previous"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
     <div class="hubTrack" id="hubTrack">
-      <!-- 0 Math Literacy Videos -->
+      
       <article class="hubCard" data-idx="0">
-        <div class="hubCardTitle">MATH LITERACY VIDEOS</div>
+        <div class="hubCardTitle">Math Literacy Videos</div>
         <div class="hubCardArt">
           <button class="hubBtn videoPlay" data-launch="concept" aria-label="Watch Math Literacy Videos"><img src="assets/hub_math_literacy_videos.png?v=1" alt="Math Literacy Videos"></button>
         </div>
         <div class="hubActions"></div>
       </article>
 
-      <!-- 1 Math Activities 1 -->
+      
       <article class="hubCard" data-idx="1">
-        <div class="hubCardTitle">MATH ACTIVITIES 1</div>
+        <div class="hubCardTitle">Math Activities 1</div>
         <button type="button" class="hubCardArt" data-launch="actPick" data-act="act1" aria-label="Open Math Activities 1">
           <img src="assets/hub_math_activities_1.png" alt="Math Activities 1">
         </button>
         <div class="hubActions"></div>
       </article>
 
-      <!-- 2 Math Activities 2 -->
+      
       <article class="hubCard" data-idx="2">
-        <div class="hubCardTitle">MATH ACTIVITIES 2</div>
+        <div class="hubCardTitle">Math Activities 2</div>
         <button type="button" class="hubCardArt" data-launch="actPick" data-act="act2" aria-label="Open Math Activities 2">
           <img src="assets/hub_math_activities_2.png" alt="Math Activities 2">
         </button>
         <div class="hubActions"></div>
       </article>
 
-      <!-- 3 Think -->
+      
       <article class="hubCard" data-idx="3">
-        <div class="hubCardTitle">THINKING MATH</div>
+        <div class="hubCardTitle">Thinking Math</div>
         <button type="button" class="hubCardArt" data-launch="actPick" data-act="act3" aria-label="Open Thinking Math">
-          <img src="assets/hub_thinking_math.png?v=4" alt="Thinking Math">
+          <img src="assets/hub_thinking_math.png?v=5" alt="Thinking Math">
         </button>
         <div class="hubActions"></div>
       </article>
 
-      <!-- 4 Fairytale -->
+      
       <article class="hubCard" data-idx="4">
-        <div class="hubCardTitle">MATH LITERATURE</div>
+        <div class="hubCardTitle">Math Literature</div>
         <div class="hubCardArt">
           <button type="button" class="fairytaleThumb" data-launch="video" data-act="poem" aria-label="Watch Math Literature">
             <img src="assets/videos/thumbs/math_fairytale.png?v=5" alt="Math Literature">
@@ -1083,14 +1265,15 @@
         <div class="hubActions"></div>
       </article>
     </div>
+    <button class="hubArrow" id="hubNext" aria-label="Next"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
   </div>
 
   <nav class="hubNav" aria-label="Hub navigation">
-    <div class="hubArrowRow">
-      <button class="hubArrow" id="hubPrev" aria-label="Previous"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
-      <button class="hubArrow" id="hubNext" aria-label="Next"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
-    </div>
     <div class="hubDots" id="hubDots"></div>
+    <button type="button" class="hubAllWeeks" id="hubAllWeeks" aria-label="All Weeks">
+      <span class="hubAllIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></span>
+      <span>All Weeks</span>
+    </button>
   </nav>
 </div>
 
@@ -1165,10 +1348,10 @@
       <div class="qline">What comes next in the pattern?</div>
     </div>
     <div id="p_stars"></div>
-    <!-- Fenny explains in the space below the stars -->
-    <video id="p_fenny" src="assets/fenny_look_pattern.webm" muted playsinline preload="auto"></video>
+    
+    <video id="p_fenny" src="assets/fenny_look_pattern.webm?v=15" muted playsinline preload="auto"></video>
 
-    <!-- pattern row: 3 shown balls + the ? slot -->
+    
     <div class="row">
       <div class="card" id="p_c0"><img alt=""></div>
       <div class="card" id="p_c1"><img alt=""></div>
@@ -1176,7 +1359,7 @@
       <div class="card slot" id="p_qcell"><span class="qm">?</span><img id="p_reveal" alt=""></div>
     </div>
 
-    <!-- answers -->
+    
     <div class="ans">
       <div class="pick a" id="p_pickA">
         <div class="badge">A</div>
@@ -1190,22 +1373,22 @@
       </div>
     </div>
 
-    <!-- 3D characters -->
+    
     <div class="shadow girl"></div><div class="shadow boy"></div>
     <img id="p_girlIdle" class="hero" src="assets/girl_idle.png" alt="">
     <img id="p_boyIdle" class="hero" src="assets/boy_idle.png" alt="">
-    <video id="p_girlS" class="hero" src="assets/girl.webm" muted playsinline preload="auto"></video>
-    <video id="p_flipS" class="hero" src="assets/flip.webm?v=9" muted playsinline preload="auto"></video>
+    <video id="p_girlS" class="hero" src="assets/girl.webm?v=15" muted playsinline preload="auto"></video>
+    <video id="p_flipS" class="hero" src="assets/flip.webm?v=15" muted playsinline preload="auto"></video>
 
-    <!-- banner + English pattern sentence -->
+    
     <div id="p_banner">GREAT JOB!</div>
     <div id="p_sentence"></div>
 
     <button id="p_homeBtn" title="Menu"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg></button>
 
     <div id="p_end">
-      <!-- fireworks only on "You did it!" (same as bigger-numbers) -->
-      <video id="p_fw" src="assets/fireworks_end_alpha.webm" muted playsinline preload="auto"></video>
+      
+      <video id="p_fw" src="assets/fireworks_end_alpha.webm?v=15" muted playsinline preload="auto"></video>
       <h1>You did it!</h1>
       <div id="p_endStars"></div>
       <div class="endBtns">
@@ -1215,7 +1398,7 @@
     </div>
   </div></div>
 
-  <!-- menu -->
+  
   </div></div><div class="game g-bigger" id="screen-bigger"><svg width="0" height="0"><defs>
   <filter id="b_rough"><feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="2" result="n"/>
     <feDisplacementMap in="SourceGraphic" in2="n" scale="4"/></filter>
@@ -1229,10 +1412,10 @@
       <div class="qline">Which number is bigger?</div>
     </div>
     <div id="b_stars"></div>
-    <!-- teacher explains bigger numbers before kids can answer -->
-    <video id="b_fenny" src="assets/fenny_bigger_numbers.webm?v=2" muted playsinline preload="auto"></video>
+    
+    <video id="b_fenny" src="assets/fenny_bigger_numbers.webm?v=15" muted playsinline preload="auto"></video>
 
-    <!-- two numbered balls: tap the bigger one -->
+    
     <div class="compare">
       <div class="numpick" id="b_pickL">
         <svg class="ring" id="b_ringL" viewBox="0 0 100 100"><ellipse cx="50" cy="50" rx="45" ry="45" fill="none" stroke="#ec5866" stroke-width="4.5" filter="url(#b_rough)"/></svg>
@@ -1244,12 +1427,12 @@
       </div>
     </div>
 
-    <!-- 3D characters -->
+    
     <div class="shadow girl"></div><div class="shadow boy"></div>
     <img id="b_girlIdle" class="hero" src="assets/girl_idle.png" alt="">
     <img id="b_boyIdle" class="hero" src="assets/boy_idle.png" alt="">
-    <video id="b_girlS" class="hero" src="assets/girl.webm" muted playsinline preload="auto"></video>
-    <video id="b_flipS" class="hero" src="assets/flip.webm?v=9" muted playsinline preload="auto"></video>
+    <video id="b_girlS" class="hero" src="assets/girl.webm?v=15" muted playsinline preload="auto"></video>
+    <video id="b_flipS" class="hero" src="assets/flip.webm?v=15" muted playsinline preload="auto"></video>
 
     <div id="b_sentence"></div>
     <div id="b_banner">GREAT JOB!</div>
@@ -1257,8 +1440,8 @@
     <button id="b_homeBtn" title="Menu"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg></button>
 
     <div id="b_end">
-      <!-- full transparent fireworks video (VP9 + alpha), not frame sprites -->
-      <video id="b_fw" src="assets/fireworks_end_alpha.webm" muted playsinline preload="auto"></video>
+      
+      <video id="b_fw" src="assets/fireworks_end_alpha.webm?v=15" muted playsinline preload="auto"></video>
       <h1>You did it!</h1>
       <div id="b_endStars"></div>
       <div class="endBtns">
@@ -1268,7 +1451,7 @@
     </div>
   </div></div>
 
-  <!-- menu -->
+  
   </div></div><div class="game g-think-pat" id="screen-thinkPat"><svg width="0" height="0"><defs>
   <filter id="tp_rough"><feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="2" result="n"/>
     <feDisplacementMap in="SourceGraphic" in2="n" scale="4"/></filter>
@@ -1296,14 +1479,14 @@
     <div class="shadow girl"></div><div class="shadow boy"></div>
     <img id="tp_girlIdle" class="hero" src="assets/girl_idle.png" alt="">
     <img id="tp_boyIdle" class="hero" src="assets/boy_idle.png" alt="">
-    <video id="tp_girlS" class="hero" src="assets/girl.webm" muted playsinline preload="auto"></video>
-    <video id="tp_flipS" class="hero" src="assets/flip.webm?v=9" muted playsinline preload="auto"></video>
+    <video id="tp_girlS" class="hero" src="assets/girl.webm?v=15" muted playsinline preload="auto"></video>
+    <video id="tp_flipS" class="hero" src="assets/flip.webm?v=15" muted playsinline preload="auto"></video>
 
     <div id="tp_sentence"></div>
     <button id="tp_homeBtn" title="Menu"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg></button>
 
     <div id="tp_end">
-      <video id="tp_fw" src="assets/fireworks_end_alpha.webm" muted playsinline preload="auto"></video>
+      <video id="tp_fw" src="assets/fireworks_end_alpha.webm?v=15" muted playsinline preload="auto"></video>
       <h1>You did it!</h1>
       <div id="tp_endStars"></div>
       <div class="endBtns">
@@ -1341,14 +1524,14 @@
     <div class="shadow girl"></div><div class="shadow boy"></div>
     <img id="tb_girlIdle" class="hero" src="assets/girl_idle.png" alt="">
     <img id="tb_boyIdle" class="hero" src="assets/boy_idle.png" alt="">
-    <video id="tb_girlS" class="hero" src="assets/girl.webm" muted playsinline preload="auto"></video>
-    <video id="tb_flipS" class="hero" src="assets/flip.webm?v=9" muted playsinline preload="auto"></video>
+    <video id="tb_girlS" class="hero" src="assets/girl.webm?v=15" muted playsinline preload="auto"></video>
+    <video id="tb_flipS" class="hero" src="assets/flip.webm?v=15" muted playsinline preload="auto"></video>
 
     <div id="tb_sentence"></div>
     <button id="tb_homeBtn" title="Menu"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg></button>
 
     <div id="tb_end">
-      <video id="tb_fw" src="assets/fireworks_end_alpha.webm" muted playsinline preload="auto"></video>
+      <video id="tb_fw" src="assets/fireworks_end_alpha.webm?v=15" muted playsinline preload="auto"></video>
       <h1>You did it!</h1>
       <div id="tb_endStars"></div>
       <div class="endBtns">
@@ -1425,13 +1608,13 @@ const ACTIVITIES={
     nameS:'soccer ball', nameB:'baseball',
     // sb = soccer→baseball → Great job; bs = baseball→soccer → Excellent
     voice:{ sb:'say_soccer_sb', bs:'say_soccer_bs' },
-    fennyVideo:'assets/fenny_look_pattern.webm',
+    fennyVideo:'assets/fenny_look_pattern.webm?v=15',
     fennyVoice:'fenny_soccer' },
   basketball:{ id:'basketball', A:'assets/basketball.png', B:'assets/golf.png',
     nameS:'basketball', nameB:'golf ball',
     voice:{ sb:'say_basket_sb', bs:'say_basket_bs' },
     // Fenny explains basketball → golf → basketball (round 1, always)
-    fennyVideo:'assets/fenny_basket_pattern.webm?v=2',
+    fennyVideo:'assets/fenny_basket_pattern.webm?v=15',
     fennyVoice:'fenny_basket' },
 };
 let CFG=ACTIVITIES.soccer;
@@ -1517,16 +1700,16 @@ reg('wrong','assets/sfx/wrong.mp3',buzz);
 reg('celebrate','assets/sfx/celebrate.mp3',fanfare);
 reg('pop','assets/sfx/pop.mp3',null,0.8);
 reg('cheer','assets/sfx/cheer.mp3',fanfare,1.0);   // crowd cheer on the "You did it!" screen
-reg('fireworks','assets/sfx/fireworks_sound.wav',null,0.95);   // fireworks on "You did it!" end screen
+reg('fireworks','assets/sfx/fireworks_sound.mp3',null,0.95);   // fireworks on "You did it!" end screen
 reg('tap','assets/sfx/mouse_click.mp3',null,0.85);
 reg('instruction','assets/voice/instruction.mp3',null,1.0);
-reg('fenny_soccer','assets/voice/fenny_look_pattern.wav',null,1.0);     // soccer/baseball intro
-reg('fenny_basket','assets/voice/fenny_basket_pattern.wav',null,1.0);   // basketball/golf/basketball intro
+reg('fenny_soccer','assets/voice/fenny_look_pattern.mp3',null,1.0);     // soccer/baseball intro
+reg('fenny_basket','assets/voice/fenny_basket_pattern.mp3',null,1.0);   // basketball/golf/basketball intro
 // Combined praise + pattern VO (matches on-screen text)
-reg('say_soccer_sb','assets/voice/say_soccer_sb.wav',()=>speak("Great job! Soccer ball, baseball — it repeats! It's a pattern."),1.0);
-reg('say_soccer_bs','assets/voice/say_soccer_bs.wav',()=>speak("Excellent! Baseball, soccer ball — it repeats! It's a pattern."),1.0);
-reg('say_basket_sb','assets/voice/say_basket_sb.wav',()=>speak("Great job! Basketball, golf ball — it repeats! It's a pattern."),1.0);
-reg('say_basket_bs','assets/voice/say_basket_bs.wav',()=>speak("Excellent! Golf ball, basketball — it repeats! It's a pattern."),1.0);
+reg('say_soccer_sb','assets/voice/say_soccer_sb.mp3',()=>speak("Great job! Soccer ball, baseball — it repeats! It's a pattern."),1.0);
+reg('say_soccer_bs','assets/voice/say_soccer_bs.mp3',()=>speak("Excellent! Baseball, soccer ball — it repeats! It's a pattern."),1.0);
+reg('say_basket_sb','assets/voice/say_basket_sb.mp3',()=>speak("Great job! Basketball, golf ball — it repeats! It's a pattern."),1.0);
+reg('say_basket_bs','assets/voice/say_basket_bs.mp3',()=>speak("Excellent! Golf ball, basketball — it repeats! It's a pattern."),1.0);
 
 // ---- spoken English fallback (Web Speech) ----
 let enVoice=null;
@@ -1880,7 +2063,6 @@ document.getElementById('p_endHomeBtn').addEventListener('click',(e)=>pressThen(
 document.getElementById('p_homeBtn').addEventListener('click',(e)=>pressThen(e.currentTarget,()=>{ if(window.PatternGame) PatternGame.stop(); if(window.Hub) Hub.showMenu();}));
 buildStars();
 
-
 window.PatternGame={
   start(act){
     const c=ac(); c.resume&&c.resume();
@@ -1990,21 +2172,21 @@ reg('wrong','assets/sfx/wrong.mp3',buzz);
 reg('celebrate','assets/sfx/celebrate.mp3',fanfare);
 reg('pop','assets/sfx/pop.mp3',null,0.8);
 reg('cheer','assets/sfx/cheer.mp3',fanfare,1.0);
-reg('fireworks','assets/sfx/fireworks_sound.wav',null,0.95);
+reg('fireworks','assets/sfx/fireworks_sound.mp3',null,0.95);
 reg('tap','assets/sfx/mouse_click.mp3',null,0.85);
-reg('praise0','assets/voice/greatjob.wav',fanfare,1.0);
-reg('praise1','assets/voice/excellent.wav',fanfare,1.0);
-reg('praise2','assets/voice/amazing.wav',fanfare,1.0);
-reg('question','assets/voice/which_bigger.wav',null,1.0);   // "Which number is bigger?" voice-over
-reg('fenny','assets/voice/fenny_bigger_numbers.wav',null,1.0);   // teacher intro VO (synced with video)
+reg('praise0','assets/voice/greatjob.mp3',fanfare,1.0);
+reg('praise1','assets/voice/excellent.mp3',fanfare,1.0);
+reg('praise2','assets/voice/amazing.mp3',fanfare,1.0);
+reg('question','assets/voice/which_bigger.mp3',null,1.0);   // "Which number is bigger?" voice-over
+reg('fenny','assets/voice/fenny_bigger_numbers.mp3',null,1.0);   // teacher intro VO (synced with video)
 // Set 1 (soccer / basketball / baseball) — previous recordings
-reg('say_set1_0','assets/voice/say0_old.wav',()=>speak('Great job! 2 is bigger than 1.'),1.0);
-reg('say_set1_1','assets/voice/say1_old.wav',()=>speak('Excellent! 3 is bigger than 2.'),1.0);
-reg('say_set1_2','assets/voice/say2_old.wav',()=>speak('Amazing! 4 is bigger than 3.'),1.0);
+reg('say_set1_0','assets/voice/say0_old.mp3',()=>speak('Great job! 2 is bigger than 1.'),1.0);
+reg('say_set1_1','assets/voice/say1_old.mp3',()=>speak('Excellent! 3 is bigger than 2.'),1.0);
+reg('say_set1_2','assets/voice/say2_old.mp3',()=>speak('Amazing! 4 is bigger than 3.'),1.0);
 // Week 1 (golf / tennis / soccer) — drop new wavs here when ready
-reg('say_week1_0','assets/voice/say_week1_0.wav',()=>speak('Great job! 5 is bigger than 4.'),1.0);
-reg('say_week1_1','assets/voice/say_week1_1.wav',()=>speak('Excellent! 4 is bigger than 2.'),1.0);
-reg('say_week1_2','assets/voice/say_week1_2.wav',()=>speak('Amazing! 5 is bigger than 3.'),1.0);
+reg('say_week1_0','assets/voice/say_week1_0.mp3',()=>speak('Great job! 5 is bigger than 4.'),1.0);
+reg('say_week1_1','assets/voice/say_week1_1.mp3',()=>speak('Excellent! 4 is bigger than 2.'),1.0);
+reg('say_week1_2','assets/voice/say_week1_2.mp3',()=>speak('Amazing! 5 is bigger than 3.'),1.0);
 const PRAISE=['Great job!','Excellent!','Amazing!'];
 function praise(i){ play('praise'+i); }
 
@@ -2356,7 +2538,6 @@ document.getElementById('b_endHomeBtn').addEventListener('click',(e)=>pressThen(
 document.getElementById('b_homeBtn').addEventListener('click',(e)=>pressThen(e.currentTarget,()=>{ if(window.BiggerGame) BiggerGame.stop(); if(window.Hub) Hub.showMenu();}));
 buildStars();
 
-
 window.BiggerGame={
   start(act){
     const c=ac(); c.resume&&c.resume();
@@ -2428,34 +2609,15 @@ function hideHeroes(){
   flipS.style.opacity='0'; girlS.style.opacity='0';
 }
 function layoutCelebrateHeroes(){
-  const root=document.querySelector('#tp_app .pad')||document.getElementById('tp_app');
-  const sample=document.getElementById('tp_sampleRow')||document.querySelector('#tp_app .prow');
-  if(!root||!sample||!el_sentence) return;
-  const rr=root.getBoundingClientRect();
-  const sr=el_sentence.getBoundingClientRect();
-  const pr=sample.getBoundingClientRect();
-  let top=sr.bottom-rr.top+6;
-  let bot=pr.top-rr.top-6;
-  if(!(bot>top+36)){
-    top=Math.max(rr.height*0.28, (sr.top-rr.top)+sr.height*0.55);
-    bot=pr.top-rr.top-6;
-  }
-  const gap=Math.max(44, bot-top);
-  const girlH=gap*0.92;
-  const boyH=gap*1.05;
-  [girlIdle,girlS].forEach(el=>{
-    el.style.top=top+'px';
-    el.style.height=girlH+'px';
-    el.style.left='50%';
-    el.style.right='auto';
-    el.style.transform='translate(-108%,0)';
-  });
-  [boyIdle,flipS].forEach(el=>{
-    el.style.top=top+'px';
-    el.style.height=boyH+'px';
-    el.style.left='50%';
-    el.style.right='auto';
-    el.style.transform='translate(8%,0)';
+  // Bottom-corner layout is CSS-owned; clear any leftover inline overrides.
+  [girlIdle,girlS,boyIdle,flipS].forEach(el=>{
+    if(!el) return;
+    el.style.top='';
+    el.style.bottom='';
+    el.style.left='';
+    el.style.right='';
+    el.style.height='';
+    el.style.transform='';
   });
 }
 function showCelebrateHeroes(){
@@ -2493,17 +2655,17 @@ reg('correct','assets/sfx/correct.mp3',ding);
 reg('wrong','assets/sfx/wrong.mp3',buzz);
 reg('pop','assets/sfx/pop.mp3',null,0.8);
 reg('cheer','assets/sfx/cheer.mp3',fanfare,1.0);
-reg('fireworks','assets/sfx/fireworks_sound.wav',null,0.95);
+reg('fireworks','assets/sfx/fireworks_sound.mp3',null,0.95);
 reg('tap','assets/sfx/mouse_click.mp3',null,0.85);
 reg('instruction','assets/voice/instruction.mp3',null,1.0);   // "What comes next in the pattern?"
 // Teaching VO — drop file here (no TTS fallback)
-reg('think_teach','assets/voice/think_pattern_teach.wav',null,1.0);
-reg('say_soccer_sb','assets/voice/say_soccer_sb.wav',()=>speak("Great job! Soccer ball, baseball — it repeats! It's a pattern."),1.0);
-reg('say_soccer_bs','assets/voice/say_soccer_bs.wav',()=>speak("Excellent! Baseball, soccer ball — it repeats! It's a pattern."),1.0);
-reg('say_basket_sb','assets/voice/say_basket_sb.wav',()=>speak("Great job! Basketball, golf ball — it repeats! It's a pattern."),1.0);
-reg('say_basket_bs','assets/voice/say_basket_bs.wav',()=>speak("Excellent! Golf ball, basketball — it repeats! It's a pattern."),1.0);
-reg('say_tennis_sb','assets/voice/say_tennis_sb.wav',()=>speak("Great job! Tennis ball, soccer ball — it repeats! It's a pattern."),1.0);
-reg('say_tennis_bs','assets/voice/say_tennis_bs.wav',()=>speak("Excellent! Soccer ball, tennis ball — it repeats! It's a pattern."),1.0);
+reg('think_teach','assets/voice/think_pattern_teach.mp3',null,1.0);
+reg('say_soccer_sb','assets/voice/say_soccer_sb.mp3',()=>speak("Great job! Soccer ball, baseball — it repeats! It's a pattern."),1.0);
+reg('say_soccer_bs','assets/voice/say_soccer_bs.mp3',()=>speak("Excellent! Baseball, soccer ball — it repeats! It's a pattern."),1.0);
+reg('say_basket_sb','assets/voice/say_basket_sb.mp3',()=>speak("Great job! Basketball, golf ball — it repeats! It's a pattern."),1.0);
+reg('say_basket_bs','assets/voice/say_basket_bs.mp3',()=>speak("Excellent! Golf ball, basketball — it repeats! It's a pattern."),1.0);
+reg('say_tennis_sb','assets/voice/say_tennis_sb.mp3',()=>speak("Great job! Tennis ball, soccer ball — it repeats! It's a pattern."),1.0);
+reg('say_tennis_bs','assets/voice/say_tennis_bs.mp3',()=>speak("Excellent! Soccer ball, tennis ball — it repeats! It's a pattern."),1.0);
 
 let enVoice=null;
 function loadVoices(){ try{ const vs=speechSynthesis.getVoices();
@@ -2820,7 +2982,6 @@ document.getElementById('tp_homeBtn').addEventListener('click',(e)=>pressThen(e.
 ROUNDS=buildRounds();
 buildStars();
 
-
 window.ThinkPatGame={
   start(){
     const c=ac(); c.resume&&c.resume();
@@ -2930,17 +3091,17 @@ reg('correct','assets/sfx/correct.mp3',ding);
 reg('wrong','assets/sfx/wrong.mp3',buzz);
 reg('pop','assets/sfx/pop.mp3',null,0.8);
 reg('cheer','assets/sfx/cheer.mp3',fanfare,1.0);
-reg('fireworks','assets/sfx/fireworks_sound.wav',null,0.95);
+reg('fireworks','assets/sfx/fireworks_sound.mp3',null,0.95);
 reg('tap','assets/sfx/mouse_click.mp3',null,0.85);
-reg('question','assets/voice/which_bigger.wav',null,1.0);
-// Teach VO — drop assets/voice/think_bigger_teach.wav when ready (TTS fallback)
-reg('think_teach','assets/voice/think_bigger_teach.wav',null,1.0);
-reg('say_set1_0','assets/voice/say0_old.wav',()=>speak('Great job! 2 is bigger than 1.'),1.0);
-reg('say_set1_1','assets/voice/say1_old.wav',()=>speak('Excellent! 3 is bigger than 2.'),1.0);
-reg('say_set1_2','assets/voice/say2_old.wav',()=>speak('Amazing! 4 is bigger than 3.'),1.0);
-reg('say_week1_0','assets/voice/say_week1_0.wav',()=>speak('Great job! 5 is bigger than 4.'),1.0);
-reg('say_week1_1','assets/voice/say_week1_1.wav',()=>speak('Excellent! 4 is bigger than 2.'),1.0);
-reg('say_week1_2','assets/voice/say_week1_2.wav',()=>speak('Amazing! 5 is bigger than 3.'),1.0);
+reg('question','assets/voice/which_bigger.mp3',null,1.0);
+// Teach VO — drop assets/voice/think_bigger_teach.mp3 when ready (TTS fallback)
+reg('think_teach','assets/voice/think_bigger_teach.mp3',null,1.0);
+reg('say_set1_0','assets/voice/say0_old.mp3',()=>speak('Great job! 2 is bigger than 1.'),1.0);
+reg('say_set1_1','assets/voice/say1_old.mp3',()=>speak('Excellent! 3 is bigger than 2.'),1.0);
+reg('say_set1_2','assets/voice/say2_old.mp3',()=>speak('Amazing! 4 is bigger than 3.'),1.0);
+reg('say_week1_0','assets/voice/say_week1_0.mp3',()=>speak('Great job! 5 is bigger than 4.'),1.0);
+reg('say_week1_1','assets/voice/say_week1_1.mp3',()=>speak('Excellent! 4 is bigger than 2.'),1.0);
+reg('say_week1_2','assets/voice/say_week1_2.mp3',()=>speak('Amazing! 5 is bigger than 3.'),1.0);
 
 let enVoice=null;
 function loadVoices(){ try{ const vs=speechSynthesis.getVoices();
@@ -3227,7 +3388,6 @@ document.getElementById('tb_homeBtn').addEventListener('click',(e)=>pressThen(e.
 ROUNDS=buildRounds();
 buildStars();
 
-
 window.ThinkBigGame={
   start(){
     const c=ac(); c.resume&&c.resume();
@@ -3244,13 +3404,12 @@ window.ThinkBigGame={
 
 })();
 
-
 window.Hub = {
   current: null,
   videos:{
     'concept-patterns':{title:'Pattern Rules 1', src:'assets/videos/do_you_play_sports.mp4'},
     'concept-bigger':{title:'Pattern Rules 2', src:'assets/videos/it_is_an_ab_pattern.mp4'},
-    'poem':{title:'Math Literature', src:'assets/videos/math_poem_final_web.mp4'}
+    'poem':{title:'Math Literature', src:'assets/videos/math_poem_final.mp4'}
   },
   actMenus:{
     act1:{
@@ -3380,7 +3539,7 @@ window.Hub = {
       btn.classList.toggle('orange', !!opt.orange);
       const label=btn.querySelector('.actPickLabel');
       if(label) label.textContent=opt.label;
-      btn.setAttribute('aria-label', menu.title+' — '+opt.label);
+      btn.setAttribute('aria-label', menu.title+' —'+opt.label);
     });
   },
   startConceptPlayback(){
@@ -3467,9 +3626,34 @@ window.Hub = {
         if(startBtn) startBtn.hidden=false;
         try{ player.pause(); player.currentTime=0; }catch(e){}
       };
-      player.src=meta.src+(meta.src.indexOf('?')>=0?'&':'?')+'v=12';
+      player.src=meta.src+(meta.src.indexOf('?')>=0?'&':'?')+'v=14';
       player.load();
     }, 500);
+  },
+  week:1,
+  showWeeks(){
+    this.silence();
+    this.stopVideo();
+    this.stopConceptVideo();
+    ['pattern','bigger','thinkPat','thinkBig','video','concept','actPick'].forEach(k=>{
+      const el=document.getElementById('screen-'+k);
+      if(el) el.classList.remove('on');
+    });
+    if(window.PatternGame) PatternGame.stop();
+    if(window.BiggerGame) BiggerGame.stop();
+    if(window.ThinkPatGame) ThinkPatGame.stop();
+    if(window.ThinkBigGame) ThinkBigGame.stop();
+    this.silence();
+    document.getElementById('hub').classList.add('hide');
+    document.getElementById('weeks').classList.remove('hide');
+    this.current=null;
+  },
+  openWeek(week){
+    week=Number(week)||1;
+    this.week=week;
+    document.getElementById('weeks').classList.add('hide');
+    document.getElementById('hub').classList.remove('hide');
+    this.current=null;
   },
   showMenu(){
     this.silence();
@@ -3484,6 +3668,7 @@ window.Hub = {
     if(window.ThinkPatGame) ThinkPatGame.stop();
     if(window.ThinkBigGame) ThinkBigGame.stop();
     this.silence();
+    document.getElementById('weeks').classList.add('hide');
     document.getElementById('hub').classList.remove('hide');
     this.current=null;
   },
@@ -3496,6 +3681,7 @@ window.Hub = {
     if(window.ThinkPatGame) ThinkPatGame.stop();
     if(window.ThinkBigGame) ThinkBigGame.stop();
     this.silence();
+    document.getElementById('weeks').classList.add('hide');
     document.getElementById('hub').classList.add('hide');
     ['pattern','bigger','thinkPat','thinkBig','video','concept','actPick'].forEach(k=>{
       const el=document.getElementById('screen-'+k);
@@ -3535,6 +3721,19 @@ document.querySelectorAll('#hub [data-launch]').forEach(btn=>{
   btn.addEventListener('click',()=>{
     pressThen(btn, ()=>Hub.launch(btn.dataset.launch, btn.dataset.act||null));
   });
+});
+document.querySelectorAll('#weeks .weekBtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(btn.disabled) return;
+    pressThen(btn, ()=>{
+      if(!window.Hub) return;
+      const week=Number(btn.dataset.week)||1;
+      if(week===1) Hub.openWeek(1);
+    });
+  });
+});
+document.getElementById('hubAllWeeks').addEventListener('click',()=>{
+  pressThen(document.getElementById('hubAllWeeks'), ()=>{ if(window.Hub) Hub.showWeeks(); });
 });
 document.getElementById('v_homeBtn').addEventListener('click',()=>{
   pressThen(document.getElementById('v_homeBtn'), ()=>{ if(window.Hub) Hub.showMenu(); });
@@ -3620,14 +3819,16 @@ document.querySelectorAll('#ap_stage .actPickBtn').forEach(btn=>{
 /* water-drop hover + mouse-click press sounds */
 (function(){
   const dropSrc={
-    concept:'assets/sfx/drop_concept.wav',
-    activity:'assets/sfx/drop_activity.wav',
-    fairytale:'assets/sfx/drop_fairytale.wav'
+    concept:'assets/sfx/drop_concept.mp3',
+    activity:'assets/sfx/drop_activity.mp3',
+    fairytale:'assets/sfx/drop_fairytale.mp3'
   };
   const clickSrc='assets/sfx/mouse_click.mp3';
   const HOVER_SEL=[
     'button',
     '.hubArrow',
+    '.hubAllWeeks',
+    '.weekBtn',
     '.conceptPick',
     '.actPickBtn',
     '.fairytaleThumb',
@@ -3641,6 +3842,8 @@ document.querySelectorAll('#ap_stage .actPickBtn').forEach(btn=>{
   const CLICK_SEL=[
     'button',
     '.hubArrow',
+    '.hubAllWeeks',
+    '.weekBtn',
     '.conceptPick',
     '.actPickBtn',
     '.fairytaleThumb',
@@ -3760,7 +3963,6 @@ document.querySelectorAll('#ap_stage .actPickBtn').forEach(btn=>{
     playClick();
   }, true);
 })();
-
 
 </script>
 </body>
