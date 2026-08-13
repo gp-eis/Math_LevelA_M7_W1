@@ -62,8 +62,8 @@
   .hubCard.is-right{transform:translateX(56%) scale(.74);z-index:2;}
   .hubCard.is-far{opacity:0;transform:scale(.62);z-index:1;}
 
-  .hubCardTitle{position:relative;z-index:1;font-family:'Baloo';font-size:clamp(26px,4.4vh,40px);
-    color:#4d453e;line-height:1;text-align:center;
+  .hubCardTitle{position:relative;z-index:1;font-family:'Baloo';font-size:clamp(26px,4.6vh,42px);
+    color:#4d453e;line-height:1;text-align:center;max-width:100%;
     -webkit-text-stroke:clamp(2px,.35vh,4px) #fff;paint-order:stroke fill;
     filter:drop-shadow(0 2px 0 rgba(90,70,56,.12));}
   .hubCardArt{position:relative;z-index:1;flex:1;width:100%;min-height:0;border-radius:26px;
@@ -180,6 +180,88 @@
     margin:0 auto;
     padding:12px;
     box-sizing:border-box;}
+  /* Math Activities 1 & 2 + Thinking Math: click art to open activity picker */
+  .hubCard[data-idx="1"] .hubActions,
+  .hubCard[data-idx="2"] .hubActions,
+  .hubCard[data-idx="3"] .hubActions{display:none;}
+  .hubCard[data-idx="1"] .hubCardArt,
+  .hubCard[data-idx="2"] .hubCardArt,
+  .hubCard[data-idx="3"] .hubCardArt{
+    flex:1 1 auto;width:100%;max-width:100%;max-height:none;aspect-ratio:auto;
+    appearance:none;-webkit-appearance:none;font:inherit;color:inherit;text-align:center;
+    border:4px solid rgba(255,255,255,.95);cursor:pointer;
+    transition:transform .15s ease;}
+  .hubCard[data-idx="1"] .hubCardArt:hover,
+  .hubCard[data-idx="2"] .hubCardArt:hover,
+  .hubCard[data-idx="3"] .hubCardArt:hover{transform:scale(1.03);}
+  .hubCard[data-idx="1"] .hubCardArt:active,
+  .hubCard[data-idx="1"] .hubCardArt.is-pressing,
+  .hubCard[data-idx="2"] .hubCardArt:active,
+  .hubCard[data-idx="2"] .hubCardArt.is-pressing,
+  .hubCard[data-idx="3"] .hubCardArt:active,
+  .hubCard[data-idx="3"] .hubCardArt.is-pressing{transform:scale(.98);}
+  /* Math Activities 1–2 + Thinking Math: character thumbs like video cards */
+  .hubCard[data-idx="1"] .hubCardArt,
+  .hubCard[data-idx="2"] .hubCardArt,
+  .hubCard[data-idx="3"] .hubCardArt{
+    padding:6px 8px;background:transparent!important;border:none!important;
+    box-shadow:none!important;border-radius:0;
+    display:flex;align-items:center;justify-content:center;line-height:0;}
+  .hubCard[data-idx="1"] .hubCardArt::before,
+  .hubCard[data-idx="2"] .hubCardArt::before,
+  .hubCard[data-idx="3"] .hubCardArt::before{display:none;}
+  .hubCard[data-idx="1"] .hubCardArt img,
+  .hubCard[data-idx="2"] .hubCardArt img,
+  .hubCard[data-idx="3"] .hubCardArt img{
+    width:auto;height:auto;max-width:100%;max-height:min(100%,42vh);
+    object-fit:contain;object-position:center;display:block;pointer-events:none;
+    filter:drop-shadow(0 3px 8px rgba(90,70,56,.12));}
+  /* Activity picker (Math Activities 1 / 2 / Thinking Math) */
+  .game.g-actPick{position:absolute;inset:0;display:none;align-items:center;justify-content:center;
+    background:
+      radial-gradient(circle at 18% 20%,rgba(140,220,170,.35),transparent 28%),
+      radial-gradient(circle at 82% 24%,rgba(120,200,240,.28),transparent 26%),
+      linear-gradient(180deg,#fbf7f1 0%,#f3ebe3 100%);
+    z-index:45;}
+  .game.g-actPick.on{display:flex;}
+  .actPickShell{position:relative;width:min(96vw,1100px);height:min(92vh,92dvh);
+    display:flex;flex-direction:column;align-items:center;padding:5.5vh 2vw 2.5vh;gap:2vh;}
+  .actPickTitle{font-family:'Baloo';font-size:clamp(26px,5vh,48px);color:#4d453e;text-align:center;
+    -webkit-text-stroke:clamp(2px,.35vh,4px) #fff;paint-order:stroke fill;
+    filter:drop-shadow(0 2px 0 rgba(90,70,56,.12));}
+  #ap_homeBtn{position:absolute;left:0;top:0;z-index:25;width:5vh;height:5vh;border:none;border-radius:14px;
+    background:#fff;box-shadow:0 3px 0 rgba(224,66,79,.35);cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  #ap_homeBtn svg{width:2.8vh;height:2.8vh;stroke:var(--red);stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+  #ap_homeBtn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(224,66,79,.3);}
+  .actPickStage{position:relative;flex:1;min-height:0;width:100%;display:flex;align-items:center;justify-content:center;gap:clamp(16px,3vw,36px);}
+  .actPickBtn{appearance:none;border:none;cursor:pointer;
+    width:min(42%,360px);min-height:min(42vh,320px);padding:28px 20px;
+    border-radius:32px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+    font-family:'Baloo';color:#fff;font-size:clamp(22px,3.6vh,34px);letter-spacing:.02em;
+    background:linear-gradient(180deg,#8dff9d 0%,#3ccc66 48%,#2fad55 100%);
+    box-shadow:0 10px 0 #1f8a42,0 16px 28px rgba(47,173,85,.28),inset 0 2px 0 rgba(255,255,255,.55);
+    text-shadow:0 2px 0 rgba(0,0,0,.12);transition:transform .15s ease, box-shadow .15s ease;
+    position:relative;overflow:hidden;}
+  .actPickBtn::after{content:"";position:absolute;left:12%;right:12%;top:6px;height:40%;border-radius:999px;
+    background:linear-gradient(180deg,rgba(255,255,255,.5),rgba(255,255,255,0));pointer-events:none;}
+  .actPickBtn .playIcon{width:clamp(40px,7vh,64px);height:clamp(40px,7vh,64px);position:relative;z-index:1;display:block;}
+  .actPickBtn .playIcon svg{width:100%;height:100%;fill:currentColor;}
+  .actPickBtn .actPickLabel{position:relative;z-index:1;}
+  .actPickBtn:hover{transform:translateY(-4px) scale(1.03);}
+  .actPickBtn:active,
+  .actPickBtn.is-pressing{transform:translateY(4px) scale(.98)!important;box-shadow:0 4px 0 #1f8a42,0 8px 14px rgba(47,173,85,.25),inset 0 2px 0 rgba(255,255,255,.45)!important;}
+  .actPickBtn.blue{background:linear-gradient(180deg,#9ad9ff 0%,#45b2e8 48%,#2f93cf 100%);
+    box-shadow:0 10px 0 #1f6f9c,0 16px 28px rgba(47,147,207,.28),inset 0 2px 0 rgba(255,255,255,.55);}
+  .actPickBtn.blue:active,
+  .actPickBtn.blue.is-pressing{box-shadow:0 4px 0 #1f6f9c,0 8px 14px rgba(47,147,207,.25),inset 0 2px 0 rgba(255,255,255,.45)!important;}
+  .actPickBtn.orange{background:linear-gradient(180deg,#ffd27a 0%,#f0a040 48%,#d4842a 100%);
+    box-shadow:0 10px 0 #a86516,0 16px 28px rgba(212,132,42,.28),inset 0 2px 0 rgba(255,255,255,.55);}
+  .actPickBtn.orange:active,
+  .actPickBtn.orange.is-pressing{box-shadow:0 4px 0 #a86516,0 8px 14px rgba(212,132,42,.25),inset 0 2px 0 rgba(255,255,255,.45)!important;}
+  @media (max-width:700px){
+    .actPickStage{flex-direction:column;gap:16px;}
+    .actPickBtn{width:min(86%,360px);min-height:min(28vh,200px);}
+  }
   /* video play image button */
   .hubBtn.videoPlay{background:transparent!important;box-shadow:none!important;border:none;padding:0;min-height:0;
     width:min(100%,200px);margin:0 auto;border-radius:0;text-shadow:none;overflow:visible;}
@@ -954,93 +1036,48 @@
 
   <div class="hubStage">
     <div class="hubTrack" id="hubTrack">
-      <!-- 0 Pattern Rules -->
+      <!-- 0 Math Literacy Videos -->
       <article class="hubCard" data-idx="0">
-        <div class="hubCardTitle">PATTERN RULES</div>
+        <div class="hubCardTitle">MATH LITERACY VIDEOS</div>
         <div class="hubCardArt">
-          <button class="hubBtn videoPlay" data-launch="concept" aria-label="Watch Pattern Rules"><img src="assets/videos/thumbs/pattern_rules_hub.png?v=7" alt=""></button>
+          <button class="hubBtn videoPlay" data-launch="concept" aria-label="Watch Math Literacy Videos"><img src="assets/hub_math_literacy_videos.png?v=1" alt="Math Literacy Videos"></button>
         </div>
         <div class="hubActions"></div>
       </article>
 
-      <!-- 1 Playtime / Patterns -->
+      <!-- 1 Math Activities 1 -->
       <article class="hubCard" data-idx="1">
-        <div class="hubCardTitle">EXTENDING PATTERNS</div>
-        <div class="hubCardArt">
-          <div class="rowBalls">
-            <img src="assets/soccer.png" alt="">
-            <img src="assets/baseball.png" alt="">
-            <img src="assets/soccer.png" alt="">
-            <span class="hubQ">?</span>
-          </div>
-        </div>
-        <div class="hubActions">
-          <div class="hubBtnStack">
-            <div class="hubChoice">
-              <button class="hubBtn" data-launch="pattern" data-act="soccer" aria-label="Extending Patterns Activity 1"><span class="playIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 6.8v10.4L18 12 9 6.8z"/></svg></span><span class="hubBtnLabel">Activity 1</span></button>
-            </div>
-            <div class="hubChoice">
-              <button class="hubBtn" data-launch="pattern" data-act="basketball" aria-label="Extending Patterns Activity 2"><span class="playIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 6.8v10.4L18 12 9 6.8z"/></svg></span><span class="hubBtnLabel">Activity 2</span></button>
-            </div>
-          </div>
-        </div>
+        <div class="hubCardTitle">MATH ACTIVITIES 1</div>
+        <button type="button" class="hubCardArt" data-launch="actPick" data-act="act1" aria-label="Open Math Activities 1">
+          <img src="assets/hub_math_activities_1.png" alt="Math Activities 1">
+        </button>
+        <div class="hubActions"></div>
       </article>
 
-      <!-- 2 Compare / Bigger -->
+      <!-- 2 Math Activities 2 -->
       <article class="hubCard" data-idx="2">
-        <div class="hubCardTitle">NUMBERS</div>
-        <div class="hubCardArt">
-          <div class="compareRow">
-            <div class="numBall"><img src="assets/soccer.png" alt=""><b>3</b></div>
-            <div class="numBall"><img src="assets/soccer.png" alt=""><b>5</b></div>
-          </div>
-        </div>
-        <div class="hubActions">
-          <div class="hubBtnStack">
-            <div class="hubChoice">
-              <button class="hubBtn blue" data-launch="bigger" data-act="set1" aria-label="Numbers Activity 1"><span class="playIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 6.8v10.4L18 12 9 6.8z"/></svg></span><span class="hubBtnLabel">Activity 1</span></button>
-            </div>
-            <div class="hubChoice">
-              <button class="hubBtn blue" data-launch="bigger" data-act="week1" aria-label="Numbers Activity 2"><span class="playIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 6.8v10.4L18 12 9 6.8z"/></svg></span><span class="hubBtnLabel">Activity 2</span></button>
-            </div>
-          </div>
-        </div>
+        <div class="hubCardTitle">MATH ACTIVITIES 2</div>
+        <button type="button" class="hubCardArt" data-launch="actPick" data-act="act2" aria-label="Open Math Activities 2">
+          <img src="assets/hub_math_activities_2.png" alt="Math Activities 2">
+        </button>
+        <div class="hubActions"></div>
       </article>
 
       <!-- 3 Think -->
       <article class="hubCard" data-idx="3">
         <div class="hubCardTitle">THINKING MATH</div>
-        <div class="hubCardArt">
-          <div class="rowBalls">
-            <img src="assets/tennis.png" alt="">
-            <img src="assets/soccer.png" alt="">
-            <img src="assets/tennis.png" alt="">
-            <img src="assets/soccer.png" alt="">
-            <span class="hubQPair" aria-hidden="true"><span class="hubQ">?</span><span class="hubQ">?</span></span>
-          </div>
-          <div class="compareRow">
-            <div class="numBall"><img src="assets/golf.png" alt=""><b>4</b></div>
-            <div class="numBall"><img src="assets/golf.png" alt=""><b>2</b></div>
-          </div>
-        </div>
-        <div class="hubActions">
-          <div class="hubBtnStack">
-            <div class="hubChoice">
-              <button class="hubBtn orange" data-launch="thinkPat" aria-label="Thinking Math Activity 1"><span class="playIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 6.8v10.4L18 12 9 6.8z"/></svg></span><span class="hubBtnLabel">Activity 1</span></button>
-            </div>
-            <div class="hubChoice">
-              <button class="hubBtn orange" data-launch="thinkBig" aria-label="Thinking Math Activity 2"><span class="playIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 6.8v10.4L18 12 9 6.8z"/></svg></span><span class="hubBtnLabel">Activity 2</span></button>
-            </div>
-          </div>
-        </div>
+        <button type="button" class="hubCardArt" data-launch="actPick" data-act="act3" aria-label="Open Thinking Math">
+          <img src="assets/hub_thinking_math.png?v=4" alt="Thinking Math">
+        </button>
+        <div class="hubActions"></div>
       </article>
 
       <!-- 4 Fairytale -->
       <article class="hubCard" data-idx="4">
-        <div class="hubCardTitle">FAIRYTALE</div>
+        <div class="hubCardTitle">MATH LITERATURE</div>
         <div class="hubCardArt">
-          <button type="button" class="fairytaleThumb" data-launch="video" data-act="poem" aria-label="Watch Math Fairytale">
-            <img src="assets/videos/thumbs/math_fairytale.png?v=5" alt="Math Fairytale">
+          <button type="button" class="fairytaleThumb" data-launch="video" data-act="poem" aria-label="Watch Math Literature">
+            <img src="assets/videos/thumbs/math_fairytale.png?v=5" alt="Math Literature">
           </button>
         </div>
         <div class="hubActions"></div>
@@ -1071,11 +1108,28 @@
   </div>
 </div>
 
+<div class="game g-actPick" id="screen-actPick">
+  <div class="actPickShell">
+    <button id="ap_homeBtn" title="Menu"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg></button>
+    <div class="actPickTitle" id="ap_title">Math Activities 1</div>
+    <div class="actPickStage" id="ap_stage">
+      <button type="button" class="actPickBtn" id="ap_btn1" data-slot="1" aria-label="Activity 1">
+        <span class="playIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 6.8v10.4L18 12 9 6.8z"/></svg></span>
+        <span class="actPickLabel">Activity 1</span>
+      </button>
+      <button type="button" class="actPickBtn" id="ap_btn2" data-slot="2" aria-label="Activity 2">
+        <span class="playIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 6.8v10.4L18 12 9 6.8z"/></svg></span>
+        <span class="actPickLabel">Activity 2</span>
+      </button>
+    </div>
+  </div>
+</div>
+
 <div class="game g-concept" id="screen-concept">
   <div class="conceptShell">
     <button id="c_homeBtn" title="Menu"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg></button>
     <button id="c_backBtn" title="Back"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
-    <div class="conceptTitle">Pattern Rules</div>
+    <div class="conceptTitle">Math Literacy Videos</div>
     <div class="conceptStage" id="c_stage">
       <button type="button" class="conceptPick" data-act="concept-patterns" aria-label="Pattern Rules 1">
         <span class="conceptThumbWrap">
@@ -3196,7 +3250,30 @@ window.Hub = {
   videos:{
     'concept-patterns':{title:'Pattern Rules 1', src:'assets/videos/do_you_play_sports.mp4'},
     'concept-bigger':{title:'Pattern Rules 2', src:'assets/videos/it_is_an_ab_pattern.mp4'},
-    'poem':{title:'Math Fairytale', src:'assets/videos/math_poem_final_web.mp4'}
+    'poem':{title:'Math Literature', src:'assets/videos/math_poem_final_web.mp4'}
+  },
+  actMenus:{
+    act1:{
+      title:'Math Activities 1',
+      options:[
+        {launch:'pattern', act:'soccer', label:'Activity 1'},
+        {launch:'pattern', act:'basketball', label:'Activity 2'}
+      ]
+    },
+    act2:{
+      title:'Math Activities 2',
+      options:[
+        {launch:'bigger', act:'set1', label:'Activity 1', blue:true},
+        {launch:'bigger', act:'week1', label:'Activity 2', blue:true}
+      ]
+    },
+    act3:{
+      title:'Thinking Math',
+      options:[
+        {launch:'thinkPat', label:'Activity 1', orange:true},
+        {launch:'thinkBig', label:'Activity 2', orange:true}
+      ]
+    }
   },
   _conceptTimer:null,
   silence(){
@@ -3284,7 +3361,27 @@ window.Hub = {
   showConceptPick(){
     this.stopConceptVideo();
     const title=document.querySelector('.conceptTitle');
-    if(title) title.textContent='Pattern Rules';
+    if(title) title.textContent='Math Literacy Videos';
+  },
+  showActPick(menuKey){
+    const menus=this.actMenus||{};
+    const menu=menus[menuKey]||menus.act1;
+    const title=document.getElementById('ap_title');
+    const btn1=document.getElementById('ap_btn1');
+    const btn2=document.getElementById('ap_btn2');
+    if(title) title.textContent=menu.title;
+    [btn1,btn2].forEach((btn,i)=>{
+      if(!btn) return;
+      const opt=menu.options[i];
+      if(!opt) return;
+      btn.dataset.launch=opt.launch;
+      btn.dataset.act=opt.act||'';
+      btn.classList.toggle('blue', !!opt.blue);
+      btn.classList.toggle('orange', !!opt.orange);
+      const label=btn.querySelector('.actPickLabel');
+      if(label) label.textContent=opt.label;
+      btn.setAttribute('aria-label', menu.title+' — '+opt.label);
+    });
   },
   startConceptPlayback(){
     const stage=document.getElementById('c_stage');
@@ -3378,7 +3475,7 @@ window.Hub = {
     this.silence();
     this.stopVideo();
     this.stopConceptVideo();
-    ['pattern','bigger','thinkPat','thinkBig','video','concept'].forEach(k=>{
+    ['pattern','bigger','thinkPat','thinkBig','video','concept','actPick'].forEach(k=>{
       const el=document.getElementById('screen-'+k);
       if(el) el.classList.remove('on');
     });
@@ -3400,7 +3497,7 @@ window.Hub = {
     if(window.ThinkBigGame) ThinkBigGame.stop();
     this.silence();
     document.getElementById('hub').classList.add('hide');
-    ['pattern','bigger','thinkPat','thinkBig','video','concept'].forEach(k=>{
+    ['pattern','bigger','thinkPat','thinkBig','video','concept','actPick'].forEach(k=>{
       const el=document.getElementById('screen-'+k);
       if(el) el.classList.toggle('on', k===kind);
     });
@@ -3413,6 +3510,7 @@ window.Hub = {
       else if(kind==='thinkBig') ThinkBigGame.start();
       else if(kind==='video') this.playVideo(act);
       else if(kind==='concept') this.showConceptPick();
+      else if(kind==='actPick') this.showActPick(act||'act1');
     });
   }
 };
@@ -3452,7 +3550,7 @@ document.getElementById('c_backBtn').addEventListener('click',()=>{
     if(!window.Hub) return;
     Hub.resetConceptPick();
     const title=document.querySelector('.conceptTitle');
-    if(title) title.textContent='Pattern Rules';
+    if(title) title.textContent='Math Literacy Videos';
   });
 });
 document.querySelectorAll('#c_stage .conceptPick').forEach(btn=>{
@@ -3462,6 +3560,17 @@ document.querySelectorAll('#c_stage .conceptPick').forEach(btn=>{
 });
 document.getElementById('c_startBtn').addEventListener('click',()=>{
   pressThen(document.getElementById('c_startBtn'), ()=>{ if(window.Hub) Hub.startConceptPlayback(); });
+});
+document.getElementById('ap_homeBtn').addEventListener('click',()=>{
+  pressThen(document.getElementById('ap_homeBtn'), ()=>{ if(window.Hub) Hub.showMenu(); });
+});
+document.querySelectorAll('#ap_stage .actPickBtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    pressThen(btn, ()=>{
+      if(!window.Hub || !btn.dataset.launch) return;
+      Hub.launch(btn.dataset.launch, btn.dataset.act||null);
+    });
+  });
 });
 
 /* glossy hub carousel */
@@ -3520,6 +3629,7 @@ document.getElementById('c_startBtn').addEventListener('click',()=>{
     'button',
     '.hubArrow',
     '.conceptPick',
+    '.actPickBtn',
     '.fairytaleThumb',
     '.pick',
     '.numpick',
@@ -3532,6 +3642,7 @@ document.getElementById('c_startBtn').addEventListener('click',()=>{
     'button',
     '.hubArrow',
     '.conceptPick',
+    '.actPickBtn',
     '.fairytaleThumb',
     '.menuBtn',
     '.hubBtn'
