@@ -4,10 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Math Literacy — Level A</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
 
-  @font-face{font-family:'Fredoka';src:url('assets/fonts/fredoka.ttf');}
-  @font-face{font-family:'Baloo';src:url('assets/fonts/baloo.ttf');}
+  @font-face{font-family:'Fredoka';src:url('assets/fonts/fredoka.ttf');font-weight:500 700;font-display:swap;}
+  @font-face{font-family:'Baloo';src:url('assets/fonts/baloo.ttf');font-weight:700 800;font-display:swap;}
+  @font-face{font-family:'Baloo';src:local('Baloo 2'),local('Baloo2');font-weight:700 800;font-display:swap;}
   :root{--red:#ec5866;--red-d:#e0424f;--blue:#45b2e8;--blue-d:#2f93cf;--cream:#f9f2e4;--ink:#33404a;
     --grid:rgba(95,120,160,.09);--green:#3cba7a;--green-d:#2e9a62;--orange:#f0a040;--orange-d:#d4842a;
     --purple:#8b6fd4;--purple-d:#6f54b5;}
@@ -341,10 +345,12 @@
   .actPickTitle{font-family:'Baloo';font-size:clamp(26px,5vh,48px);color:#4d453e;text-align:center;
     -webkit-text-stroke:clamp(2px,.35vh,4px) #fff;paint-order:stroke fill;
     filter:drop-shadow(0 2px 0 rgba(90,70,56,.12));}
-  #ap_homeBtn{position:absolute;left:0;top:0;z-index:25;width:5vh;height:5vh;border:none;border-radius:14px;
+  #ap_homeBtn,#ap_backBtn{position:absolute;top:0;z-index:25;width:5vh;height:5vh;border:none;border-radius:14px;
     background:#fff;box-shadow:0 3px 0 rgba(224,66,79,.35);cursor:pointer;display:flex;align-items:center;justify-content:center;}
-  #ap_homeBtn svg{width:2.8vh;height:2.8vh;stroke:var(--red);stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round;}
-  #ap_homeBtn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(224,66,79,.3);}
+  #ap_homeBtn{left:0;}
+  #ap_backBtn{left:6.2vh;}
+  #ap_homeBtn svg,#ap_backBtn svg{width:2.8vh;height:2.8vh;stroke:var(--red);stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+  #ap_homeBtn:active,#ap_backBtn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(224,66,79,.3);}
   .actPickStage{position:relative;flex:1;min-height:0;width:100%;display:flex;align-items:center;justify-content:center;gap:clamp(16px,3vw,36px);}
   .actPickBtn{appearance:none;border:none;cursor:pointer;
     width:min(42%,360px);min-height:min(42vh,320px);padding:28px 20px;
@@ -489,7 +495,9 @@
     align-items:center;justify-content:center;padding:6vh 2vw 2vh;box-shadow:0 6px 0 rgba(224,66,79,.15);}
   .vidTitle{font-family:'Baloo';font-size:clamp(18px,3.2vh,36px);color:var(--ink);margin-bottom:1.2vh;text-align:center;}
   .vidStage{position:relative;width:100%;flex:1;min-height:0;display:flex;align-items:center;justify-content:center;}
-  #v_player{width:100%;max-height:100%;border-radius:14px;background:#111;display:none;}
+  #v_player{max-width:100%;max-height:100%;aspect-ratio:16/9;height:auto;width:auto;
+    border-radius:14px;background:#fff6f0;display:none;
+    object-fit:contain;object-position:center;}
   .vidShell.is-ready #v_player{pointer-events:none;}
   .vidStartBtn{appearance:none;border:none;background:transparent;padding:0;cursor:pointer;
     position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(.92);
@@ -517,7 +525,12 @@
   #p_homeBtn.is-pressing,
   #b_homeBtn.is-pressing,
   #tp_homeBtn.is-pressing,
-  #tb_homeBtn.is-pressing{transform:translateY(2px)!important;}
+  #tb_homeBtn.is-pressing,
+  #ap_backBtn.is-pressing,
+  #p_backBtn.is-pressing,
+  #b_backBtn.is-pressing,
+  #tp_backBtn.is-pressing,
+  #tb_backBtn.is-pressing{transform:translateY(2px)!important;}
 
   /* Pattern Rules picker + enlarge-to-play */
   .g-concept{position:absolute;inset:0;display:none;align-items:center;justify-content:center;
@@ -562,9 +575,11 @@
   .conceptStage.is-video .conceptPick.is-active{opacity:0!important;}
   .conceptStage.is-ready .conceptPick.is-active{opacity:0!important;}
   #c_player{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(.92);
-    width:min(86%,920px);max-height:78%;border-radius:18px;background:#111;
+    width:auto;height:auto;max-width:100%;max-height:100%;
+    aspect-ratio:16/9;object-fit:contain;object-position:center;
+    border-radius:18px;background:#fff6f0;
     opacity:0;pointer-events:none;z-index:4;
-    box-shadow:0 18px 40px rgba(0,0,0,.28);
+    box-shadow:0 18px 40px rgba(0,0,0,.18);
     transition:opacity .35s ease, transform .35s cubic-bezier(.2,.9,.2,1);}
   .conceptStage.is-ready #c_player,
   .conceptStage.is-video #c_player{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1);}
@@ -707,10 +722,12 @@
   #p_sentence.on{animation:sIn .45s cubic-bezier(.2,1.6,.4,1) forwards;}
   @keyframes sIn{0%{transform:translate(-50%,-50%) scale(0);}70%{transform:translate(-50%,-50%) scale(1.08);}100%{transform:translate(-50%,-50%) scale(1);}}
   /* home button */
-  #p_homeBtn{position:absolute;left:0.6vh;top:0.6vh;z-index:25;width:5.4vh;height:5.4vh;border:none;border-radius:14px;
+  #p_homeBtn,#p_backBtn{position:absolute;top:0.6vh;z-index:25;width:5.4vh;height:5.4vh;border:none;border-radius:14px;
     background:#fff;box-shadow:0 3px 0 rgba(224,66,79,.3);cursor:pointer;display:flex;align-items:center;justify-content:center;}
-  #p_homeBtn svg{width:3vh;height:3vh;stroke:var(--red);stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round;}
-  #p_homeBtn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(224,66,79,.3);}
+  #p_homeBtn{left:0.6vh;}
+  #p_backBtn{left:7vh;}
+  #p_homeBtn svg,#p_backBtn svg{width:3vh;height:3vh;stroke:var(--red);stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+  #p_homeBtn:active,#p_backBtn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(224,66,79,.3);}
   /* end screen */
   #p_end{position:absolute;inset:0;z-index:35;background:rgba(249,242,228,.92);display:none;
     flex-direction:column;align-items:center;justify-content:center;gap:3vh;overflow:hidden;}
@@ -851,10 +868,12 @@
   #b_sentence .snt b{color:var(--red);font-size:1.17em;-webkit-text-stroke:.4cqh #fff;paint-order:stroke fill;}
   #b_sentence.on{animation:sIn .45s cubic-bezier(.2,1.6,.4,1) forwards;}
   @keyframes sIn{0%{transform:translate(-50%,-50%) scale(0);}70%{transform:translate(-50%,-50%) scale(1.08);}100%{transform:translate(-50%,-50%) scale(1);}}
-  #b_homeBtn{position:absolute;left:0.6cqh;top:0.6cqh;z-index:25;width:5.4cqh;height:5.4cqh;border:none;border-radius:14px;
+  #b_homeBtn,#b_backBtn{position:absolute;top:0.6cqh;z-index:25;width:5.4cqh;height:5.4cqh;border:none;border-radius:14px;
     background:#fff;box-shadow:0 3px 0 rgba(224,66,79,.3);cursor:pointer;display:flex;align-items:center;justify-content:center;}
-  #b_homeBtn svg{width:3cqh;height:3cqh;stroke:var(--red);stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round;}
-  #b_homeBtn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(224,66,79,.3);}
+  #b_homeBtn{left:0.6cqh;}
+  #b_backBtn{left:7cqh;}
+  #b_homeBtn svg,#b_backBtn svg{width:3cqh;height:3cqh;stroke:var(--red);stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+  #b_homeBtn:active,#b_backBtn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(224,66,79,.3);}
   #b_end{position:absolute;inset:0;z-index:35;background:rgba(249,242,228,.92);display:none;
     flex-direction:column;align-items:center;justify-content:center;gap:3cqh;overflow:hidden;}
   #b_end h1{font-family:'Baloo';font-size:7cqh;color:#fff;-webkit-text-stroke:1cqh var(--red);paint-order:stroke fill;}
@@ -1000,10 +1019,12 @@
   #tp_sentence .snt b{color:var(--red);}
   #tp_sentence.on{animation:sIn .45s cubic-bezier(.2,1.6,.4,1) forwards;}
   @keyframes sIn{0%{transform:translate(-50%,-50%) scale(0);}70%{transform:translate(-50%,-50%) scale(1.08);}100%{transform:translate(-50%,-50%) scale(1);}}
-  #tp_homeBtn{position:absolute;left:0.55cqh;top:0.55cqh;z-index:25;width:5cqh;height:5cqh;border:none;border-radius:14px;
+  #tp_homeBtn,#tp_backBtn{position:absolute;top:0.55cqh;z-index:25;width:5cqh;height:5cqh;border:none;border-radius:14px;
     background:#fff;box-shadow:0 3px 0 rgba(224,66,79,.3);cursor:pointer;display:flex;align-items:center;justify-content:center;}
-  #tp_homeBtn svg{width:2.8cqh;height:2.8cqh;stroke:var(--red);stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round;}
-  #tp_homeBtn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(224,66,79,.3);}
+  #tp_homeBtn{left:0.55cqh;}
+  #tp_backBtn{left:6.5cqh;}
+  #tp_homeBtn svg,#tp_backBtn svg{width:2.8cqh;height:2.8cqh;stroke:var(--red);stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+  #tp_homeBtn:active,#tp_backBtn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(224,66,79,.3);}
   #tp_end{position:absolute;inset:0;z-index:35;background:rgba(249,242,228,.92);display:none;
     flex-direction:column;align-items:center;justify-content:center;gap:2.8cqh;overflow:hidden;}
   #tp_end h1{font-family:'Baloo';font-size:6.5cqh;color:#fff;-webkit-text-stroke:0.9cqh var(--red);paint-order:stroke fill;}
@@ -1139,10 +1160,12 @@
   #tb_sentence .snt b{color:var(--red);}
   #tb_sentence.on{animation:sIn .45s cubic-bezier(.2,1.6,.4,1) forwards;}
   @keyframes sIn{0%{transform:translate(-50%,-50%) scale(0);}70%{transform:translate(-50%,-50%) scale(1.08);}100%{transform:translate(-50%,-50%) scale(1);}}
-  #tb_homeBtn{position:absolute;left:0.55cqh;top:0.55cqh;z-index:25;width:5cqh;height:5cqh;border:none;border-radius:14px;
+  #tb_homeBtn,#tb_backBtn{position:absolute;top:0.55cqh;z-index:25;width:5cqh;height:5cqh;border:none;border-radius:14px;
     background:#fff;box-shadow:0 3px 0 rgba(224,66,79,.3);cursor:pointer;display:flex;align-items:center;justify-content:center;}
-  #tb_homeBtn svg{width:2.8cqh;height:2.8cqh;stroke:var(--red);stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round;}
-  #tb_homeBtn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(224,66,79,.3);}
+  #tb_homeBtn{left:0.55cqh;}
+  #tb_backBtn{left:6.5cqh;}
+  #tb_homeBtn svg,#tb_backBtn svg{width:2.8cqh;height:2.8cqh;stroke:var(--red);stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+  #tb_homeBtn:active,#tb_backBtn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(224,66,79,.3);}
   #tb_end{position:absolute;inset:0;z-index:35;background:rgba(249,242,228,.92);display:none;
     flex-direction:column;align-items:center;justify-content:center;gap:2.8cqh;overflow:hidden;}
   #tb_end h1{font-family:'Baloo';font-size:6.5cqh;color:#fff;-webkit-text-stroke:0.9cqh var(--red);paint-order:stroke fill;}
@@ -1222,7 +1245,7 @@
       <article class="hubCard" data-idx="0">
         <div class="hubCardTitle">Math Literacy Videos</div>
         <div class="hubCardArt">
-          <button class="hubBtn videoPlay" data-launch="concept" aria-label="Watch Math Literacy Videos"><img src="assets/hub_math_literacy_videos.png?v=1" alt="Math Literacy Videos"></button>
+          <button class="hubBtn videoPlay" data-launch="concept" aria-label="Watch Math Literacy Videos"><img src="assets/hub_math_literacy_videos.png?v=4" alt="Math Literacy Videos"></button>
         </div>
         <div class="hubActions"></div>
       </article>
@@ -1293,7 +1316,8 @@
 
 <div class="game g-actPick" id="screen-actPick">
   <div class="actPickShell">
-    <button id="ap_homeBtn" title="Menu"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg></button>
+    <button id="ap_homeBtn" title="Home" aria-label="Home"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg></button>
+    <button id="ap_backBtn" title="Back" aria-label="Previous page"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
     <div class="actPickTitle" id="ap_title">Math Activities 1</div>
     <div class="actPickStage" id="ap_stage">
       <button type="button" class="actPickBtn" id="ap_btn1" data-slot="1" aria-label="Activity 1">
@@ -1316,7 +1340,7 @@
     <div class="conceptStage" id="c_stage">
       <button type="button" class="conceptPick" data-act="concept-patterns" aria-label="Pattern Rules 1">
         <span class="conceptThumbWrap">
-          <img src="assets/videos/thumbs/pattern_rules_1.png?v=5" alt="">
+          <img src="assets/videos/thumbs/pattern_rules_1.png?v=6" alt="">
         </span>
         <span>Pattern Rules 1</span>
       </button>
@@ -1326,7 +1350,7 @@
         </span>
         <span>Pattern Rules 2</span>
       </button>
-      <video id="c_player" controls playsinline preload="metadata"></video>
+      <video id="c_player" controls playsinline preload="metadata" style="background:#fff6f0"></video>
       <button type="button" id="c_startBtn" class="conceptStartBtn" aria-label="Play video" hidden>
         <img src="assets/play_button.png" alt="">
       </button>
@@ -1384,7 +1408,8 @@
     <div id="p_banner">GREAT JOB!</div>
     <div id="p_sentence"></div>
 
-    <button id="p_homeBtn" title="Menu"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg></button>
+    <button id="p_homeBtn" title="Home" aria-label="Home"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg></button>
+    <button id="p_backBtn" title="Back" aria-label="Previous page"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
 
     <div id="p_end">
       
@@ -1437,7 +1462,8 @@
     <div id="b_sentence"></div>
     <div id="b_banner">GREAT JOB!</div>
 
-    <button id="b_homeBtn" title="Menu"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg></button>
+    <button id="b_homeBtn" title="Home" aria-label="Home"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg></button>
+    <button id="b_backBtn" title="Back" aria-label="Previous page"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
 
     <div id="b_end">
       
@@ -1483,7 +1509,8 @@
     <video id="tp_flipS" class="hero" src="assets/flip.webm?v=15" muted playsinline preload="auto"></video>
 
     <div id="tp_sentence"></div>
-    <button id="tp_homeBtn" title="Menu"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg></button>
+    <button id="tp_homeBtn" title="Home" aria-label="Home"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg></button>
+    <button id="tp_backBtn" title="Back" aria-label="Previous page"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
 
     <div id="tp_end">
       <video id="tp_fw" src="assets/fireworks_end_alpha.webm?v=15" muted playsinline preload="auto"></video>
@@ -1528,7 +1555,8 @@
     <video id="tb_flipS" class="hero" src="assets/flip.webm?v=15" muted playsinline preload="auto"></video>
 
     <div id="tb_sentence"></div>
-    <button id="tb_homeBtn" title="Menu"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg></button>
+    <button id="tb_homeBtn" title="Home" aria-label="Home"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg></button>
+    <button id="tb_backBtn" title="Back" aria-label="Previous page"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
 
     <div id="tb_end">
       <video id="tb_fw" src="assets/fireworks_end_alpha.webm?v=15" muted playsinline preload="auto"></video>
@@ -2061,6 +2089,7 @@ document.getElementById('p_endHomeBtn').addEventListener('click',(e)=>pressThen(
 [flipS,girlS].forEach(v=>{ v.pause(); v.addEventListener('loadeddata',()=>{try{v.currentTime=0;}catch(e){}},{once:true}); });
 /* menu handled by Hub */
 document.getElementById('p_homeBtn').addEventListener('click',(e)=>pressThen(e.currentTarget,()=>{ if(window.PatternGame) PatternGame.stop(); if(window.Hub) Hub.showMenu();}));
+document.getElementById('p_backBtn').addEventListener('click',(e)=>pressThen(e.currentTarget,()=>{ if(window.PatternGame) PatternGame.stop(); if(window.Hub) Hub.backToActPick();}));
 buildStars();
 
 window.PatternGame={
@@ -2536,6 +2565,7 @@ document.getElementById('b_endHomeBtn').addEventListener('click',(e)=>pressThen(
 [flipS,girlS].forEach(v=>{ v.pause(); v.addEventListener('loadeddata',()=>{try{v.currentTime=0;}catch(e){}},{once:true}); });
 /* menu handled by Hub */
 document.getElementById('b_homeBtn').addEventListener('click',(e)=>pressThen(e.currentTarget,()=>{ if(window.BiggerGame) BiggerGame.stop(); if(window.Hub) Hub.showMenu();}));
+document.getElementById('b_backBtn').addEventListener('click',(e)=>pressThen(e.currentTarget,()=>{ if(window.BiggerGame) BiggerGame.stop(); if(window.Hub) Hub.backToActPick();}));
 buildStars();
 
 window.BiggerGame={
@@ -2979,6 +3009,7 @@ document.getElementById('tp_endHomeBtn').addEventListener('click',(e)=>pressThen
 [flipS,girlS].forEach(v=>{ v.pause(); v.addEventListener('loadeddata',()=>{try{v.currentTime=0;}catch(e){}},{once:true}); });
 /* playBtn handled by Hub */
 document.getElementById('tp_homeBtn').addEventListener('click',(e)=>pressThen(e.currentTarget,()=>{ if(window.ThinkPatGame) ThinkPatGame.stop(); if(window.Hub) Hub.showMenu();}));
+document.getElementById('tp_backBtn').addEventListener('click',(e)=>pressThen(e.currentTarget,()=>{ if(window.ThinkPatGame) ThinkPatGame.stop(); if(window.Hub) Hub.backToActPick();}));
 ROUNDS=buildRounds();
 buildStars();
 
@@ -3385,6 +3416,7 @@ document.getElementById('tb_endHomeBtn').addEventListener('click',(e)=>pressThen
 [flipS,girlS].forEach(v=>{ v.pause(); v.addEventListener('loadeddata',()=>{try{v.currentTime=0;}catch(e){}},{once:true}); });
 /* playBtn handled by Hub */
 document.getElementById('tb_homeBtn').addEventListener('click',(e)=>pressThen(e.currentTarget,()=>{ if(window.ThinkBigGame) ThinkBigGame.stop(); if(window.Hub) Hub.showMenu();}));
+document.getElementById('tb_backBtn').addEventListener('click',(e)=>pressThen(e.currentTarget,()=>{ if(window.ThinkBigGame) ThinkBigGame.stop(); if(window.Hub) Hub.backToActPick();}));
 ROUNDS=buildRounds();
 buildStars();
 
@@ -3407,7 +3439,7 @@ window.ThinkBigGame={
 window.Hub = {
   current: null,
   videos:{
-    'concept-patterns':{title:'Pattern Rules 1', src:'assets/videos/do_you_play_sports.mp4'},
+    'concept-patterns':{title:'Pattern Rules 1', src:'assets/videos/do_you_play_sports.mp4?v=21'},
     'concept-bigger':{title:'Pattern Rules 2', src:'assets/videos/it_is_an_ab_pattern.mp4'},
     'poem':{title:'Math Literature', src:'assets/videos/math_poem_final.mp4'}
   },
@@ -3481,6 +3513,17 @@ window.Hub = {
       if(startBtn) startBtn.hidden=true;
       if(miss){ miss.style.display='block'; miss.textContent='Video coming soon — add "'+meta.src+'" to the assets folder.'; }
     };
+    player.onloadedmetadata=()=>{
+      const stage=document.querySelector('.vidStage');
+      const ratio=16/9;
+      const sw=(stage&&stage.clientWidth)||player.parentElement.clientWidth;
+      const sh=(stage&&stage.clientHeight)||player.parentElement.clientHeight;
+      let pw=sw, ph=sw/ratio;
+      if(ph>sh){ ph=sh; pw=sh*ratio; }
+      player.style.aspectRatio='16 / 9';
+      player.style.width=Math.round(pw)+'px';
+      player.style.height=Math.round(ph)+'px';
+    };
     player.onloadeddata=()=>{
       player.style.display='block';
       if(miss) miss.style.display='none';
@@ -3511,6 +3554,9 @@ window.Hub = {
     if(startBtn){ startBtn.hidden=true; startBtn.classList.remove('is-pressing'); }
     if(player){
       try{ player.pause(); player.removeAttribute('src'); player.load(); }catch(e){}
+      player.style.width='';
+      player.style.height='';
+      player.style.aspectRatio='';
     }
     if(miss) miss.textContent='Video coming soon.';
   },
@@ -3522,9 +3568,11 @@ window.Hub = {
     const title=document.querySelector('.conceptTitle');
     if(title) title.textContent='Math Literacy Videos';
   },
+  actMenuKey:'act1',
   showActPick(menuKey){
     const menus=this.actMenus||{};
-    const menu=menus[menuKey]||menus.act1;
+    this.actMenuKey=menuKey||this.actMenuKey||'act1';
+    const menu=menus[this.actMenuKey]||menus.act1;
     const title=document.getElementById('ap_title');
     const btn1=document.getElementById('ap_btn1');
     const btn2=document.getElementById('ap_btn2');
@@ -3589,10 +3637,13 @@ window.Hub = {
     const shell=document.querySelector('.conceptShell');
     if(shell) shell.classList.add('is-watching');
 
-    const targetW=Math.min(stageRect.width*0.72, 760);
-    const start=startRects.get(pick);
-    const scale=targetW/Math.max(start.width,1);
-    const targetH=start.height*scale;
+    const ratio=16/9;
+    let targetW=stageRect.width*0.98;
+    let targetH=targetW/ratio;
+    if(targetH>stageRect.height*0.98){
+      targetH=stageRect.height*0.98;
+      targetW=targetH*ratio;
+    }
     const targetLeft=stageRect.left+(stageRect.width-targetW)/2;
     const targetTop=stageRect.top+(stageRect.height-targetH)/2;
 
@@ -3620,13 +3671,22 @@ window.Hub = {
         if(startBtn) startBtn.hidden=true;
         if(miss) miss.textContent='Video coming soon — add "'+meta.src+'" to the assets folder.';
       };
+      player.onloadedmetadata=()=>{
+        const ratio=16/9;
+        const sw=stage.clientWidth, sh=stage.clientHeight;
+        let pw=sw, ph=sw/ratio;
+        if(ph>sh){ ph=sh; pw=sh*ratio; }
+        player.style.aspectRatio='16 / 9';
+        player.style.width=Math.round(pw)+'px';
+        player.style.height=Math.round(ph)+'px';
+      };
       player.onloadeddata=()=>{
         stage.classList.remove('is-missing');
         stage.classList.add('is-ready');
         if(startBtn) startBtn.hidden=false;
         try{ player.pause(); player.currentTime=0; }catch(e){}
       };
-      player.src=meta.src+(meta.src.indexOf('?')>=0?'&':'?')+'v=14';
+      player.src=meta.src;
       player.load();
     }, 500);
   },
@@ -3696,8 +3756,12 @@ window.Hub = {
       else if(kind==='thinkBig') ThinkBigGame.start();
       else if(kind==='video') this.playVideo(act);
       else if(kind==='concept') this.showConceptPick();
-      else if(kind==='actPick') this.showActPick(act||'act1');
+      else if(kind==='actPick') this.showActPick(act||this.actMenuKey||'act1');
     });
+  },
+  backToActPick(){
+    const key=this.actMenuKey||'act1';
+    this.launch('actPick', key);
   }
 };
 window.pressThen=function(el, action){
@@ -3762,6 +3826,9 @@ document.getElementById('c_startBtn').addEventListener('click',()=>{
 });
 document.getElementById('ap_homeBtn').addEventListener('click',()=>{
   pressThen(document.getElementById('ap_homeBtn'), ()=>{ if(window.Hub) Hub.showMenu(); });
+});
+document.getElementById('ap_backBtn').addEventListener('click',()=>{
+  pressThen(document.getElementById('ap_backBtn'), ()=>{ if(window.Hub) Hub.showMenu(); });
 });
 document.querySelectorAll('#ap_stage .actPickBtn').forEach(btn=>{
   btn.addEventListener('click',()=>{
@@ -3848,7 +3915,12 @@ document.querySelectorAll('#ap_stage .actPickBtn').forEach(btn=>{
     '.actPickBtn',
     '.fairytaleThumb',
     '.menuBtn',
-    '.hubBtn'
+    '.hubBtn',
+    '#ap_backBtn',
+    '#p_backBtn',
+    '#b_backBtn',
+    '#tp_backBtn',
+    '#tb_backBtn'
   ].join(',');
 
   const bases={};
