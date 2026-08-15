@@ -142,11 +142,12 @@
     .weekBtn:focus-visible:not(:disabled){transform:translateY(-10px) scale(1.04);}
   }
 
-  .hubHeader{width:min(980px,100%);display:flex;flex-direction:column;align-items:center;gap:6px;flex:none;z-index:2;position:relative;}
-  .hubWeekTitle{font-family:'Fredoka',sans-serif;font-weight:700;font-size:clamp(26px,4.8vh,46px);
+  .hubHeader{width:min(980px,100%);display:flex;flex-direction:column;align-items:center;gap:clamp(2px,.6vh,6px);flex:none;z-index:2;position:relative;}
+  .hubLogo{width:clamp(76px,10vh,112px);height:auto;object-fit:contain;display:block;margin-bottom:clamp(0px,.3vh,3px);}
+  .hubWeekTitle{font-family:'Fredoka',sans-serif;font-weight:700;font-size:clamp(28px,5vh,50px);
     line-height:1.1;color:#e8893a;text-align:center;letter-spacing:.01em;
     text-shadow:0 1px 0 rgba(255,255,255,.8),0 2px 8px rgba(232,137,58,.18);}
-  .hubWeekSub{font-family:'Fredoka',sans-serif;font-weight:700;font-size:clamp(15px,2.2vh,22px);
+  .hubWeekSub{font-family:'Fredoka',sans-serif;font-weight:700;font-size:clamp(16px,2.3vh,24px);
     color:#3d5a80;text-align:center;margin-top:2px;}
   .hubBadge{display:none;}
 
@@ -1238,9 +1239,10 @@
 </div>
 
 <div id="hub" class="hide">
-  <header class="hubHeader" hidden>
-    <div class="hubWeekTitle" id="hubWeekTitle"></div>
-    <div class="hubWeekSub" id="hubWeekSub"></div>
+  <header class="hubHeader">
+    <img class="hubLogo" src="assets/giiip-eis-logo.webp" alt="GIIIP ELS">
+    <div class="hubWeekTitle" id="hubWeekTitle">Week 1 — Athlete People!</div>
+    <div class="hubWeekSub" id="hubWeekSub">What sports do you play?</div>
   </header>
 
   <div class="hubStage">
